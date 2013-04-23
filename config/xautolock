@@ -1,0 +1,2 @@
+TIME=10
+LOCKER="notify-send DUNST_COMMAND_PAUSE; slimlock; notify-send DUNST_COMMAND_RESUME"

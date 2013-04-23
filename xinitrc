@@ -21,7 +21,6 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
 fi
 
 kde_load() {
-  kmix &
   #klipper &
   #synaptiks &
   bluedevil-monolithic &
@@ -45,6 +44,7 @@ trayer --edge top --align right --SetDockType true --SetPartialStrut true \
     --monitor primary &
 xautolock -time 10 -locker "notify-send DUNST_COMMAND_PAUSE; slimlock; notify-send DUNST_COMMAND_RESUME" -detectsleep -resetsaver &
 xxkb &
+volumeicon &
 xmenud -t &
 #twmnd &
 dunst &

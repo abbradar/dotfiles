@@ -1,0 +1,10 @@
+[Unit]
+Description=dunst
+
+[Service]
+Type=dbus
+BusName=org.freedesktop.Notifications
+ExecStart=/usr/bin/dunst
+
+[Install]
+WantedBy=mystuff.target
