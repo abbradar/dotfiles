@@ -1,0 +1,8 @@
+[Unit]
+Description=XMonad
+
+[Service]
+ExecStart=systemd-inhibit --what=handle-power-key:handle-suspend-key:handle-hibernate-key /usr/bin/xmonad
+
+[Install]
+Alias=window-manager.service
