@@ -34,7 +34,7 @@ myXPConfig = defaultXPConfig {
   , searchPredicate = isInfixOf
 }
 
-lockScreen = spawn "xautolock -locknow"
+lockScreen = spawn "systemctl --user start lockscreen.target"
 powerSuspend = lockScreen >> spawn "dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend"
 powerHibernate = lockScreen >> spawn "dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Hibernate"
 
@@ -44,7 +44,8 @@ screenshotFolder = screenshotVar ++ "; SCROTDIR=$(dirname \"$SCROTFILE\")"
 screenshotReady = screenshotFolder ++ "; mkdir \"$SCROTDIR\""
 
 myKeys =
-  [ ("M-p", shellPrompt myXPConfig)
+  [ ("M-S-q", spawn "systemctl --user exit")
+  , ("M-p", shellPrompt myXPConfig)
   , ("M-g", windowPromptGoto myXPConfig { autoComplete = Just 500000 })
   , ("M-S-g", windowPromptBring myXPConfig { autoComplete = Just 500000 })
   , ("M-S-v", runOrRaiseMaster "gvim" (className =? "Gvim"))
