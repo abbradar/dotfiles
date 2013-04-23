@@ -1,0 +1,12 @@
+[Unit]
+Description=KDE init service
+Wants=kdeinit.service
+
+[Service]
+Type=oneshot
+ExecStart=qdbus org.kde.kded /kded org.kde.kded.loadModule %I
+ExecStop=qdbus org.kde.kded /kded org.kde.kded.unloadModule %I
+RemainAfterExit=yes
+
+[Install]
+WantedBy=desktop.target

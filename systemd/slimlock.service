@@ -1,5 +1,6 @@
 [Unit]
 Description=slimlock lock screen
+PartOf=desktop-norr.target
 
 [Service]
 ExecStart=/home/abbradar/dotfiles/bin/slimlock.sh

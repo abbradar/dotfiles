@@ -1,0 +1,10 @@
+[Unit]
+Description=Trayer
+PartOf=desktop-norr.target
+
+[Service]
+EnvironmentFile=%h/dotfiles/config/trayer
+ExecStart=/usr/bin/trayer $OPTIONS
+
+[Install]
+WantedBy=desktop-norr.target

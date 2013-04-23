@@ -1,0 +1,8 @@
+[Unit]
+Description=Desktop environment
+Requires=graphical.target
+Wants=window-manager.service
+Wants=desktop-norr.target
+
+[Install]
+Alias=default.target

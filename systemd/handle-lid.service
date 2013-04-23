@@ -1,0 +1,8 @@
+[Unit]
+Description=Handle laptop lid
+
+[Service]
+ExecStart=/usr/bin/systemd-inhibit --what=handle-lid-switch /home/abbradar/dotfiles/bin/handle-lid.sh
+
+[Install]
+WantedBy=desktop.target
