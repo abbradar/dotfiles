@@ -1,6 +1,6 @@
 [Unit]
 Description=NetworkManager applet
-Requires=NetworkManager.service
+#Requires=NetworkManager.service
 
 [Service]
 Type=dbus

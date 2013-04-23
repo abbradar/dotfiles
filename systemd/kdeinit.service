@@ -4,7 +4,7 @@ Description=KDE init service
 [Service]
 Type=dbus
 BusName=org.kde.kded
-ExecStart=/usr/bin/kdeinit4
+ExecStart=/usr/bin/kdeinit4 --no-fork
 
 [Install]
 WantedBy=desktop.target
