@@ -1,0 +1,8 @@
+[Unit]
+Description=Dropbox
+
+[Service]
+ExecStart=/usr/bin/dropboxd
+
+[Install]
+WantedBy=desktop.target

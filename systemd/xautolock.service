@@ -1,9 +1,0 @@
-[Unit]
-Description=XAutoLock service
-
-[Service]
-EnvironmentFile=/home/abbradar/.config/systemd/config/xautolock
-ExecStart=/usr/bin/xautolock -time $(TIME) -locker $(LOCKER) -detectsleep -resetsaver
-
-[Install]
-WantedBy=desktop.target

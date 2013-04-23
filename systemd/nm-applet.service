@@ -1,0 +1,9 @@
+[Unit]
+Description=NetworkManager applet
+Requires=NetworkManager.service
+
+[Service]
+ExecStart=/usr/bin/nm-applet
+
+[Install]
+WantedBy=desktop.target

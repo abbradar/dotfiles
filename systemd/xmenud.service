@@ -1,0 +1,8 @@
+[Unit]
+Description=xmenud applications menu
+
+[Service]
+ExecStart=/usr/bin/xmenud -t
+
+[Install]
+WantedBy=desktop.target

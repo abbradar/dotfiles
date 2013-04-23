@@ -1,0 +1,8 @@
+[Unit]
+Description=Volume icon
+
+[Service]
+ExecStart=/usr/bin/volumeicon
+
+[Install]
+WantedBy=desktop.target

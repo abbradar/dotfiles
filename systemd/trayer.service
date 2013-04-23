@@ -1,9 +1,0 @@
-[Unit]
-Description=Trayer
-
-[Service]
-EnvironmentFile=/home/abbradar/.config/systemd/config/trayer
-ExecStart=/usr/bin/trayer $(OPTIONS)
-
-[Install]
-WantedBy=desktop-norr.target
