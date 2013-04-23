@@ -1,0 +1,10 @@
+[Unit]
+Description=BlueDevil tray icon
+
+[Service]
+Type=dbus
+BusName=org.kde.bluedevilmonolithic
+ExecStart=/usr/bin/bluedevil-monolithic
+
+[Install]
+WantedBy=desktop.target

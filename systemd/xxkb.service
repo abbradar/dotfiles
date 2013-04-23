@@ -1,0 +1,9 @@
+[Unit]
+Description=XXKB
+After=layout.service
+
+[Service]
+ExecStart=/usr/bin/xxkb
+
+[Install]
+WantedBy=desktop.target

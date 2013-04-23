@@ -3,6 +3,8 @@ Description=NetworkManager applet
 Requires=NetworkManager.service
 
 [Service]
+Type=dbus
+BusName=org.gnome.network_manager_applet
 ExecStart=/usr/bin/nm-applet
 
 [Install]

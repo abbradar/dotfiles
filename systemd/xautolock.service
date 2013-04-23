@@ -1,0 +1,9 @@
+[Unit]
+Description=XAutoLock service
+
+[Service]
+EnvironmentFile=%h/dotfiles/config/xautolock
+ExecStart=/usr/bin/xautolock -time ${TIME} -locker "systemctl start lockscreen.target" -detectsleep -resetsaver
+
+[Install]
+WantedBy=desktop.target

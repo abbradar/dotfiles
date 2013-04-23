@@ -1,0 +1,11 @@
+[Unit]
+Description=Keyboard layout settings
+
+[Service]
+Type=oneshot
+EnvironmentFile=-%h/dotfiles/config/layout
+ExecStart=/usr/bin/setxkbmap $OPTIONS
+RemainAfterExit=yes
+
+[Install]
+WantedBy=desktop.target

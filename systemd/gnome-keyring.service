@@ -1,0 +1,10 @@
+[Unit]
+Description=GNOME Keyring service
+
+[Service]
+Type=dbus
+BusName=org.gnome.keyring
+ExecStart=/usr/bin/gnome-keyring
+
+[Install]
+WantedBy=desktop.target
