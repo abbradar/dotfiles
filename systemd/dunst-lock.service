@@ -1,0 +1,8 @@
+[Unit]
+Description=dunst lock
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/notify-send DUNST_COMMAND_PAUSE
+ExecStop=/usr/bin/notify-send DUNST_COMMAND_RESUME
+RemainAfterExit=yes

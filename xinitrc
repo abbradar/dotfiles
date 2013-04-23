@@ -36,7 +36,7 @@ setxkbmap -layout us,ru -option grp:caps_toggle -option terminate:ctrl_alt_bksp
 
 kde_load &
 xrdb -merge ~/.Xresources &
-~/bin/handle_lid.sh &
+~/dotfiles/bin/handle-lid.sh &
 gnome-keyring &
 nitrogen --restore &
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \

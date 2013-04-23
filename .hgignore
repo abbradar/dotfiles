@@ -1,0 +1,5 @@
+syntax: regexp
+
+^emacs.d/elpa$
+^systemd/.*\.wants$
+^systemd/window-manager.service$

@@ -1,0 +1,8 @@
+[Unit]
+Description=slimlock lock screen
+
+[Service]
+ExecStart=/home/abbradar/dotfiles/bin/slimlock.sh
+
+[Install]
+WantedBy=lockscreen.target
