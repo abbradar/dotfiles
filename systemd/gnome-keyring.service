@@ -1,10 +1,11 @@
 [Unit]
-Description=GNOME Keyring service
+Description=GNOME Keyring daemon
 
 [Service]
 Type=dbus
-BusName=org.gnome.keyring
-ExecStart=/usr/bin/gnome-keyring
+BusName=org.freedesktop.secrets
+ExecStart=/usr/bin/gnome-keyring-daemon -f
 
 [Install]
 WantedBy=desktop.target
+Alias=dbus-org.freedesktop.secrets.service

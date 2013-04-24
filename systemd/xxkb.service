@@ -1,6 +1,6 @@
 [Unit]
 Description=XXKB
-After=layout.service
+#After=layout.service
 
 [Service]
 ExecStart=/usr/bin/xxkb

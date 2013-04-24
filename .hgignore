@@ -2,5 +2,7 @@ syntax: regexp
 
 ^emacs.d/elpa$
 ^systemd/.*\.wants$
+^systemd/dbus-.*\.service$
 ^systemd/default.target$
 ^systemd/window-manager.service$
+^systemd/screen-lock.service$

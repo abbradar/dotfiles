@@ -1,10 +1,10 @@
 #!/bin/bash
 
-DUNST_LOCKED=$(systemctl --user is-active dunst-lock.service)
-if ! $DUNST_LOCKED; then
-  systemctl start dunst-lock.service
+systemctl --user -q is-active dunst-lock.service && DUNST_LOCKED=1
+if ! [ $DUNST_LOCKED ]; then
+  systemctl --user start dunst-lock.service
 fi
 slimlock
-if ! $DUNST_LOCKED; then
-  systemctl stop dunst-lock.service
+if ! [ $DUNST_LOCKED ]; then
+  systemctl --user stop dunst-lock.service
 fi

@@ -26,3 +26,5 @@ antigen-apply
 alias u="yaourt -Syua"
 alias i="yaourt -S"
 alias s="yaourt -Ss"
+alias ctl="systemctl"
+alias uctl="systemctl --user"
