@@ -2,7 +2,7 @@
 Description=Handle laptop lid
 
 [Service]
-ExecStart=/usr/bin/systemd-inhibit --what=handle-lid-switch /home/abbradar/dotfiles/bin/handle-lid.sh
+ExecStart=/usr/bin/systemd-inhibit --what=handle-lid-switch /home/abbradar/dotfiles/bin/handle-lid.sh "systemctl --user start lid-close.target" "systemctl --user stop lid-close.target"
 
 [Install]
 WantedBy=desktop.target

@@ -4,6 +4,7 @@ Description=KDE init service
 [Service]
 Type=forking
 ExecStart=/usr/bin/kdeinit4
+BusName=org.kde.kded
 
 [Install]
 WantedBy=desktop.target
