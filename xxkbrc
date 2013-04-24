@@ -3,7 +3,7 @@ XXkb.group.alt: 2
 
 XXkb.button.enable: no
 XXkb.mainwindow.enable: yes
-XXkb.mainwindow.in_tray: GNOME2
+XXkb.mainwindow.in_tray: true
 XXkb.mainwindow.type: tray
 XXkb.mainwindow.appicon: yes
 XXkb.mainwindow.geometry: 14x14+2+2

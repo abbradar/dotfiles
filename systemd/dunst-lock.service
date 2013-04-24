@@ -1,5 +1,7 @@
 [Unit]
 Description=dunst lock
+BindsTo=dunst.service
+After=dunst.service
 
 [Service]
 Type=oneshot

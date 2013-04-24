@@ -1,6 +1,7 @@
 [Unit]
 Description=Desktop environment
 Wants=window-manager.service
+Wants=sound.target
 
 [Install]
 Alias=default.target

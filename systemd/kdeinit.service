@@ -8,3 +8,4 @@ BusName=org.kde.kded
 
 [Install]
 WantedBy=desktop.target
+Alias=dbus-org.kde.kded.service

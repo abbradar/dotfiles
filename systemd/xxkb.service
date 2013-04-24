@@ -1,6 +1,7 @@
 [Unit]
 Description=XXKB
-#After=layout.service
+After=layout.service
+Requires=display-set.target
 
 [Service]
 ExecStart=/usr/bin/xxkb
