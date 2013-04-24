@@ -1,6 +1,5 @@
 [Unit]
 Description=NetworkManager applet
-#Requires=NetworkManager.service
 
 [Service]
 Type=dbus
@@ -9,3 +8,4 @@ ExecStart=/usr/bin/nm-applet
 
 [Install]
 WantedBy=desktop.target
+Alias=dbus-org.gnome.network_manager_applet.service

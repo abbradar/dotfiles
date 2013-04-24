@@ -1,0 +1,10 @@
+URxvt.perl-ext-common: default,,clipboard,url-select,keyboard-select,tabbedex,vtwheel
+URxvt.background: Black
+URxvt.foreground: White
+URxvt.font: xft:Droid Sans Mono:size=9
+URxvt.scrollstyle: plain
+URxvt.url-select.launcher: firefox -new-tab
+URxvt.url-select.underline: true
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.M-s: perl:keyboard-select:search

@@ -1,6 +1,7 @@
 [Unit]
 Description=kded %I module
 Wants=kdeinit.service
+After=kdeinit.service
 
 [Service]
 Type=oneshot

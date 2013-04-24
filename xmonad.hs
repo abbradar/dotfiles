@@ -34,9 +34,9 @@ myXPConfig = defaultXPConfig {
   , searchPredicate = isInfixOf
 }
 
-lockScreen = spawn "systemctl --user start lockscreen.target"
-powerSuspend = lockScreen >> spawn "dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend"
-powerHibernate = lockScreen >> spawn "dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Hibernate"
+lockScreen = spawn "systemctl --user start screen-lock.service"
+powerSuspend = lockScreen >> spawn "systemctl suspend"
+powerHibernate = lockScreen >> spawn "systemctl hibernate"
 
 screenshotFile = "$(xdg-user-dir PICTURES)/Screenshots/$(date +%Y-%m-%d-%H%M%S).png"
 screenshotVar = "SCROTFILE=\"" ++ screenshotFile ++ "\""
