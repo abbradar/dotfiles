@@ -8,4 +8,4 @@ Type=forking
 ExecStart=/usr/bin/bluedevil-monolithic
 
 [Install]
-WantedBy=desktop.target
+WantedBy=bluetooth.target

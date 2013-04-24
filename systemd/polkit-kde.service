@@ -1,0 +1,9 @@
+[Unit]
+Description=KDE PolycyKit daemon
+
+[Service]
+Type=forking
+ExecStart=/usr/lib/kde4/libexec/polkit-kde-authentication-agent-1
+
+[Install]
+WantedBy=desktop.target

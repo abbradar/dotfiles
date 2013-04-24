@@ -1,4 +1,4 @@
-URxvt.perl-ext-common: default,,clipboard,url-select,keyboard-select,tabbedex,vtwheel
+URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select,tabbedex,vtwheel
 URxvt.background: Black
 URxvt.foreground: White
 URxvt.font: xft:Droid Sans Mono:size=9

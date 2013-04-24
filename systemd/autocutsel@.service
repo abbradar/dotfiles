@@ -1,0 +1,8 @@
+[Unit]
+Description=autocutsel clipboard synchorization daemon
+
+[Service]
+ExecStart=/usr/bin/autocutsel -selection %I
+
+[Install]
+WantedBy=desktop.target

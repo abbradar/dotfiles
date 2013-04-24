@@ -35,8 +35,8 @@ myXPConfig = defaultXPConfig {
 }
 
 lockScreen = spawn "systemctl --user start screen-lock.service"
-powerSuspend = lockScreen >> spawn "systemctl suspend"
-powerHibernate = lockScreen >> spawn "systemctl hibernate"
+powerSuspend = lockScreen >> spawn "systemctl suspend -i"
+powerHibernate = lockScreen >> spawn "systemctl hibernate -i"
 
 screenshotFile = "$(xdg-user-dir PICTURES)/Screenshots/$(date +%Y-%m-%d-%H%M%S).png"
 screenshotVar = "SCROTFILE=\"" ++ screenshotFile ++ "\""
@@ -52,6 +52,7 @@ myKeys =
   , ("M-S-f", runOrRaiseMaster "firefox" (className =? "Firefox"))
   , ("M-S-d", runOrRaiseMaster "thunar" (className =? "Thunar"))
   , ("M-S-l", lockScreen)
+  , ("M-S-n", spawn "systemctl --user is-active dunst-lock.service && systemctl --user stop dunst-lock.service || systemctl --user start dunst-lock.service")
   , ("M-s", powerSuspend)
   , ("M-S-s", powerHibernate)
   , ("<XF86Sleep>", powerHibernate)

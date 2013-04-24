@@ -1,5 +1,7 @@
 [Unit]
 Description=Volume icon
+Wants=sound.target
+After=sound.target
 
 [Service]
 ExecStart=/usr/bin/volumeicon
