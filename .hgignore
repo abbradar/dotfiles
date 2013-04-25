@@ -6,3 +6,6 @@ syntax: regexp
 ^systemd/default.target$
 ^systemd/window-manager.service$
 ^systemd/screen-lock.service$
+^ranger/__pycache__$
+^ranger/bookmarks$
+^ranger/tagged$

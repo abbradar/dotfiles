@@ -50,7 +50,7 @@ myKeys =
   , ("M-S-g", windowPromptBring myXPConfig { autoComplete = Just 500000 })
   , ("M-S-v", runOrRaiseMaster "gvim" (className =? "Gvim"))
   , ("M-S-f", runOrRaiseMaster "firefox" (className =? "Firefox"))
-  , ("M-S-d", runOrRaiseMaster "thunar" (className =? "Thunar"))
+  , ("M-S-d", spawn "thunar")
   , ("M-S-l", lockScreen)
   , ("M-S-n", spawn "systemctl --user is-active dunst-lock.service && systemctl --user stop dunst-lock.service || systemctl --user start dunst-lock.service")
   , ("M-s", powerSuspend)

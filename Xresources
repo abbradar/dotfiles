@@ -2,6 +2,7 @@ URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select,tabbedex,vtw
 URxvt.background: Black
 URxvt.foreground: White
 URxvt.font: xft:Droid Sans Mono:size=9
+#URxvt.depth: 32
 URxvt.scrollstyle: plain
 URxvt.url-select.launcher: firefox -new-tab
 URxvt.url-select.underline: true
