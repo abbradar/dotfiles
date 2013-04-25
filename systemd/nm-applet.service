@@ -1,5 +1,6 @@
 [Unit]
 Description=NetworkManager applet
+After=dbus-org.freedesktop.secrets.service
 
 [Service]
 Type=dbus
