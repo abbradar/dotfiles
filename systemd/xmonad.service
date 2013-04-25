@@ -1,5 +1,6 @@
 [Unit]
 Description=XMonad
+After=environment.target
 
 [Service]
 ExecStart=/usr/bin/systemd-inhibit --what=handle-power-key:handle-suspend-key:handle-hibernate-key /usr/bin/xmonad
