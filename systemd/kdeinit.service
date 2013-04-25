@@ -2,10 +2,10 @@
 Description=KDE init service
 
 [Service]
-Type=forking
-ExecStart=/usr/bin/kdeinit4
-BusName=org.kde.kded
+Type=dbus
+ExecStart=/usr/bin/kdeinit4 --no-fork --no-kded
+BusName=org.kde.klauncher
 
 [Install]
-WantedBy=desktop.target
-Alias=dbus-org.kde.kded.service
+WantedBy=services.target
+Alias=dbus-org.kde.klauncher.service

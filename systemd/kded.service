@@ -1,0 +1,14 @@
+[Unit]
+Description=KDE daemon service
+Wants=dbus-org.kde.klauncher.service
+After=dbus-org.kde.klauncher.service
+After=environment.target
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/kded4
+BusName=org.kde.kded
+
+[Install]
+WantedBy=desktop.target
+Alias=dbus-org.kde.kded.service

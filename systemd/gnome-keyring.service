@@ -2,10 +2,11 @@
 Description=GNOME Keyring daemon
 
 [Service]
-Type=dbus
+Type=forking
 BusName=org.freedesktop.secrets
-ExecStart=/usr/bin/gnome-keyring-daemon -f
+ExecStart=/home/abbradar/dotfiles/bin/gnome-keyring.sh start
+ExecStopPost=/home/abbradar/dotfiles/bin/gnome-keyring.sh cleanup
 
 [Install]
-WantedBy=desktop.target
+WantedBy=environment.target
 Alias=dbus-org.freedesktop.secrets.service

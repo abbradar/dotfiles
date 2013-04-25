@@ -1,5 +1,6 @@
 [Unit]
 Description=xmenud applications menu
+After=environment.target
 
 [Service]
 ExecStart=/usr/bin/xmenud -t

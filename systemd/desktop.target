@@ -1,5 +1,6 @@
 [Unit]
 Description=Desktop environment
+Wants=environment.target
 Wants=window-manager.service
 Wants=sound.target
 
