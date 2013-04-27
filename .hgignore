@@ -8,4 +8,5 @@ syntax: regexp
 ^systemd/screen-lock.service$
 ^ranger/__pycache__$
 ^ranger/bookmarks$
+^ranger/history$
 ^ranger/tagged$

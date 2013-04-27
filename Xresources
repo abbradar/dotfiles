@@ -2,10 +2,14 @@ URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select,tabbedex,vtw
 URxvt.background: Black
 URxvt.foreground: White
 URxvt.font: xft:Droid Sans Mono:size=9
-#URxvt.depth: 32
-URxvt.scrollstyle: plain
+!URxvt.depth: 32
+URxvt.iso14755: false
+URxvt.scrollBar: false
 URxvt.url-select.launcher: firefox -new-tab
 URxvt.url-select.underline: true
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 URxvt.keysym.M-s: perl:keyboard-select:search
+URxvt.keysym.C-C: perl:clipboard:copy
+URxvt.keysym.C-V: perl:clipboard:paste
+URxvt.keysym.C-M-V: perl:clipboard:paste_escaped

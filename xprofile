@@ -1,2 +1,1 @@
 export BROWSER="firefox"
-export TERM="urxvt"
