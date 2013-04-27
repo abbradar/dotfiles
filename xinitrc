@@ -8,7 +8,6 @@ source ~/.profile
 source ~/.xprofile
 xrdb -merge ~/.Xresources
 
-export SESSION_MANAGER="systemd"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/dbus/user_bus_socket"
 
 DESKTOP_SESSION=xfce
