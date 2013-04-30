@@ -1,7 +1,7 @@
 #!/bin/bash
 
 COMPONENTS="gpg,pkcs11,secrets,ssh"
-VARIABLES=(SSH_AUTH_LOCK GPG_AGENT_INFO GNOME_KEYRING_CONTROL GNOME_KEYRING_PID)
+VARIABLES=(SSH_AUTH_SOCK GPG_AGENT_INFO GNOME_KEYRING_CONTROL GNOME_KEYRING_PID)
 
 if [ $# != 1 ]; then
   echo "usage: $0 [start|cleanup]"
@@ -9,7 +9,7 @@ if [ $# != 1 ]; then
 fi
 
 if [ "$1" == "start" ]; then
-  eval $(/usr/bin/gnome-keyring-daemon --start --components=$COMPONENTS)
+  eval $(/usr/bin/gnome-keyring-daemon --start -c $COMPONENTS)
   [ "$?" = "0" ] || exit 1
 
   for i in "${VARIABLES[@]}"; do
