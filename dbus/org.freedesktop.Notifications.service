@@ -1,4 +1,4 @@
 [D-BUS Service]
 Name=org.freedesktop.Notifications
 Exec=/bin/false
-SystemdService=dbus-org.knopwob.dunst.service
+SystemdService=dbus-org.freedesktop.Notifications.service
