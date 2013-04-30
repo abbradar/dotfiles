@@ -10,3 +10,4 @@ ExecStopPost=/home/abbradar/dotfiles/bin/gnome-keyring.sh cleanup
 [Install]
 WantedBy=environment.target
 Alias=dbus-org.freedesktop.secrets.service
+Alias=dbus-org.gnome.keyring.service

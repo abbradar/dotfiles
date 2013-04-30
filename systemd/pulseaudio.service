@@ -11,4 +11,3 @@ RestartSec=1s
 
 [Install]
 WantedBy=sound.target
-Alias=dbus-org.pulseaudio.Server.service
