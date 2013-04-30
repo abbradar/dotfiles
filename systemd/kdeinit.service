@@ -8,4 +8,3 @@ BusName=org.kde.klauncher
 
 [Install]
 WantedBy=services.target
-Alias=dbus-org.kde.klauncher.service

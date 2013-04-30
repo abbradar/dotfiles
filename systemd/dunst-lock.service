@@ -5,6 +5,6 @@ After=dunst.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/notify-send DUNST_COMMAND_PAUSE
-ExecStop=/usr/bin/notify-send DUNST_COMMAND_RESUME
+ExecStart=/bin/sh -c 'kill -s USR1 $(systemctl --user show dunst -p MainPID | cut -d "=" -f 2)'
+ExecStop=/bin/sh -c 'kill -s USR2 $(systemctl --user show dunst -p MainPID | cut -d "=" -f 2)'
 RemainAfterExit=yes

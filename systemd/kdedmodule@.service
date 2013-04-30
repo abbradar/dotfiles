@@ -1,7 +1,7 @@
 [Unit]
 Description=kded %I module
-Wants=dbus-org.kde.kded.service
-After=dbus-org.kde.kded.service
+Wants=kded.service
+After=kded.service
 
 [Service]
 Type=oneshot
