@@ -1,5 +1,6 @@
 [Unit]
 Description=XMonad
+BindsTo=environment.target
 After=environment.target
 
 [Service]

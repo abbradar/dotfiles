@@ -1,5 +1,6 @@
 [Unit]
 Description=xmenud applications menu
+BindsTo=environment.target
 After=environment.target
 
 [Service]
