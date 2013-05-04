@@ -1,11 +1,6 @@
 syntax: regexp
 
 ^.emacs.d/elpa$
-^.config/systemd/user/.*\.wants$
-^.config/systemd/user/dbus-.*\.service$
-^.config/systemd/user/default.target$
-^.config/systemd/user/window-manager.service$
-^.config/systemd/user/screen-lock.service$
 ^.config/ranger/__pycache__$
 ^.config/ranger/bookmarks$
 ^.config/ranger/history$
