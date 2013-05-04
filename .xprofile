@@ -1,1 +1,3 @@
+[ -f ~/.profile ] && source ~/.profile
+
 export BROWSER="firefox"

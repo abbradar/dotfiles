@@ -4,8 +4,8 @@
 #
 # Executed by startx (run your window manager from here)
 
-source ~/.profile
-source ~/.xprofile
+[ -f /etc/xprofile ] && source /etc/profile
+[ -f ~/.xprofile ] && source ~/.xprofile
 xrdb -merge ~/.Xresources
 
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/dbus/user_bus_socket"

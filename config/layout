@@ -1,0 +1,1 @@
+OPTIONS=-layout us,ru -option grp:caps_toggle -option terminate:ctrl_alt_bksp
