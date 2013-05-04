@@ -1,7 +1,0 @@
-syntax: regexp
-
-^.emacs.d/elpa$
-^.config/ranger/__pycache__$
-^.config/ranger/bookmarks$
-^.config/ranger/history$
-^.config.ranger/tagged$
