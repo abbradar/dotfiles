@@ -17,4 +17,4 @@ down=XF86AudioLowerVolume
 mute=XF86AudioMute
 
 [Alsa]
-card=default
+card=pulse
