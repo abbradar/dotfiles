@@ -4,7 +4,7 @@ watch_pulseaudio() {
   kill_pulseaudio() {
     if [ "$vol_pid" != "" ]; then
       kill $vol_pid
-    fi
+    fi    
   }
   trap kill_pulseaudio HUP INT QUIT TERM
   
@@ -18,6 +18,7 @@ watch_pulseaudio() {
     fi
   done
   kill $vol_pid
+  exit 1
 }
 
 exec pactl subscribe | watch_pulseaudio

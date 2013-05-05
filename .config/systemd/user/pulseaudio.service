@@ -10,4 +10,4 @@ Restart=always
 RestartSec=1s
 
 [Install]
-WantedBy=sound.target
+RequiredBy=sound.target
