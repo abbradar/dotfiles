@@ -4,7 +4,7 @@ Wants=sound.target
 After=sound.target
 
 [Service]
-ExecStart=/usr/bin/volumeicon
+ExecStart=/home/abbradar/dotfiles/bin/volumeicon.sh
 
 [Install]
 WantedBy=desktop.target
