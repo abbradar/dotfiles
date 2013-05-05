@@ -1,6 +1,6 @@
 [Unit]
 Description=kded %I module
-Wants=kded.service
+BindsTo=kded.service
 After=kded.service
 
 [Service]
