@@ -1,0 +1,9 @@
+[core]
+[user]
+	email = nikoamia@gmail.com
+	name = Nikolay Amiantov
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = nikoamia@gmail.com
+	smtpserverport = 587
