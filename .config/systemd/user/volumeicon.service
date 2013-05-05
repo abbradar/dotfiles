@@ -1,6 +1,6 @@
 [Unit]
 Description=Volume icon
-Wants=sound.target
+Requires=sound.target
 After=sound.target
 
 [Service]
