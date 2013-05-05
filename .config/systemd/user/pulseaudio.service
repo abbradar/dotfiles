@@ -5,7 +5,7 @@ Description=PulseAudio Sound System
 Type=dbus
 BusName=org.pulseaudio.Server
 ExecStart=/usr/bin/pulseaudio --fail
-#ExecStartPost=/usr/bin/pactl load-module module-x11-publish display=${DISPLAY}
+ExecStartPost=/usr/bin/pactl load-module module-x11-publish display=${DISPLAY}
 Restart=always
 RestartSec=1s
 

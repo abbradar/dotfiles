@@ -15,4 +15,4 @@ listen() {
   done
 }
 
-upower --monitor-detail | listen "$1" "$2"
+exec upower --monitor-detail | listen "$1" "$2"
