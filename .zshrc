@@ -8,7 +8,7 @@ antigen-use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen-bundle archlinux
-#antigen-bundle autojump
+antigen-bundle autojump
 #antigen-bundle dircycle
 #antigen-bundle screen
 antigen-bundle git

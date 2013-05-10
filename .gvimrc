@@ -149,15 +149,6 @@ else
 endif
 execute "autocmd! bufwritepost " . g:vimconf . " execute 'normal! :source %'"
 
-" Clipboard
-"if has ("unix") && "Darwin" != system("echo -n \"$(uname)\"")
-"  " on Linux use + register for copy-paste
-"  set clipboard=unnamedplus
-"else
-"  " one mac and windows, use * register for copy-paste
-"  set clipboard=unnamed
-"endif
-
 " Backups
 set nobackup
 set backupdir=~/.vim/backup
@@ -171,7 +162,7 @@ set ruler " Ruler on
 set nu " Line numbers on
 set nowrap " Line wrapping off
 set laststatus=2 " Always show the statusline
-set cmdheight=2 " Make the command area two lines high
+set cmdheight=1 " Make the command area one line high
 set wildmenu " Show possible completions for commands
 
 " Keymap and encodings
