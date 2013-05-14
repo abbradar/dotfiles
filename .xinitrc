@@ -20,7 +20,8 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   unset f
 fi
 
-systemd --user &
+/usr/lib/systemd/systemd --user
 PID=$!
-waitx
-kill $PID
+
+( waitx; kill $PID ) &
+wait $PID
