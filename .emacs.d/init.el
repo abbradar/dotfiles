@@ -115,6 +115,7 @@
  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(evil-mode t)
  '(indent-tabs-mode nil)
+ '(inhibit-splash-screen t)
  '(package-archives (quote (("mepla" . "http://melpa.milkbox.net/packages/") ("marmalade" . "http://marmalade-repo.org/packages/") ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(python-indent-offset 2)
  '(tab-width 2)
