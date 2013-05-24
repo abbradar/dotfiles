@@ -1,4 +1,4 @@
 [ -f ~/.profile ] && source ~/.profile
 
 export BROWSER="firefox"
-export EDITOR="$HOME/dotfiles/bin/editor.sh"
+export EDITOR="emacs"
