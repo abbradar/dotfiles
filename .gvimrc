@@ -183,7 +183,9 @@ set smartindent
 set autoindent
 set smarttab
 set expandtab " Tabs as spaces
+set textwidth=80
 set wrap " Wrap lines
+set foldmethod=syntax
 
 " Searching
 set smartcase " Smart case search
@@ -289,8 +291,8 @@ map <C-K> <C-W>k
 map <C-L> <C-W>l
 map <C-H> <C-W>h
 
-map <C-j> <PageDown>
-map <C-k> <PageUp>
+map <M-j> <PageDown>
+map <M-k> <PageUp>
 
 " Buffers
 map <leader>bd :bd<CR> " Close the current buffer

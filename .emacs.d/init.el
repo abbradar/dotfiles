@@ -1,9 +1,13 @@
 ; package.el
 (package-initialize)
 
+; Follow X layout switcher
+; s-q is captured by xmonad, that's why
+(setf (gethash #xfe08 x-keysym-table) (aref (kbd "s-q") 0))
+(global-set-key (kbd "s-q") 'toggle-input-method)
+
 ;;; eVIl options
 (require 'evil)
-
 ; esc quits
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
 (define-key evil-visual-state-map [escape] 'keyboard-quit)

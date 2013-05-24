@@ -14,8 +14,8 @@ XXkb.mainwindow.label.background: gray
 XXkb.mainwindow.label.foreground: white
 XXkb.mainwindow.label.text.1: en
 XXkb.mainwindow.label.text.2: ru
-XXkb.mainwindow.label.text.3:
-XXkb.mainwindow.label.text.4:
+XXkb.mainwindow.label.text.3: cs
+XXkb.mainwindow.label.text.4: 
 
 XXkb.image.path: /usr/share/xxkb/
 XXkb.mainwindow.image.1: en15.xpm
