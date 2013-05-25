@@ -61,6 +61,11 @@
      (global-auto-complete-mode t)
      ))
 
+;;; column-marker (80 column)
+(eval-after-load "column-marker"
+  '(column-marker-1 80)
+  )
+
 ;;; yasnippet
 (eval-after-load "yasnippet"
   '(yas-global-mode 1)
@@ -70,18 +75,6 @@
 (eval-after-load "powerline"
   '(powerline-default-theme)
   )
-
-;;; autocompletion for ielm
-(defun ielm-auto-complete ()
-  "Enables `auto-complete' support in \\[ielm]."
-  (setq ac-sources '(ac-source-functions
-                     ac-source-variables
-                     ac-source-features
-                     ac-source-symbols
-                     ac-source-words-in-same-mode-buffers))
-  (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
-  (auto-complete-mode 1))
-(add-hook 'ielm-mode-hook 'ielm-auto-complete)
 
 ;;; jedi (python autocompletion)
 (add-hook 'python-mode-hook 'jedi:setup)

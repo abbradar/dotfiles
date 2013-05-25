@@ -23,5 +23,5 @@ XXkb.mainwindow.image.2: ru15.xpm
 XXkb.mainwindow.image.3:
 XXkb.mainwindow.image.4:
 
-XXkb.app_list.wm_class_class.ignore: emacs
-XXkb.app_list.wm_class_class.alt_group1: emacs
+XXkb.app_list.wm_class_class.ignore: Emacs
+XXkb.app_list.wm_class_class.alt_group1: Emacs
