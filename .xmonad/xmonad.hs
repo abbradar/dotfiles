@@ -48,7 +48,7 @@ myKeys =
   , ("M-p", shellPrompt myXPConfig)
   , ("M-g", windowPromptGoto myXPConfig { autoComplete = Just 500000 })
   , ("M-S-g", windowPromptBring myXPConfig { autoComplete = Just 500000 })
-  , ("M-S-v", runOrRaiseMaster "emacs" (className =? "emacs"))
+  , ("M-S-v", runOrRaiseMaster "emacs" (className =? "Emacs"))
   , ("M-S-f", runOrRaiseMaster "firefox" (className =? "Firefox"))
   , ("M-S-d", spawn "thunar")
   , ("M-S-l", lockScreen)
