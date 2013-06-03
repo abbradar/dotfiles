@@ -61,11 +61,6 @@
      (global-auto-complete-mode t)
      ))
 
-;;; column-marker (80 column)
-(eval-after-load "column-marker"
-  '(column-marker-1 80)
-  )
-
 ;;; yasnippet
 (eval-after-load "yasnippet"
   '(yas-global-mode 1)
@@ -76,10 +71,22 @@
   '(powerline-default-theme)
   )
 
+;;; sql
+(eval-after-load "sql"
+  '(progn
+     (sql-set-product 'postgres)
+     (add-hook 'sql-mode-hook 'sql-highlight-postgres-keywords)
+     (load-library "sql-indent")
+  ))
+
 ;;; jedi (python autocompletion)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
+
+;;; newline-and-indent on RET
+(add-hook 'lisp-mode-hook '(lambda ()
+                             (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;;; linum-relative
 (require 'linum-relative)
@@ -107,10 +114,12 @@
  '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(evil-mode t)
+ '(fill-column 80)
  '(indent-tabs-mode nil)
- '(inhibit-splash-screen t)
+ '(inhibit-startup-screen t)
  '(package-archives (quote (("mepla" . "http://melpa.milkbox.net/packages/") ("marmalade" . "http://marmalade-repo.org/packages/") ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(python-indent-offset 2)
+ '(rust-indent-unit 24 nil (rust-mode))
  '(tab-width 2)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t))

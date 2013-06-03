@@ -1,4 +1,3 @@
 [ -f ~/.profile ] && source ~/.profile
 
 export BROWSER="firefox"
-export EDITOR="emacs"

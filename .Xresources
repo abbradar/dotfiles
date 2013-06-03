@@ -1,3 +1,4 @@
+! URxvt
 URxvt.perl-ext-common: default,clipboard,matcher,url-select,keyboard-select,tabbedex,vtwheel
 URxvt.background: Black
 URxvt.foreground: White
