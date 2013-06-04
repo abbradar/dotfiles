@@ -3,6 +3,8 @@ Description=Dropbox
 
 [Service]
 ExecStart=/usr/bin/dropboxd
+Type=forking
+SuccessExitStatus=0 SIGKILL
 
 [Install]
 WantedBy=desktop.target
