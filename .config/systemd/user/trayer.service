@@ -1,6 +1,7 @@
 [Unit]
 Description=Trayer
 Requires=display-set.target
+After=window-manager.service
 
 [Service]
 EnvironmentFile=%h/dotfiles/config/trayer
