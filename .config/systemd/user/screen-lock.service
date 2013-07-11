@@ -1,1 +1,9 @@
-/home/abbradar/dotfiles/.config/systemd/user/slimlock.service
+[Unit]
+Description=slimlock lock screen
+Requires=display-set.target
+
+[Service]
+ExecStart=/home/trader7/dotfiles/bin/slimlock.sh
+
+[Install]
+Alias=screen-lock.service

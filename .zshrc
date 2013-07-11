@@ -12,7 +12,11 @@ source "$HOME/.zsh/antigen/antigen.zsh"
 antigen-use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen-bundle archlinux
+
+if [ "${DISTRIBUTION}" = "archlinux" ]; then
+  antigen-bundle archlinux
+fi
+
 antigen-bundle autojump
 #antigen-bundle dircycle
 #antigen-bundle screen
@@ -30,8 +34,11 @@ antigen-theme robbyrussell
 antigen-apply
 
 # Aliases
-alias u="yaourt -Syua"
-alias i="yaourt -S"
-alias s="yaourt -Ss"
+if [ "${DISTRIBUTION}" = "archlinux" ]; then
+  alias u="yaourt -Syua"
+  alias i="yaourt -S"
+  alias s="yaourt -Ss"
+fi
+
 alias ctl="systemctl"
 alias uctl="systemctl --user"
