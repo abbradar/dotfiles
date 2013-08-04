@@ -8,3 +8,5 @@ export WORKON_HOME="$HOME/.virtualenvs"
 export PATH="$HOME/bin:$PATH:$NPM_PACKAGES/bin"
 unset MANPATH
 export MANPATH="$(manpath):$NPM_PACKAGES/share/man"
+
+export MY_PROFILE_LOADED=1

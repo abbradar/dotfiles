@@ -1,8 +1,10 @@
-EMULATED="$(emulate)"
-emulate sh
-[ -f ~/.profile ] && source ~/.profile
-[ -f ~/.xprofile ] && [ "$DISPLAY" != "" ] && source ~/.xprofile
-emulate "$EMULATED"
+if [ "${MY_PROFILE_LOADED}" = "" ]; then
+  EMULATED="$(emulate)"
+  emulate sh
+  [ -f ~/.profile ] && source ~/.profile
+  [ -f ~/.xprofile ] && [ "$DISPLAY" != "" ] && source ~/.xprofile
+  emulate "$EMULATED"
+fi
 
 export ADOTDIR="$HOME/.zsh/bundle"
 
