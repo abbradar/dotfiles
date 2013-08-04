@@ -91,6 +91,10 @@
 ;;; linum-relative
 (require 'linum-relative)
 (global-linum-mode t)
+
+;;; ess
+(require 'ess-site)
+
 ; auto change between relative and absolute styles
 (add-hook 'post-command-hook
           (lambda ()
@@ -104,6 +108,8 @@
                                            ))
                   )))
 
+(load-file "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site.el")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -111,6 +117,7 @@
  ;; If there is more than one, they won't work right.
  '(TeX-PDF-mode t)
  '(TeX-engine (quote xetex))
+ '(c-basic-offset 2)
  '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(evil-mode t)
@@ -119,7 +126,8 @@
  '(inhibit-startup-screen t)
  '(package-archives (quote (("mepla" . "http://melpa.milkbox.net/packages/") ("marmalade" . "http://marmalade-repo.org/packages/") ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(python-indent-offset 2)
- '(rust-indent-unit 24 nil (rust-mode))
+ '(rust-indent-unit 2 nil (rust-mode))
+ '(standard-indent 2)
  '(tab-width 2)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t))
