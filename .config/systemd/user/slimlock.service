@@ -3,7 +3,7 @@ Description=slimlock lock screen
 Requires=display-set.target
 
 [Service]
-ExecStart=/home/abbradar/dotfiles/bin/slimlock.sh
+ExecStart=/home/trader7/dotfiles/bin/slimlock.sh
 
 [Install]
 Alias=screen-lock.service

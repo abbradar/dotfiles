@@ -4,8 +4,8 @@ Description=GNOME Keyring daemon
 [Service]
 Type=forking
 BusName=org.freedesktop.secrets
-ExecStart=/home/abbradar/dotfiles/bin/gnome-keyring.sh start
-ExecStopPost=/home/abbradar/dotfiles/bin/gnome-keyring.sh cleanup
+ExecStart=/home/trader7/dotfiles/bin/gnome-keyring.sh start
+ExecStopPost=/home/trader7/dotfiles/bin/gnome-keyring.sh cleanup
 
 [Install]
 WantedBy=environment.target
