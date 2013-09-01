@@ -55,6 +55,12 @@
       (decf count))))
 (define-key evil-operator-state-map (kbd "lw") 'evil-little-word)
 
+(require 'key-chord)
+;;Exit insert mode by pressing j and then j quickly
+(setq key-chord-two-keys-delay 0.5)
+(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+(key-chord-mode 1)
+
 ;;; auto-complete-mode
 (eval-after-load "auto-complete"
   '(progn
@@ -108,7 +114,7 @@
                                            ))
                   )))
 
-(load-file "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site.el")
+(load-file "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site.el") 
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -122,15 +128,18 @@
  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(evil-mode t)
  '(fill-column 80)
+ '(haskell-mode-hook (quote (turn-on-haskell-indentation)))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(package-archives (quote (("mepla" . "http://melpa.milkbox.net/packages/") ("marmalade" . "http://marmalade-repo.org/packages/") ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(python-indent-offset 2)
  '(rust-indent-unit 2 nil (rust-mode))
  '(standard-indent 2)
+ '(tab-stop-list (quote (2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94 96 98 100 102 104 106 108 110 112 114 116 118 120 122 124 126 128 130 132 134 136 138 140 142 144 146 148 150 152 154 156 158 160 162 164 166 168 170 172 174 176 178 180 182 184 186 188 190 192 194 196 198 200)))
  '(tab-width 2)
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
