@@ -3,7 +3,7 @@ Description=Keyboard layout settings
 
 [Service]
 EnvironmentFile=-%h/dotfiles/config/setxkbmap
-ExecStart=/home/abbradar/dotfiles/setxkbmap.sh $OPTIONS
+ExecStart=/home/abbradar/dotfiles/bin/setxkbmap.sh $OPTIONS
 
 [Install]
 WantedBy=desktop.target
