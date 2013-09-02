@@ -1,27 +1,24 @@
 #!/bin/bash
 
-watch_setxkbmap() {
-  kill_setxkbmap() {
-    if (( $LASTTIME + 2 >= $(date +%s) )); then
-      kill $LASTID
-      wait $LASTID
+watch_pulseaudio() {
+  kill_pulseaudio() {
+    if [ "$vol_pid" != "" ]; then
+      kill $vol_pid
+      wait $vol_pid
     fi
   }
-  trap kill_setxkbmap HUP INT QUIT TERM
+  trap kill_pulseaudio HUP INT QUIT TERM
   
-  setxkbmap $OPTIONS
+  volumeicon &
+  vol_pid=$!
   while read data; do
-    if echo "$data" | grep -q " add "; then
-      if (( $LASTTIME + 2 >= $(date +%s) )); then
-        kill $LASTID
-      fi
-      ( sleep 0.1; setxkbmap $OPTIONS ) &
-      LASTID="$!"
-      LASTTIME="$(date +%s)"
+    if echo "$data" | grep -q "^Event 'change' on server"; then
+      kill $vol_pid
+      volumeicon &
+      vol_pid=$!
     fi
   done
-  kill_setxkbmap
+  kill_pulseaudio
 }
 
-export OPTIONS=$@
-exec unbuffer udevadm monitor --udev --subsystem-match=input | watch_setxkbmap
+exec unbuffer pactl subscribe | watch_pulseaudio
