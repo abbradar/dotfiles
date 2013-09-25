@@ -1,1 +1,1 @@
-OPTIONS=-layout us,ru -option terminate:ctrl_alt_bksp,grp:caps_toggle
+OPTIONS=-layout us,ru -option compose:ralt,terminate:ctrl_alt_bksp,grp:caps_toggle
