@@ -1,10 +1,10 @@
 [Unit]
 Description=XMonad
-BindsTo=environment.target
 After=environment.target
 
 [Service]
 ExecStart=/usr/bin/systemd-inhibit --what=handle-power-key:handle-suspend-key:handle-hibernate-key /usr/bin/xmonad
+Restart=always
 
 [Install]
 Alias=window-manager.service
