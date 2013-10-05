@@ -1,0 +1,10 @@
+[Unit]
+Description=urxvt for debugging
+After=environment.target
+
+[Service]
+ExecStart=/usr/bin/urxvt
+Restart=always
+
+[Install]
+WantedBy=desktop.target
