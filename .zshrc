@@ -37,3 +37,7 @@ alias i="yaourt -S"
 alias s="yaourt -Ss"
 alias ctl="systemctl"
 alias uctl="systemctl --user"
+alias startx="startx &> /run/user/$(id -u)/startx.$XDG_VTNR.log"
+
+# Autostart X if logged in from tty1
+[[ "$(cat /proc/$PPID/stat | cut -d ' ' -f 2)" = "(login)" && $XDG_VTNR -eq 1 ]] && exec startx &> "/run/user/$(id -u)/startx.$XDG_VTNR.log"
