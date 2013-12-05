@@ -1,5 +1,4 @@
-:js editor.defaultRegister="+"
-:set defsearch=google
+colorscheme Mediterranean
 
 " Don't ask
 :nmap й q

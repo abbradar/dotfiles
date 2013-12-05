@@ -9,3 +9,5 @@
 	smtpserverport = 587
 [color]
 	ui = auto
+[push]
+	default = simple
