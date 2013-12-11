@@ -101,6 +101,13 @@
 ;;; ess
 (require 'ess-site)
 
+;;; auctex-latexmk
+(require 'auctex-latexmk)
+(auctex-latexmk-setup)
+
+;;; visual-line-mode
+(global-visual-line-mode t)
+
 ; auto change between relative and absolute styles
 (add-hook 'post-command-hook
           (lambda ()
@@ -121,8 +128,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(LaTeX-biblatex-use-Biber nil)
+ '(LaTeX-command "xelatex")
  '(TeX-PDF-mode t)
  '(TeX-engine (quote xetex))
+ '(TeX-source-correlate-method (quote synctex))
+ '(TeX-source-correlate-mode t)
+ '(TeX-source-correlate-start-server t)
+ '(TeX-view-program-list (quote (("Okular" "okular --unique %o#src:%n%b"))))
+ '(TeX-view-program-selection (quote ((engine-omega "dvips and gv") (output-dvi "xdvi") (output-pdf "Okular") (output-html "xdg-open"))))
  '(ansi-color-names-vector ["#002b36" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#839496"])
  '(c-basic-offset 2)
  '(compilation-message-face (quote default))
@@ -138,6 +152,8 @@
  '(inhibit-startup-screen t)
  '(magit-diff-use-overlays nil)
  '(package-archives (quote (("mepla" . "http://melpa.milkbox.net/packages/") ("marmalade" . "http://marmalade-repo.org/packages/") ("gnu" . "http://elpa.gnu.org/packages/"))))
+ '(preview-TeX-style-dir "/home/abbradar/.emacs.d/elpa/auctex-11.87.2/latex")
+ '(preview-auto-cache-preamble t)
  '(python-indent-offset 2)
  '(rust-indent-unit 2 nil (rust-mode))
  '(standard-indent 2)
