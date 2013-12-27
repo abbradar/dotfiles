@@ -38,6 +38,8 @@ alias s="yaourt -Ss"
 alias ctl="systemctl"
 alias uctl="systemctl --user"
 alias vi="vim"
+alias v="vim"
+alias e="emacs"
 alias startx="startx &> /run/user/$(id -u)/startx.$XDG_VTNR.log"
 alias idle="nice -n 10 ionice -c 3"
 
