@@ -21,3 +21,6 @@ URxvt.keysym.C-V: perl:clipboard:paste
 URxvt.keysym.C-M-V: perl:clipboard:paste_escaped
 URxvt.keysym.Home: \033[1~
 URxvt.keysym.End: \033[4~
+
+! Emacs
+!Emacs.useXIM: off
