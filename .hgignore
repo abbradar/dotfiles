@@ -1,3 +1,11 @@
 syntax: regexp
 
 ~$
+^.ghc/
+
+^.emacs/auto-save-list
+^.emacs/session.
+^.emacs/tramp
+^.emacs/ac-comphist.dat
+^.emacs/elpa
+^.emacs/eshell

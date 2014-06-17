@@ -1,0 +1,6 @@
+[Desktop Entry]
+ Name=XMonad
+ Exec=xmonad
+ TryExec=xmonad
+ X-KDE-WindowManagerConfigure=emacs ~/.xmonad/xmonad.hs
+ X-KDE-WindowManagerRestartArgument=--replace

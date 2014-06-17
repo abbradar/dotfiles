@@ -2,7 +2,7 @@ if [ "${MY_PROFILE_LOADED}" = "" ]; then
   EMULATED="$(emulate)"
   emulate sh
   [ -f ~/.profile ] && source ~/.profile
-  [ -f ~/.xprofile ] && [ "$DISPLAY" != "" ] && source ~/.xprofile
+  #[ -f ~/.xprofile ] && [ "$DISPLAY" != "" ] && source ~/.xprofile
   emulate "$EMULATED"
 fi
 
@@ -20,7 +20,7 @@ antigen-bundle autojump
 #antigen-bundle screen
 #antigen-bundle git
 #antigen-bundle mercurial
-antigen-bundle virtualenvwrapper
+#antigen-bundle virtualenvwrapper
 
 # Syntax highlighting bundle.
 antigen-bundle zsh-users/zsh-syntax-highlighting
@@ -40,11 +40,12 @@ alias uctl="systemctl --user"
 alias vi="vim"
 alias v="vim"
 alias e="emacs"
-alias startx="startx &> /run/user/$(id -u)/startx.$XDG_VTNR.log"
-alias idle="nice -n 10 ionice -c 3"
+alias top="htop"
+#alias startx="startx &> /run/user/$(id -u)/startx.$XDG_VTNR.log"
+alias idle="nice -n 10 -- ionice -c 3 --"
 
-# Autostart X if logged in from tty1
-[[ "$(cat /proc/$PPID/stat | cut -d ' ' -f 2)" = "(login)" && $XDG_VTNR -eq 1 ]] && exec startx &> "/run/user/$(id -u)/startx.$XDG_VTNR.log"
+## Autostart X if logged in from tty1
+#[[ "$(cat /proc/$PPID/stat | cut -d ' ' -f 2)" = "(login)" && $XDG_VTNR -eq 1 ]] && exec startx &> "/run/user/$(id -u)/startx.$XDG_VTNR.log"
 
-# OPAM configuration
-. /home/abbradar/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+## OPAM configuration
+#. /home/abbradar/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
