@@ -1,69 +1,70 @@
 import Data.List
+import Control.Applicative ((<$>))
+import qualified Data.Map as M
+
+import Graphics.X11.Xlib
 import XMonad
-import XMonad.Core
-import XMonad.Config.Desktop
+import XMonad.Config.Kde
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.NoBorders
 import XMonad.Layout.TrackFloating
+--import XMonad.Layout.Fullscreen
 import XMonad.Actions.WindowGo
+import XMonad.Util.WindowProperties (getProp32s)
 import XMonad.Util.EZConfig
-import XMonad.Util.Run
-import XMonad.Util.Cursor
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Window
+import XMonad.Actions.PhysicalScreens
 
-main = xmonad =<< xmobar myConfig
+main :: IO ()
+main = xmonad myConfig
 
-myConfig = desktopConfig {
-    modMask = mod4Mask
-  , startupHook = setWMName "LG3D" >> setDefaultCursor xC_left_ptr
-  , terminal = "urxvt"
-  , manageHook = manageHook desktopConfig <+> myManageHook
-  , layoutHook = smartBorders $ trackFloating $ layoutHook desktopConfig
-  , handleEventHook = handleEventHook desktopConfig <+> docksEventHook <+> fullscreenEventHook
-} `additionalKeysP` myKeys
+startConfig = kde4Config
 
-myXPConfig = defaultXPConfig {
-    font = "xft:Droid Sans Mono:pixelsize=12"
+myConfig = startConfig
+  { modMask = mod4Mask
+  , startupHook = setWMName "LG3D"
+  , manageHook = myManageHook <+> manageDocks -- <+> fullscreenManageHook
+  , layoutHook = smartBorders $ trackFloating $ layoutHook startConfig
+  , handleEventHook = handleEventHook kde4Config <+> docksEventHook <+> fullscreenEventHook
+  , keys = \x -> myKeys x `M.union` keys startConfig x
+  } `additionalKeysP` myAddKeys
+
+myXPConfig = defaultXPConfig
+  { font = "xft:Monospace:size=14"
   , bgColor = "black"
+  , height = 26
   , searchPredicate = isInfixOf
-}
+  }
 
-lockScreen = spawn "systemctl --user start screen-lock.service"
-powerSuspend = lockScreen >> spawn "systemctl suspend -i"
-powerHibernate = lockScreen >> spawn "systemctl hibernate -i"
+kdeOverride :: Query Bool
+kdeOverride = ask >>= \w -> liftX $ do
+  override <- getAtom "_KDE_NET_WM_WINDOW_TYPE_OVERRIDE"
+  wt <- getProp32s "_NET_WM_WINDOW_TYPE" w
+  return $ maybe False (elem $ fromIntegral override) wt
 
-screenshotFile = "$(xdg-user-dir PICTURES)/Screenshots/$(date +%Y-%m-%d-%H%M%S).png"
-screenshotVar = "SCROTFILE=\"" ++ screenshotFile ++ "\""
-screenshotFolder = screenshotVar ++ "; SCROTDIR=$(dirname \"$SCROTFILE\")"
-screenshotReady = screenshotFolder ++ "; mkdir \"$SCROTDIR\""
+myKeys conf@(XConfig {modMask = modm}) = M.fromList
+  [((modm .|. mask, key), f sc)
+  | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+  , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]]
 
-myKeys =
-  [ ("M-S-q", spawn "systemctl --user exit")
-  , ("M-p", shellPrompt myXPConfig)
+myAddKeys =
+  [ ("M-p", shellPrompt myXPConfig)
+  , ("M-S-p", spawn "krunner")
   , ("M-g", windowPromptGoto myXPConfig { autoComplete = Just 500000 })
   , ("M-S-g", windowPromptBring myXPConfig { autoComplete = Just 500000 })
   , ("M-S-v", runOrRaiseMaster "emacs" (className =? "Emacs"))
   , ("M-S-f", runOrRaiseMaster "firefox" (className =? "Firefox"))
-  , ("M-S-d", spawn "thunar")
-  , ("M-S-l", lockScreen)
-  , ("M-S-n", spawn "systemctl --user is-active dunst-lock.service && systemctl --user stop dunst-lock.service || systemctl --user start dunst-lock.service")
-  , ("M-s", powerSuspend)
-  , ("M-S-s", powerHibernate)
-  , ("<XF86Sleep>", powerHibernate)
-  , ("<XF86PowerOff>", powerSuspend)
-  , ("<Print>", spawn (screenshotReady ++ "; import -window root \"$SCROTFILE\""))
-  , ("C-<Print>", spawn (screenshotReady ++ "; ~/dotfiles/bin/shot-active.sh \"$SCROTFILE\""))
-  , ("M1-<Print>", spawn (screenshotReady ++ "; import \"$SCROTFILE\""))
-  , ("<XF86TouchpadToggle>", spawn "synclient TouchpadOff=$(synclient | egrep -q 'TouchpadOff += 1' && echo 0 || echo 1)")
   ]
 
 myManageHook = composeAll
-  [ className =? "qemu-system-i386" --> doFloat
-  , isFullscreen --> doFullFloat
+  [ not <$> (className =? "krunner") --> manageHook kde4Config
+  , className =? "qemu-system-i386" --> doFloat
+  , className =? "Knotes" --> doFloat
+  , className =? "Klipper" --> doFloat
+  , kdeOverride --> doFloat
   ]
