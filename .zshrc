@@ -1,9 +1,15 @@
+# Find out distro
+local distro="$(. /etc/os-release; echo "$ID;$ID_LIKE")"
+
 if [ "${MY_PROFILE_LOADED}" = "" ]; then
-  EMULATED="$(emulate)"
+  local emulated="$(emulate)"
   emulate sh
-  [ -f ~/.profile ] && source ~/.profile
-  [ -f ~/.xprofile ] && [ "$DISPLAY" != "" ] && source ~/.xprofile
-  emulate "$EMULATED"
+  if [ -f ~/.xprofile ] && [ "$DISPLAY" != "" ]; then
+    source ~/.xprofile
+  elif [ -f ~/.profile ]; then
+    source ~/.profile
+  fi
+  emulate "$emulated"
 fi
 
 export ADOTDIR="$HOME/.zsh/bundle"
@@ -14,13 +20,14 @@ source "$HOME/.zsh/antigen/antigen.zsh"
 antigen-use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen-bundle archlinux
+[[ $distro = *arch* ]] && antigen-bundle archlinux
+[[ $distro = *debian* ]] && antigen-bundle debian
+antigen-bundle command-not-found
 antigen-bundle autojump
-#antigen-bundle dircycle
-#antigen-bundle screen
-#antigen-bundle git
-#antigen-bundle mercurial
-antigen-bundle virtualenvwrapper
+antigen-bundle cabal
+antigen-bundle dircycle
+antigen-bundle gitfast
+antigen-bundle mercurial
 
 # Syntax highlighting bundle.
 antigen-bundle zsh-users/zsh-syntax-highlighting
@@ -32,19 +39,7 @@ antigen-theme robbyrussell
 antigen-apply
 
 # Aliases
-alias u="yaourt -Syua"
-alias i="yaourt -S"
-alias s="yaourt -Ss"
-alias ctl="systemctl"
-alias uctl="systemctl --user"
 alias vi="vim"
 alias v="vim"
 alias e="emacs"
-alias startx="startx &> /run/user/$(id -u)/startx.$XDG_VTNR.log"
 alias idle="nice -n 10 ionice -c 3"
-
-# Autostart X if logged in from tty1
-[[ "$(cat /proc/$PPID/stat | cut -d ' ' -f 2)" = "(login)" && $XDG_VTNR -eq 1 ]] && exec startx &> "/run/user/$(id -u)/startx.$XDG_VTNR.log"
-
-# OPAM configuration
-. /home/abbradar/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true

@@ -1,9 +1,0 @@
-[Unit]
-Description=GNOME GMail Notifier
-After=dbus-org.freedesktop.secrets.service
-
-[Service]
-ExecStart=/usr/bin/gnome-gmail-notifier
-
-[Install]
-WantedBy=desktop.target

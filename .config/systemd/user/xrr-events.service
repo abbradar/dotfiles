@@ -1,8 +1,0 @@
-[Unit]
-Description=XrandR events handling daemon
-
-[Service]
-ExecStart=/usr/bin/xrr-events
-
-[Install]
-WantedBy=desktop.target

@@ -1,4 +1,0 @@
-[D-BUS Service]
-Name=org.gnome.keyring
-Exec=/bin/false
-SystemdService=dbus-org.gnome.keyring.service

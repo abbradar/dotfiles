@@ -1,9 +1,0 @@
-[Unit]
-Description=XAutoLock service
-
-[Service]
-EnvironmentFile=%h/dotfiles/config/xautolock
-ExecStart=/usr/bin/xautolock -time ${TIME} -locker "systemctl --user start screen-lock.service" -killer "systemctl --user stop screen-lock.service" -detectsleep -resetsaver
-
-[Install]
-WantedBy=desktop.target

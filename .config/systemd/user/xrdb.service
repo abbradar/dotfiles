@@ -1,9 +1,0 @@
-[Unit]
-Description=XRDB database merge
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/xrdb -merge "%h/.Xresources"
-
-[Install]
-WantedBy=environment.target

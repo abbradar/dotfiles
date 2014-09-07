@@ -1,12 +1,5 @@
 export EDITOR="emacs"
 export WINEARCH="win32"
 export R_LIBS_USER="$HOME/.R"
-export NPM_PACKAGES="$HOME/.npm-packages"
-export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
-export WORKON_HOME="$HOME/.virtualenvs"
 
-export PATH="$HOME/bin:$PATH:$HOME/.cljr/bin:$NPM_PACKAGES/bin:$HOME/.gem/ruby/2.0.0/bin"
-unset MANPATH
-export MANPATH="$(manpath):$NPM_PACKAGES/share/man"
-
-export MY_PROFILE_LOADED=1
+export PATH="$HOME/bin:$HOME/.cabal/bin:$PATH"
