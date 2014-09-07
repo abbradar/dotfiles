@@ -19,7 +19,7 @@
  '(fci-rule-color "#073642")
  '(fill-column 80)
  '(global-visual-line-mode t)
- '(haskell-mode-hook (quote (turn-on-haskell-indentation)))
+ '(haskell-font-lock-symbols t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(magit-diff-use-overlays nil)

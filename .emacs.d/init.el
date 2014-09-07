@@ -116,6 +116,18 @@
     )
   )
 
+(use-package haskell-mode
+  :ensure haskell-mode
+  :defer t
+  :init (progn
+          (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+          (use-package ghc
+            :ensure ghc
+            :init
+            (add-hook 'haskell-mode-hook 'ghc-init))
+          )
+  )
+
 ; Ruby smart mode
 (setq rsense-home "/opt/rsense-0.3")
 (add-to-list 'load-path (concat rsense-home "/etc"))
@@ -129,3 +141,11 @@
     )
   )
 
+; Remap caps to s-q.
+; s-q is captured by xmonad so this should be an unused key.
+(setf (gethash #xfe08 x-keysym-table) (aref (kbd "s-q") 0))
+(global-set-key (kbd "s-q") 'toggle-input-method)
+
+(defadvice toggle-input-method (before xkb-switch activate)
+  (call-process "xkb-switch" nil nil nil "-s" "us")
+  )
