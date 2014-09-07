@@ -9,7 +9,7 @@
 
 (use-package evil
   :ensure evil
-  :init
+  :config
   (progn
     (evil-mode t)
     
@@ -32,9 +32,18 @@
     )
   )
 
+; Remap caps to s-q.
+; s-q is captured by xmonad so this should be an unused key.
+(setf (gethash #xfe08 x-keysym-table) (aref (kbd "s-q") 0))
+(global-set-key (kbd "s-q") 'toggle-input-method)
+
+(defadvice toggle-input-method (before xkb-switch activate)
+  (call-process "xkb-switch" nil nil nil "-s" "us")
+  )
+
 (use-package key-chord
   :ensure key-chord
-  :init
+  :config
   (progn
     ;; Exit insert mode by pressing j and then k quickly
     (setq key-chord-two-keys-delay 0.5)
@@ -45,22 +54,22 @@
 
 (use-package auto-complete
   :ensure auto-complete
-  :init (global-auto-complete-mode t)
+  :config (global-auto-complete-mode t)
 )
 
 (use-package yasnippet
   :ensure yasnippet
-  :init (yas-global-mode 1)
+  :config (yas-global-mode 1)
 )
 
 (use-package powerline
   :ensure powerline
-  :init (powerline-default-theme)
+  :config (powerline-default-theme)
 )
 
 (use-package linum-relative
   :ensure linum-relative
-  :init
+  :config
   (progn
     (global-linum-mode t)
     ;; Auto change between relative and absolute styles
@@ -80,23 +89,36 @@
     )
   )
 
-(eval-after-load 'sql
-  '(progn
-     (sql-set-product 'postgres)
-     (add-hook 'sql-mode-hook 'sql-highlight-postgres-keywords)
-     (load-library 'sql-indent)
-     ))
+(use-package sql-indent
+  :ensure sql-indent
+  :defer t
+  )
+
+(use-package sql
+  :defer t
+  :config
+  (progn
+    (sql-set-product 'postgres)
+    (add-hook 'sql-mode-hook 'sql-highlight-postgres-keywords)
+    (require 'sql-indent)
+    )
+  )
 
 ; python autocompletion
 (use-package jedi
   :ensure jedi
-  :defer t
+  :commands jedi:setup
   :init
   (progn
-    (add-hook 'python-mode-hook 'jedi:setup)
     (setq jedi:setup-keys t)
     (setq jedi:complete-on-dot t)
     )
+  )
+
+(use-package python
+  :defer t
+  :config
+  (add-hook 'python-mode-hook 'jedi:setup)
   )
 
 ;;; newline-and-indent on RET
@@ -105,47 +127,53 @@
 
 (use-package ess-site
   :ensure ess
+  :mode ("\\.R\\'" . R-mode)
+  :interpreter ("R" . R-mode)
   )
 
 (use-package auctex-latexmk
   :ensure auctex-latexmk
-  :init
-  (progn
-    (require 'auctex-latexmk)
-    (auctex-latexmk-setup)
-    )
+  :commands auctex-latexmk-setup
   )
+
+(use-package auctex
+  :ensure auctex
+  :defer t
+  :config
+  (auctex-latexmk-setup)
+  )
+
+(use-package org
+  :ensure org
+  :defer t
+  )
+
+(use-package ghc
+  :ensure ghc
+  :commands ghc-init
+)
 
 (use-package haskell-mode
   :ensure haskell-mode
   :defer t
-  :init (progn
-          (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-          (use-package ghc
-            :ensure ghc
-            :init
-            (add-hook 'haskell-mode-hook 'ghc-init))
-          )
+  :config (progn
+            (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+            (add-hook 'haskell-mode-hook 'ghc-init)
+            )
   )
 
 ; Ruby smart mode
-(setq rsense-home "/opt/rsense-0.3")
-(add-to-list 'load-path (concat rsense-home "/etc"))
-(use-package rsense
-  :init
+(use-package ruby-mode
+  :defer t
+  :config
   (progn
-    (add-hook 'ruby-mode-hook
-              (lambda ()
-                (add-to-list 'ac-sources 'ac-source-rsense-method)
-                (add-to-list 'ac-sources 'ac-source-rsense-constant)))
-    )
-  )
-
-; Remap caps to s-q.
-; s-q is captured by xmonad so this should be an unused key.
-(setf (gethash #xfe08 x-keysym-table) (aref (kbd "s-q") 0))
-(global-set-key (kbd "s-q") 'toggle-input-method)
-
-(defadvice toggle-input-method (before xkb-switch activate)
-  (call-process "xkb-switch" nil nil nil "-s" "us")
-  )
+    (setq rsense-home "/opt/rsense-0.3")
+    (add-to-list 'load-path (concat rsense-home "/etc"))
+    (use-package rsense
+      :config
+      (add-hook 'ruby-mode-hook
+                (lambda ()
+                  (add-to-list 'ac-sources 'ac-source-rsense-method)
+                  (add-to-list 'ac-sources 'ac-source-rsense-constant)))
+      )
+    ))
