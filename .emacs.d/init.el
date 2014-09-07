@@ -155,7 +155,7 @@
 
 (use-package haskell-mode
   :ensure haskell-mode
-  :defer t
+  :mode "\\.chs\\'"
   :config (progn
             (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
             (add-hook 'haskell-mode-hook 'ghc-init)
