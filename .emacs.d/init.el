@@ -163,6 +163,8 @@
   )
 
 ; Ruby smart mode
+(setq rsense-home "/opt/rsense-0.3")
+(add-to-list 'load-path (concat rsense-home "/etc"))
 (use-package rsense
   :defer t
   :config
@@ -175,8 +177,5 @@
 (use-package ruby-mode
   :defer t
   :config
-  (progn
-    (setq rsense-home "/opt/rsense-0.3")
-    (add-to-list 'load-path (concat rsense-home "/etc"))
-    (require 'rsense)
-    ))
+  (require 'rsense nil t)
+  )
