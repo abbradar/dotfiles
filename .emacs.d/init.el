@@ -163,17 +163,20 @@
   )
 
 ; Ruby smart mode
+(use-package rsense
+  :defer t
+  :config
+  (add-hook 'ruby-mode-hook
+            (lambda ()
+              (add-to-list 'ac-sources 'ac-source-rsense-method)
+              (add-to-list 'ac-sources 'ac-source-rsense-constant)))
+  )
+
 (use-package ruby-mode
   :defer t
   :config
   (progn
     (setq rsense-home "/opt/rsense-0.3")
     (add-to-list 'load-path (concat rsense-home "/etc"))
-    (use-package rsense
-      :config
-      (add-hook 'ruby-mode-hook
-                (lambda ()
-                  (add-to-list 'ac-sources 'ac-source-rsense-method)
-                  (add-to-list 'ac-sources 'ac-source-rsense-constant)))
-      )
+    (require 'rsense)
     ))
