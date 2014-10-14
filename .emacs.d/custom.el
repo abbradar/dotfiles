@@ -24,6 +24,7 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(magit-diff-use-overlays nil)
+ '(org-export-latex-default-packages-alist (quote (("AUTO" "inputenc" t) ("T2A" "fontenc" t) ("" "fixltx2e" nil) ("" "graphicx" t) ("" "longtable" nil) ("" "float" nil) ("" "wrapfig" nil) ("" "soul" t) ("" "textcomp" t) ("" "marvosym" t) ("" "wasysym" t) ("" "latexsym" t) ("" "amssymb" t) ("" "hyperref" nil) ("russian,english" "babel" nil) "\\tolerance=1000")))
  '(package-archives (quote (("mepla" . "http://melpa.milkbox.net/packages/") ("marmalade" . "http://marmalade-repo.org/packages/") ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(preview-auto-cache-preamble t)
  '(python-indent-offset 2)
