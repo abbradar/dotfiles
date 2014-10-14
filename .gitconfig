@@ -1,11 +1,11 @@
 [core]
 [user]
-	email = nikoamia@gmail.com
+	email = ab@fmap.me
 	name = Nikolay Amiantov
 [sendemail]
 	smtpencryption = tls
 	smtpserver = smtp.gmail.com
-	smtpuser = nikoamia@gmail.com
+	smtpuser = ab@fmap.me
 	smtpserverport = 587
 [color]
 	ui = auto
