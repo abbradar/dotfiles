@@ -138,14 +138,19 @@
 
 (use-package auctex
   :ensure auctex
-  :defer t
-  :config
-  (auctex-latexmk-setup)
+  :mode ("\\.tex\\'" . tex-mode)
+  :mode ("\\.bib\\'" . bibtex-mode)
+  :config (progn
+            (auctex-latexmk-setup)
+            (add-hook 'tex-mode-hook 'auto-fill-mode)
+            )
   )
 
 (use-package org
   :ensure org
   :defer t
+  :config
+  (add-hook 'org-mode-hook 'auto-fill-mode)
   )
 
 (use-package ghc
@@ -160,6 +165,10 @@
             (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
             (add-hook 'haskell-mode-hook 'ghc-init)
             )
+  )
+
+(use-package nix-mode
+  :mode "\\.nix\\'"
   )
 
 ; Ruby smart mode
