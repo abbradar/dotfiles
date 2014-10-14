@@ -43,3 +43,6 @@ alias vi="vim"
 alias v="vim"
 alias e="emacs"
 alias idle="nice -n 10 ionice -c 3"
+
+# Disable right prompt
+RPROMPT=""
