@@ -4,12 +4,9 @@
 
 { config, pkgs, ... }:
 
-#let common = import ../configuration-common.nix { inherit config pkgs; }; in
 {
   imports =
-    [ # Include the results of the hardware scan.
-      #/etc/nixos/hardware-configuration.nix
-      ../configuration-common.nix
+    [ ../configuration-common.nix
     ];
 
   networking = {
