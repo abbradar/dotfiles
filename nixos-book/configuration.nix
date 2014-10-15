@@ -4,64 +4,23 @@
 
 { config, pkgs, ... }:
 
+#let common = import ../configuration-common.nix { inherit config pkgs; }; in
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      #/etc/nixos/hardware-configuration.nix
+      ../configuration-common.nix
     ];
 
-  # Use chrooted builds.
-  nix.useChroot = true;
-
-  # Allow unfree packages.
-  nixpkgs.config = {
-    allowUnfree = true;
-
-    firefox = {
-      enableAdobeFlash = true;
-      icedtea = true;
-    };
-
-    chromium = {
-     enablePepperFlash = true;
-     enablePepperPDF = true;
-    };
-
-    cabal.libraryProfiling = true;
-  };
-
-  boot = {
-    # Use the latest kernel version.
-    kernelPackages = pkgs.linuxPackages_latest;
-
-    cleanTmpDir = true;
-
-    # Use the GRUB 2 boot loader.
-    loader.grub = {
-      enable = true;
-      version = 2;
-    };
-  };
-
   networking = {
-    hostName = "hornetnest"; # Define your hostname.
     networkmanager.enable = true;
     firewall.enable = false;
   };
-
-  # Time zone
-  time.timeZone = "Europe/Moscow";
-
-  # Security
-  security.sudo.configFile = ''
-    Defaults rootpw,insults,timestamp_timeout=60
-  '';
 
   # Select internationalisation properties.
   i18n = {
     consoleFont = "ter-v16n";
     consoleKeyMap = "ruwin_cplk-UTF-8";
-    defaultLocale = "en_US.UTF-8";
   };
 
   fonts = {
@@ -85,15 +44,10 @@
       oxygen-gtk3
 
       # Files
-      p7zip
-      zip
-      unzip
-      unrar
       dropbox
       truecrypt
 
       # Editors
-      vim
       emacs
 
       # Browsing and related
@@ -121,37 +75,16 @@
       cmplayer
       pavucontrol
 
-      # Runtimes
-      python3
-      ruby_2_1
-      jre
-      icedtea7_web
-      wine
-      mono
-
-      # Develompent
-      llvm
-      binutils
-      nix-repl
-      gcc
-      git
-
       # Math
       rWrapper
       graphviz
 
-      # Networking
-      inetutils
-      cifs_utils
-      nfsUtils
-      openvpn
-      nethogs
-      wget
+      # Development
+      llvm
+      binutils
+      gcc
 
       # Utilities
-      psmisc
-      htop
-      iotop
       xkb_switch
 
       # GUI
@@ -236,13 +169,7 @@
   hardware = {
     # Enable PulseAudio.
     pulseaudio.enable = true;
-
-    # Enable OpenGL support.
-    opengl.driSupport32Bit = true;
   };
-
-  # Zsh with proper path
-  programs.zsh.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
