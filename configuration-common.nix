@@ -78,6 +78,10 @@
       wine
       mono
 
+      # Encryption
+      openssl
+      gnupg
+
       # Develompent
       nix-repl
       git

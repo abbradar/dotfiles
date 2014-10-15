@@ -45,7 +45,6 @@
 
       # Files
       dropbox
-      truecrypt
 
       # Editors
       emacs
@@ -59,6 +58,9 @@
       # Viewers
       libreoffice
       zathura
+
+      # Encryption
+      truecrypt
 
       # Messaging and related
       thunderbird
