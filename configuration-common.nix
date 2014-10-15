@@ -66,6 +66,7 @@
       unrar
       tree
       rsync
+      wipe
 
       # Editors
       vim
@@ -77,6 +78,10 @@
       icedtea7_web
       wine
       mono
+
+      # Encryption
+      openssl
+      gnupg
 
       # Develompent
       nix-repl
