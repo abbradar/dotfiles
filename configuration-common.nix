@@ -59,6 +59,7 @@
       psmisc
 
       # Files
+      gptfdisk
       p7zip
       zip
       unzip
@@ -92,6 +93,7 @@
 
       # Utilities
       screen
+      parallel
     ]);
   };
 
