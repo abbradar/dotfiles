@@ -67,6 +67,7 @@
       unrar
       tree
       rsync
+      wipe
 
       # Editors
       vim
