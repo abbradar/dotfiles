@@ -36,10 +36,6 @@
   environment = {
     pathsToLink = [ "/etc/gconf" ];
     systemPackages = (with pkgs; [
-      # Appearance
-      oxygen-gtk2
-      oxygen-gtk3
-
       # Files
       dropbox
 
@@ -61,11 +57,10 @@
 
       # Messaging and related
       thunderbird
-      pidgin
-      pidginotr
-      #gajim
+      #(pidginWrapper.override {
+      #  plugins = [ pidginotr ];
+      #})
       skype
-      gnupg
       mumble
       bitcoin
 
@@ -82,11 +77,20 @@
       llvm
       binutils
       gcc
+      agda
 
-      # Utilities
+      # Network
+      networkmanagerapplet
+
+      # GUI-related
+      arandr
       xkb_switch
-
-      # GUI
+      xfontsel
+      libnotify
+      xlockmore
+      #(rxvt_unicode_wrapper.override {
+      #  plugins = [ urxvt_perls urxvt_tabbedex ];
+      #})
       gnome.GConf
 
       # TeX
@@ -94,6 +98,9 @@
 
       # Games
       steamChrootEnv
+    ]) ++ (with pkgs.xfce; [
+      xfce4_xkb_plugin
+      xfce4_systemload_plugin
     ]) ++ (with pkgs.haskellPackages; [
       ghc
       cabalInstall
@@ -106,24 +113,13 @@
 
       criterion
 
+      yesodBin
+
+      # XMonad
       xmonad
       xmonadContrib
       xmonadExtras
-
-      yesodBin
-    ]) ++ (with pkgs.kde4; [
-      networkmanagement
-      kde_gtk_config
-      kde_wacomtablet
-      kmix
-      kdegraphics
-      kdeutils
-      applications
-      kactivities
-      kdeadmin
-      kdenetwork
-      kdepim
-      kdeplasma_addons
+      dbus
     ]);
   };
 
@@ -148,20 +144,20 @@
     # Enable the X11 windowing system.
     xserver = {
       enable = true;
-      tty = 1;
+      #tty = 1;
       layout = "us,ru";
       xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
 
-      # Enable the KDE Desktop Environment.
-      displayManager.kdm.enable = true;
-      desktopManager.kde4.enable = true;
+      displayManager.lightdm.enable = true;
       windowManager = {
         default = "xmonad";
         xmonad = {
           enable = true;
           enableContribAndExtras = true;
+          extraPackages = self: [ self.xmonadContrib self.xmonadExtras ];
         };
       };
+      desktopManager.xfce.enable = true;
     };
   };
 
@@ -178,7 +174,7 @@
       shlomo = {
         name = "shlomo";
         group = "users";
-        extraGroups = [ "wheel" "networkmanager" "audio" ];
+        extraGroups = [ "wheel" "networkmanager" ];
         uid = 1000;
         home = "/home/shlomo";
         createHome = true;

@@ -57,6 +57,7 @@
       iotop
       nethogs
       psmisc
+      lsof
 
       # Files
       gptfdisk

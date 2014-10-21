@@ -183,6 +183,12 @@
               (add-to-list 'ac-sources 'ac-source-rsense-constant)))
   )
 
+(use-package erc
+  :defer t
+  :config
+  (add-hook 'erc-text-matched-hook 'erc-beep-on-match)
+  )
+
 (use-package ruby-mode
   :defer t
   :config
