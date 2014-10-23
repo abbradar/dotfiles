@@ -194,3 +194,9 @@
   :config
   (require 'rsense nil t)
   )
+
+(use-package agda-mode
+  :mode ("\\.agda\\'" . agda2-mode)
+  :mode ("\\.lagda\\'" . agda2-mode)
+  :init (load-file (let ((coding-system-for-read 'utf-8)) (shell-command-to-string "agda-mode locate")))
+  )
