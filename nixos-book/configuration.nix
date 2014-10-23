@@ -8,13 +8,13 @@
   imports =
     [ ../configuration-common.nix
     ];
-
+  
   networking = {
     networkmanager.enable = true;
     firewall.enable = false;
   };
 
-  # Select internationalisation properties.
+  # Select internationalization properties.
   i18n = {
     consoleFont = "ter-v16n";
     consoleKeyMap = "ruwin_cplk-UTF-8";
@@ -31,8 +31,23 @@
     ];
   };
 
+  nixpkgs.config = {
+    packageOverrides = self: with self; {
+      pidginWrapper = pidginWrapper.override {
+        plugins = [ pidginotr ];
+      };
+
+      rxvt_unicode_wrapper = rxvt_unicode_wrapper.override {
+        plugins = [ urxvt_perls urxvt_tabbedex ];
+      };
+    };
+    
+    # Build packages with pulseaudio support
+    pulseaudio = true;
+  };
+
   # List packages installed in system profile. To search by name, run:
-  # -env -qaP | grep wget
+  # nix-env -qaP | grep wget
   environment = {
     pathsToLink = [ "/etc/gconf" ];
     systemPackages = (with pkgs; [
@@ -57,9 +72,7 @@
 
       # Messaging and related
       thunderbird
-      #(pidginWrapper.override {
-      #  plugins = [ pidginotr ];
-      #})
+      pidginWrapper
       skype
       mumble
       bitcoin
@@ -77,27 +90,27 @@
       llvm
       binutils
       gcc
-      agda
 
       # Network
       networkmanagerapplet
 
       # GUI-related
+      xsel
       arandr
       xkb_switch
       xfontsel
       libnotify
       xlockmore
-      #(rxvt_unicode_wrapper.override {
-      #  plugins = [ urxvt_perls urxvt_tabbedex ];
-      #})
       gnome.GConf
+      rxvt_unicode_wrapper
+      xmonad_log_applet_xfce
 
       # TeX
       texLiveFull
 
       # Games
       steamChrootEnv
+      dwarf_fortress_2014
     ]) ++ (with pkgs.xfce; [
       xfce4_xkb_plugin
       xfce4_systemload_plugin
@@ -120,67 +133,91 @@
       xmonadContrib
       xmonadExtras
       dbus
-    ]);
-  };
 
-  # List services that you want to enable:
-  services = {
-    # Printing
-    printing = {
-      enable = true;
-      drivers = [ pkgs.gutenprint ];
+        Agda
+
+        yiCustom
+      ]);
     };
 
-    # DBus
-    dbus.packages = [ pkgs.gnome.GConf ];
+    # List services that you want to enable:
+    services = {
+      # Printing
+      printing = {
+        enable = true;
+        drivers = [ pkgs.gutenprint ];
+      };
 
-    # Time synchronization.
-    chrony.enable = true;
-    ntp.enable = false;
+      # DBus
+      dbus.packages = [ pkgs.gnome.GConf ];
 
-    # Avahi
-    avahi.enable = true;
+      # Time synchronization.
+      chrony.enable = true;
+      ntp.enable = false;
 
-    # Enable the X11 windowing system.
-    xserver = {
-      enable = true;
-      #tty = 1;
-      layout = "us,ru";
-      xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
+      # Avahi
+      avahi.enable = true;
 
-      displayManager.lightdm.enable = true;
-      windowManager = {
-        default = "xmonad";
-        xmonad = {
-          enable = true;
-          enableContribAndExtras = true;
-          extraPackages = self: [ self.xmonadContrib self.xmonadExtras ];
+      # Enable the X11 windowing system.
+      xserver = {
+        enable = true;
+        #tty = 1;
+        layout = "us,ru";
+        xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
+
+        displayManager.lightdm.enable = true;
+        windowManager = {
+          default = "xmonad";
+          xmonad = {
+            enable = true;
+            enableContribAndExtras = true;
+            extraPackages = self: [ self.xmonadContrib self.xmonadExtras ];
+          };
+        };
+        desktopManager.xfce.enable = true;
+      };
+    };
+
+    hardware = {
+      # Enable PulseAudio.
+      pulseaudio.enable = true;
+    };
+
+    # User services
+    systemd.user.services.emacs = {
+      description = "Emacs: the extensible, self-documenting text editor";
+
+      environment = {
+        GTK_DATA_PREFIX = config.system.path;
+        SSH_AUTH_SOCK = "%t/keyring/ssh";
+        GTK_PATH = "${config.system.path}/lib/gtk-3.0:${config.system.path}/lib/gtk-2.0";
+      };
+
+      serviceConfig = {
+        Type = "forking";
+        ExecStart = "${pkgs.emacs}/bin/emacs --daemon";
+        ExecStop = "${pkgs.emacs}/bin/emacsclient --eval (kill-emacs)";
+        Restart = "always";
+      };
+
+      wantedBy = [ "default.target" ];
+    };
+
+    # Define a user account. Don't forget to set a password with ‘passwd’.
+    users = {
+      defaultUserShell = "/var/run/current-system/sw/bin/zsh";
+
+      extraUsers = {
+        shlomo = {
+          name = "shlomo";
+          group = "users";
+          extraGroups = [ "wheel" "networkmanager" ];
+          uid = 1000;
+          home = "/home/shlomo";
+          createHome = true;
+          useDefaultShell = true;
         };
       };
-      desktopManager.xfce.enable = true;
     };
-  };
 
-  hardware = {
-    # Enable PulseAudio.
-    pulseaudio.enable = true;
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users = {
-    defaultUserShell = "/var/run/current-system/sw/bin/zsh";
-
-    extraUsers = {
-      shlomo = {
-        name = "shlomo";
-        group = "users";
-        extraGroups = [ "wheel" "networkmanager" ];
-        uid = 1000;
-        home = "/home/shlomo";
-        createHome = true;
-        useDefaultShell = true;
-      };
-    };
-  };
-
-}
+  }

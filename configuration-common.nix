@@ -68,6 +68,7 @@
       tree
       rsync
       wipe
+      file
 
       # Editors
       vim
