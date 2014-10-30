@@ -40,6 +40,7 @@ myConfig =
   , handleEventHook = handleEventHook startConfig <+> docksEventHook <+> fullscreenEventHook
   , keys = \x -> myKeys x `M.union` keys startConfig x
   , terminal = "urxvt"
+  , workspaces = myWorkspaces
   } `additionalKeysP` myAddKeys
 
   where startConfig = xfceConfig
@@ -67,9 +68,24 @@ myAddKeys =
   , ("M-S-d", spawn "thunar")
   ]
 
-myManageHook = composeAll
-  [ className =? "qemu-system-i386" --> doFloat
-  ]
+myWorkspaces = [ "1"
+               , "2:emacs"
+               , "3"
+               , "4:chat"
+               , "5:browser"
+               , "6"
+               , "7:news"
+               , "8:mail"
+               , "9"
+               ]
+
+myManageHook = composeAll $ concat [ [className =? x --> doShift ws | x <- cs] | (ws, cs) <- shifts ]
+  where shifts = [ ("8:mail", [ "Thunderbird" ])
+                 , ("5:browser", [ "Firefox" ])
+                 , ("2:emacs", [ "Emacs" ])
+                 , ("4:chat", [ "Pidgin", "Skype" ])
+                 , ("7:news", [ "liferea" ])
+                 ]
 
 prettyPrinter :: D.Client -> PP
 prettyPrinter dbus = defaultPP

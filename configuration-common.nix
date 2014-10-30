@@ -87,6 +87,7 @@
 
       # Develompent
       nix-repl
+      nix-prefetch-scripts
       git
       subversion
 

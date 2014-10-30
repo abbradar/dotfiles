@@ -56,16 +56,19 @@
 
       # Editors
       emacs
+      gimp
+      
+      # Documents
+      libreoffice
+      gutenprint
+      zathura
+      xsane
 
       # Browsing and related
       firefoxWrapper
       chromium
       liferea
       deluge
-
-      # Viewers
-      libreoffice
-      zathura
 
       # Encryption
       truecrypt
@@ -181,34 +184,18 @@
     hardware = {
       # Enable PulseAudio.
       pulseaudio.enable = true;
-    };
-
-    # User services
-    systemd.user.services.emacs = {
-      description = "Emacs: the extensible, self-documenting text editor";
-
-      environment = {
-        GTK_DATA_PREFIX = config.system.path;
-        SSH_AUTH_SOCK = "%t/keyring/ssh";
-        GTK_PATH = "${config.system.path}/lib/gtk-3.0:${config.system.path}/lib/gtk-2.0";
-      };
-
-      serviceConfig = {
-        Type = "forking";
-        ExecStart = "${pkgs.emacs}/bin/emacs --daemon";
-        ExecStop = "${pkgs.emacs}/bin/emacsclient --eval (kill-emacs)";
-        Restart = "always";
-      };
-
-      wantedBy = [ "default.target" ];
+      # Scanning
+      sane.enable = true;
     };
 
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users = {
       defaultUserShell = "/var/run/current-system/sw/bin/zsh";
+      mutableUsers = false;
 
       extraUsers = {
-        shlomo = {
+        root.passwordFile = "/root/.password";
+        shlomo = rec {
           name = "shlomo";
           group = "users";
           extraGroups = [ "wheel" "networkmanager" ];
@@ -216,6 +203,7 @@
           home = "/home/shlomo";
           createHome = true;
           useDefaultShell = true;
+          passwordFile = "${home}/.password";
         };
       };
     };
