@@ -36,10 +36,6 @@
       pidgin-with-plugins = pidgin-with-plugins.override {
         plugins = [ pidginotr ];
       };
-
-      rxvt_unicode_wrapper = rxvt_unicode_wrapper.override {
-        plugins = [ urxvt_perls urxvt_tabbedex ];
-      };
     };
     
     # Build packages with pulseaudio support
@@ -105,7 +101,7 @@
       libnotify
       xlockmore
       gnome.GConf
-      rxvt_unicode_wrapper
+      rxvt_unicode_with-plugins
       xmonad_log_applet_xfce
 
       # TeX
