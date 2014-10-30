@@ -33,7 +33,7 @@
 
   nixpkgs.config = {
     packageOverrides = self: with self; {
-      pidginWrapper = pidginWrapper.override {
+      pidgin-with-plugins = pidgin-with-plugins.override {
         plugins = [ pidginotr ];
       };
 
@@ -75,7 +75,7 @@
 
       # Messaging and related
       thunderbird
-      pidginWrapper
+      pidgin-with-plugins
       skype
       mumble
       bitcoin
