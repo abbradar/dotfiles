@@ -60,6 +60,7 @@
       lsof
 
       # Files
+      btrfsProgs
       gptfdisk
       p7zip
       zip
