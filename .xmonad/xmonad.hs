@@ -19,6 +19,7 @@ import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Window
 import XMonad.Actions.PhysicalScreens
+import qualified XMonad.StackSet as W
 
 import qualified DBus as D
 import qualified DBus.Client as D
@@ -79,13 +80,16 @@ myWorkspaces = [ "1"
                , "9"
                ]
 
-myManageHook = composeAll $ concat [ [className =? x --> doShift ws | x <- cs] | (ws, cs) <- shifts ]
-  where shifts = [ ("8:mail", [ "Thunderbird" ])
-                 , ("5:browser", [ "Firefox" ])
-                 , ("2:emacs", [ "Emacs" ])
-                 , ("4:chat", [ "Pidgin", "Skype" ])
-                 , ("7:news", [ "liferea" ])
+myManageHook = composeAll $ concat $
+               [ [className =? x --> doShift w | x <- cs] | (w, cs) <- shifts ]
+               ++ [ [className =? x --> doF (W.greedyView w) <+> doShift w | x <- cs] | (w, cs) <- gos ]
+  where shifts = [ ("4:chat", [ "Pidgin", "Skype" ])
                  ]
+        gos = [ ("8:mail", [ "Thunderbird" ])
+              , ("5:browser", [ "Firefox" ])
+              , ("2:emacs", [ "Emacs" ])
+              , ("7:news", [ "liferea" ])
+              ]
 
 prettyPrinter :: D.Client -> PP
 prettyPrinter dbus = defaultPP
