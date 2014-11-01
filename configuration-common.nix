@@ -59,8 +59,12 @@
       psmisc
       lsof
 
-      # Files
+      # Partitions
+      wipe
       btrfsProgs
+      hdparm
+
+      # Files
       gptfdisk
       p7zip
       zip
@@ -68,8 +72,8 @@
       unrar
       tree
       rsync
-      wipe
       file
+      pv
 
       # Editors
       vim
