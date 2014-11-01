@@ -1,4 +1,6 @@
-#!/bin/zsh -e
+#!/usr/bin/env zsh
+
+set -e
 
 typeset -A prereqs_git
 
