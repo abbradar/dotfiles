@@ -95,6 +95,7 @@
       networkmanagerapplet
 
       # GUI-related
+      blueman
       xsel
       arandr
       xkb_switch
