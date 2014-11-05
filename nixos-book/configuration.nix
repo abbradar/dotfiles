@@ -49,6 +49,7 @@
     systemPackages = (with pkgs; [
       # Files
       dropbox
+      libmtp
 
       # Editors
       emacs
@@ -175,6 +176,9 @@
         };
         desktopManager.xfce.enable = true;
       };
+
+      # UDev
+      udev.packages = [ pkgs.libmtp ];
     };
 
     hardware = {
