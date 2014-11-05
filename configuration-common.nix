@@ -101,6 +101,7 @@
       nix-repl
       nix-prefetch-scripts
       git
+      python3
       subversion
 
       # Networking
