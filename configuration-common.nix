@@ -72,7 +72,7 @@
 
       # Files
       gptfdisk
-      pbzip2
+      lbzip2
       p7zip
       zip
       unzip
