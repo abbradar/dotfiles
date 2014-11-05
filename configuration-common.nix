@@ -6,8 +6,14 @@
       /etc/nixos/hardware-configuration.nix
     ];
 
-  # Use chrooted builds.
-  nix.useChroot = true;
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "2 weeks";
+    };
+    # Use chrooted builds.
+    useChroot = true;
+  };
 
   # Allow unfree packages.
   nixpkgs.config = {
