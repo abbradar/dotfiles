@@ -34,7 +34,7 @@
   nixpkgs.config = {
     packageOverrides = self: with self; {
       pidgin-with-plugins = pidgin-with-plugins.override {
-        plugins = [ pidginotr ];
+        plugins = [ pidginlatex pidginotr ];
       };
     };
     
