@@ -30,6 +30,12 @@
     };
 
     cabal.libraryProfiling = true;
+
+    packageOverrides = self: with self; {
+      pidgin-with-plugins = pidgin-with-plugins.override {
+        plugins = [ pidginlatex pidginotr ];
+      };
+    };
   };
 
   boot = {
@@ -50,8 +56,15 @@
     Defaults rootpw,insults,timestamp_timeout=60
   '';
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  # Select internationalization properties.
+  i18n = {
+    consoleKeyMap = "ruwin_cplk-UTF-8";
+    defaultLocale = "en_US.UTF-8";
+  };
+  services.xserver = {
+    layout = "us,ru";
+    xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
+  };
 
   # Packages
   environment = {

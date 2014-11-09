@@ -8,17 +8,13 @@
   imports =
     [ ../configuration-common.nix
     ];
-  
+
   networking = {
     networkmanager.enable = true;
     firewall.enable = false;
   };
 
-  # Select internationalization properties.
-  i18n = {
-    consoleFont = "ter-v16n";
-    consoleKeyMap = "ruwin_cplk-UTF-8";
-  };
+  i18n.consoleFont = "ter-v16n";
 
   fonts = {
     enableFontDir = true;
@@ -32,12 +28,6 @@
   };
 
   nixpkgs.config = {
-    packageOverrides = self: with self; {
-      pidgin-with-plugins = pidgin-with-plugins.override {
-        plugins = [ pidginlatex pidginotr ];
-      };
-    };
-    
     # Build packages with pulseaudio support
     pulseaudio = true;
   };
@@ -45,95 +35,97 @@
   # List packages installed in system profile. To search by name, run:
   # nix-env -qaP | grep wget
   environment = {
+    sessionVariables.NIX_PATH = [ "nixthings=/home/shlomo/nixthings" ];
     pathsToLink = [ "/etc/gconf" ];
-    systemPackages = (with pkgs; [
-      # Files
-      dropbox
-      libmtp
+    systemPackages =
+      (with pkgs; [
+        # Files
+        dropbox
+        libmtp
 
-      # Editors
-      emacs
-      gimp
+        # Editors
+        emacs
+        gimp
       
-      # Documents
-      libreoffice
-      gutenprint
-      zathura
-      xsane
+        # Documents
+        libreoffice
+        gutenprint
+        zathura
+        xsane
 
-      # Browsing and related
-      firefoxWrapper
-      chromium
-      liferea
-      deluge
+        # Browsing and related
+        firefoxWrapper
+        chromium
+        liferea
+        deluge
 
-      # Encryption
-      truecrypt
+        # Encryption
+        truecrypt
 
-      # Messaging and related
-      thunderbird
-      pidgin-with-plugins
-      skype
-      mumble
-      bitcoin
+        # Messaging and related
+        thunderbird
+        pidgin-with-plugins
+        skype
+        mumble
+        bitcoin
 
-      # Multimedia
-      deadbeef
-      cmplayer
-      pavucontrol
+        # Multimedia
+        deadbeef
+        cmplayer
+        pavucontrol
 
-      # Math
-      rWrapper
-      graphviz
+        # Math
+        rWrapper
+        graphviz
 
-      # Development
-      llvm
-      binutils
-      gcc
+        # Development
+        llvm
+        binutils
+        gcc
 
-      # Network
-      networkmanagerapplet
+        # Network
+        networkmanagerapplet
 
-      # GUI-related
-      blueman
-      xsel
-      arandr
-      xkb_switch
-      xfontsel
-      libnotify
-      xlockmore
-      gnome.GConf
-      rxvt_unicode_with-plugins
-      xmonad_log_applet_xfce
+        # GUI-related
+        blueman
+        xsel
+        arandr
+        xkb_switch
+        xfontsel
+        libnotify
+        xlockmore
+        gnome.GConf
+        rxvt_unicode_with-plugins
+        xmonad_log_applet_xfce
 
-      # TeX
-      texLiveFull
+        # TeX
+        texLiveFull
 
-      # Games
-      steamChrootEnv
-      dwarf_fortress_2014
-    ]) ++ (with pkgs.xfce; [
-      xfce4_xkb_plugin
-      xfce4_systemload_plugin
-    ]) ++ (with pkgs.haskellPackages; [
-      ghc
-      cabalInstall
-      cabal2nix
-      happy
-      alex
-      c2hs
-      ghcMod
-      #threadscope
+        # Games
+        steamChrootEnv
+        dwarf_fortress_2014
+      ]) ++ (with pkgs.xfce; [
+        xfce4_xkb_plugin
+        xfce4_systemload_plugin
+      ]) ++ (with pkgs.haskellPackages; [
+        ghc
+        cabalInstall
+        cabal2nix
+        happy
+        alex
+        c2hs
+        ghcMod
+        #threadscope
 
-      criterion
+        criterion
 
-      yesodBin
+        yesodBin
 
-      # XMonad
-      xmonad
-      xmonadContrib
-      xmonadExtras
-      dbus
+        # XMonad
+        xmonad
+        xmonadContrib
+        xmonadExtras
+        dbus
 
         Agda
 
@@ -163,8 +155,6 @@
       xserver = {
         enable = true;
         #tty = 1;
-        layout = "us,ru";
-        xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
 
         displayManager.lightdm.enable = true;
         windowManager = {
