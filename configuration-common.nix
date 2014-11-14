@@ -9,10 +9,13 @@
   nix = {
     gc = {
       automatic = true;
-      dates = "2 weeks";
+      dates = "weekly";
     };
+
     # Use chrooted builds.
     useChroot = true;
+
+    binaryCaches = [ "https://abbradar.net/hydra" ];
   };
 
   # Allow unfree packages.
@@ -62,7 +65,7 @@
     defaultLocale = "en_US.UTF-8";
   };
   services.xserver = {
-    layout = "us,ru";
+    layout = "ru,us";
     xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
   };
 
@@ -124,6 +127,7 @@
       openvpn
       wget
       miniupnpc
+      elinks
 
       # Utilities
       screen

@@ -103,7 +103,7 @@
 
         # Games
         steamChrootEnv
-        dwarf_fortress_2014
+        #dwarf_fortress_2014
       ]) ++ (with pkgs.xfce; [
         xfce4_xkb_plugin
         xfce4_systemload_plugin
@@ -135,6 +135,9 @@
 
     # List services that you want to enable:
     services = {
+      # SSH (for the times when I want additional slave)
+      openssh.enable = true;
+
       # Printing
       printing = {
         enable = true;
@@ -185,16 +188,16 @@
       mutableUsers = false;
 
       extraUsers = {
-        root.passwordFile = "/root/.password";
+        root.passwordFile = "/root/.passwd";
         shlomo = rec {
-          name = "shlomo";
           group = "users";
           extraGroups = [ "wheel" "networkmanager" ];
           uid = 1000;
           home = "/home/shlomo";
           createHome = true;
           useDefaultShell = true;
-          passwordFile = "${home}/.password";
+          #passwordFile = "${home}/.password";
+          passwordFile = "/root/.shlomo.passwd";
         };
       };
     };
