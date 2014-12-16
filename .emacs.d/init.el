@@ -53,7 +53,7 @@
   )
 
 (use-package auto-complete
-  :ensure auto-complete
+;  :ensure auto-complete
   :config (global-auto-complete-mode t)
 )
 
@@ -126,44 +126,65 @@
           '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 
 (use-package ess-site
-  :ensure ess
+; we use Nix for several packages, like this one
+;  :ensure ess
   :mode ("\\.R\\'" . R-mode)
   :interpreter ("R" . R-mode)
   )
 
 (use-package auctex-latexmk
   :ensure auctex-latexmk
-  :commands auctex-latexmk-setup
   )
 
-(use-package auctex
-  :ensure auctex
-  :mode ("\\.tex\\'" . tex-mode)
-  :mode ("\\.bib\\'" . bibtex-mode)
-  :config (progn
+(add-hook 'tex-mode-hook
+          (lambda ()
             (auctex-latexmk-setup)
-            (add-hook 'tex-mode-hook 'auto-fill-mode)
-            )
-  )
+            (auto-fill-mode)
+            ))
 
 (use-package org
-  :ensure org
+;  :ensure org
   :defer t
   :config
   (add-hook 'org-mode-hook 'auto-fill-mode)
   )
+
+; This adds ":NUMBERS:" property to exclude section from numbering.
+(defun headline-numbering-filter (data backend info)
+  "No numbering in headlines that have a property :numbers: no"
+  (let* ((beg (next-property-change 0 data))
+         (headline (if beg (get-text-property beg :parent data))))
+    (if (and (eq backend 'latex)
+         (string= (org-element-property :NUMBERS headline) "no"))
+        (replace-regexp-in-string
+         "\\(part\\|chapter\\|\\(?:sub\\)*section\\|\\(?:sub\\)?paragraph\\)"
+         "\\1*" data nil nil 1)
+      data)))
+
+(setq org-export-filter-headline-functions '(headline-numbering-filter))
 
 (use-package ghc
   :ensure ghc
   :commands ghc-init
 )
 
+(use-package shm
+;  :ensure shm
+  :commands structured-haskell-mode
+  :config (progn
+            (set-face-background 'shm-current-face "#eee8d5")
+            (set-face-background 'shm-quarantine-face "lemonchiffon")
+            )
+)
+
 (use-package haskell-mode
-  :ensure haskell-mode
+;  :ensure haskell-mode
   :mode "\\.chs\\'"
   :config (progn
-            (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-            (add-hook 'haskell-mode-hook 'ghc-init)
+            ;(add-hook 'haskell-mode-hook 'structured-haskell-mode)
+            (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+            ; to be fixed for Nix
+            ;(add-hook 'haskell-mode-hook 'ghc-init)
             )
   )
 
@@ -193,6 +214,10 @@
   :defer t
   :config
   (require 'rsense nil t)
+  )
+
+(use-package hamlet-mode
+  :mode "\\.hamlet\\'"
   )
 
 (use-package agda-mode

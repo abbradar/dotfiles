@@ -24,6 +24,7 @@
       cm_unicode
       dejavu_fonts
       ttf_bitstream_vera
+      ipafont
     ];
   };
 
@@ -43,15 +44,22 @@
         dropbox
         libmtp
 
-        # Editors
-        emacs
-        gimp
-      
+        # Runtimes
+        wineUnstable
+        winetricks
+
         # Documents
         libreoffice
+        imagemagick
+        gimp
         gutenprint
         zathura
         xsane
+        (kde4.wrapper kde4.okular) # for commenting
+        inkscape
+        yed
+        mcomix
+        xpdf
 
         # Browsing and related
         firefoxWrapper
@@ -60,6 +68,7 @@
         deluge
 
         # Encryption
+        easyrsa
         truecrypt
 
         # Messaging and related
@@ -82,9 +91,12 @@
         llvm
         binutils
         gcc
+        darcs
+        mercurial
 
         # Network
         networkmanagerapplet
+        wireshark-gtk
 
         # GUI-related
         blueman
@@ -97,39 +109,38 @@
         gnome.GConf
         rxvt_unicode_with-plugins
         xmonad_log_applet_xfce
+        glxinfo
 
         # TeX
         texLiveFull
+        biber
 
         # Games
+        glxinfo
         steamChrootEnv
-        #dwarf_fortress_2014
+        dwarf_fortress
+        dwarf-therapist
       ]) ++ (with pkgs.xfce; [
         xfce4_xkb_plugin
         xfce4_systemload_plugin
       ]) ++ (with pkgs.haskellPackages; [
         ghc
-        cabalInstall
         cabal2nix
-        happy
-        alex
-        c2hs
+        cabalInstall
+        hlint
         ghcMod
-        #threadscope
-
-        criterion
-
+        threadscope
         yesodBin
-
-        # XMonad
-        xmonad
-        xmonadContrib
-        xmonadExtras
-        dbus
-
         Agda
-
         yiCustom
+      ]) ++ (with pkgs.emacs24Packages; [
+        autoComplete
+        emacs
+        #cedet
+        haskellMode
+        org
+        structuredHaskellMode
+        ess
       ]);
     };
 
@@ -146,6 +157,12 @@
 
       # DBus
       dbus.packages = [ pkgs.gnome.GConf ];
+
+      # PostgreSQL
+      postgresql = {
+        enable = true;
+        package = pkgs.postgresql93;
+      };
 
       # Time synchronization.
       chrony.enable = true;
@@ -164,8 +181,7 @@
           default = "xmonad";
           xmonad = {
             enable = true;
-            enableContribAndExtras = true;
-            extraPackages = self: [ self.xmonadContrib self.xmonadExtras ];
+            extraPackages = self: [ self.xmonadContrib self.xmonadExtras self.h-booru self.dbus ];
           };
         };
         desktopManager.xfce.enable = true;

@@ -32,11 +32,16 @@
      enablePepperPDF = true;
     };
 
-    cabal.libraryProfiling = true;
-
     packageOverrides = self: with self; {
       pidgin-with-plugins = pidgin-with-plugins.override {
         plugins = [ pidginlatex pidginotr ];
+      };
+      haskellPackages = haskellPackages.override {
+        extension = self: super: {
+          xmonad-with-packages = super.xmonad-with-packages.override {
+            packages = self: [ self.xmonadContrib self.xmonadExtras self.dbus self.h-booru ];
+          };
+        };
       };
     };
   };
@@ -64,9 +69,16 @@
     consoleKeyMap = "ruwin_cplk-UTF-8";
     defaultLocale = "en_US.UTF-8";
   };
-  services.xserver = {
-    layout = "ru,us";
-    xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
+
+  services = {
+    xserver = {
+      layout = "ru,us";
+      xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
+    };
+
+    openssh = {
+      passwordAuthentication = false;
+    };
   };
 
   # Packages
@@ -106,7 +118,6 @@
       ruby_2_1
       jre
       icedtea7_web
-      wine
       mono
 
       # Encryption
