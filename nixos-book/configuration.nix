@@ -43,6 +43,7 @@
         # Files
         dropbox
         libmtp
+        gparted
 
         # Runtimes
         wineUnstable
@@ -152,11 +153,11 @@
       # Printing
       printing = {
         enable = true;
-        drivers = [ pkgs.gutenprint ];
+        drivers = with pkgs; [ gutenprint ];
       };
 
       # DBus
-      dbus.packages = [ pkgs.gnome.GConf ];
+      dbus.packages = with pkgs; [ gnome.GConf ];
 
       # PostgreSQL
       postgresql = {
@@ -181,14 +182,14 @@
           default = "xmonad";
           xmonad = {
             enable = true;
-            extraPackages = self: [ self.xmonadContrib self.xmonadExtras self.h-booru self.dbus ];
+            extraPackages = self: with self; [ xmonadContrib xmonadExtras h-booru dbus ];
           };
         };
         desktopManager.xfce.enable = true;
       };
 
       # UDev
-      udev.packages = [ pkgs.libmtp ];
+      udev.packages = with pkgs; [ libmtp ];
     };
 
     hardware = {

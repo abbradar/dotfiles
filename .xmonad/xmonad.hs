@@ -84,6 +84,7 @@ myAddKeys =
   , ("M-S-f", runOrRaiseMaster "firefox" (className =? "Firefox"))
   , ("M-S-t", runOrRaiseMaster "thunderbird" (className =? "Thunderbird"))
   , ("M-S-d", spawn "thunar")
+  , ("M-S-l", spawn "xflock4")
   ]
 
 myWorkspaces = [ "1"
