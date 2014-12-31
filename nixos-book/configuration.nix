@@ -7,6 +7,7 @@
 {
   imports =
     [ ../configuration-common.nix
+      ./personal-configuration.nix
     ];
 
   networking = {
@@ -44,6 +45,8 @@
         dropbox
         libmtp
         gparted
+        #xfce.thunar_archive_plugin
+        xarchiver
 
         # Runtimes
         wineUnstable
@@ -67,6 +70,7 @@
         chromium
         liferea
         deluge
+        remmina
 
         # Encryption
         easyrsa
@@ -134,6 +138,8 @@
         yesodBin
         Agda
         yiCustom
+        hasktags
+        stylishHaskell
       ]) ++ (with pkgs.emacs24Packages; [
         autoComplete
         emacs
@@ -186,6 +192,11 @@
           };
         };
         desktopManager.xfce.enable = true;
+      };
+
+      # For mah eyes.
+      redshift = {
+        enable = true;
       };
 
       # UDev
