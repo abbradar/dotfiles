@@ -60,9 +60,12 @@
   time.timeZone = "Europe/Moscow";
 
   # Security
-  security.sudo.configFile = ''
-    Defaults rootpw,insults,timestamp_timeout=60
-  '';
+  security = {
+    sudo.configFile = ''
+      Defaults rootpw,insults,timestamp_timeout=60
+    '';
+    rngd.enable = true;
+  };
 
   # Select internationalization properties.
   i18n = {
@@ -79,6 +82,10 @@
     openssh = {
       passwordAuthentication = false;
     };
+
+    journald.extraConfig = ''
+      SystemMaxFileSize=5M
+    '';
   };
 
   # Packages
@@ -100,7 +107,6 @@
 
       # Files
       gptfdisk
-      lbzip2
       p7zip
       zip
       unzip
@@ -115,9 +121,8 @@
 
       # Runtimes
       python3
-      ruby_2_1
+      ruby_2_2
       jre
-      icedtea7_web
       mono
 
       # Encryption
@@ -128,7 +133,6 @@
       nix-repl
       nix-prefetch-scripts
       git
-      python3
       subversion
 
       # Networking
@@ -147,7 +151,11 @@
   };
 
   # Enable OpenGL support.
-  hardware.opengl.driSupport32Bit = true;
+  hardware = {
+    opengl.driSupport32Bit = true;
+
+    pulseaudio.configFile = ./default.pa;
+  };
 
   # Zsh with proper path
   programs.zsh.enable = true;

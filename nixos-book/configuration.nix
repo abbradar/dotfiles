@@ -7,12 +7,15 @@
 {
   imports =
     [ ../configuration-common.nix
+      ./personal-configuration.nix
     ];
 
   networking = {
     networkmanager.enable = true;
     firewall.enable = false;
   };
+
+  boot.supportedFilesystems = [ "nfs" ];
 
   i18n.consoleFont = "ter-v16n";
 
@@ -44,6 +47,8 @@
         dropbox
         libmtp
         gparted
+        #xfce.thunar_archive_plugin
+        xarchiver
 
         # Runtimes
         wineUnstable
@@ -58,15 +63,17 @@
         xsane
         (kde4.wrapper kde4.okular) # for commenting
         inkscape
-        yed
+        #yed
         mcomix
         xpdf
+        anki
 
         # Browsing and related
         firefoxWrapper
         chromium
         liferea
         deluge
+        remmina
 
         # Encryption
         easyrsa
@@ -79,9 +86,12 @@
         mumble
         bitcoin
 
+        # Runtimes
+        icedtea7_web
+
         # Multimedia
         deadbeef
-        cmplayer
+        bomi
         pavucontrol
 
         # Math
@@ -121,19 +131,24 @@
         steamChrootEnv
         dwarf_fortress
         dwarf-therapist
+        zsnes
+
+        # Utils
+        powertop
       ]) ++ (with pkgs.xfce; [
         xfce4_xkb_plugin
         xfce4_systemload_plugin
-      ]) ++ (with pkgs.haskellPackages; [
+      ]) ++ (with pkgs.haskellngPackages; [
         ghc
         cabal2nix
-        cabalInstall
+        cabal-install
         hlint
-        ghcMod
+        ghc-mod
         threadscope
-        yesodBin
+        yesod-bin
         Agda
-        yiCustom
+        hasktags
+        stylish-haskell
       ]) ++ (with pkgs.emacs24Packages; [
         autoComplete
         emacs
@@ -150,6 +165,17 @@
       # SSH (for the times when I want additional slave)
       openssh.enable = true;
 
+      tlp.enable = true;
+      thermald.enable = true;
+
+      udev.extraRules =
+        let rule = level: x: ''ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}==${toString level}, RUN+="${cmd x}"'';
+            cmd = x: "${pkgs.dbus_tools}/bin/dbus-send --system --dest=org.freedesktop.thermald /org/freedesktop/thermald org.freedesktop.thermald.SetCurrentPreference string:${x}";
+        in ''
+          ${rule 0 "ENERGY_CONSERVE"}
+          ${rule 1 "PERFORMANCE"}
+        '';
+
       # Printing
       printing = {
         enable = true;
@@ -158,6 +184,11 @@
 
       # DBus
       dbus.packages = with pkgs; [ gnome.GConf ];
+
+      gpm = {
+        enable = true;
+        protocol = "imps2";
+      };
 
       # PostgreSQL
       postgresql = {
@@ -182,11 +213,15 @@
           default = "xmonad";
           xmonad = {
             enable = true;
-            extraPackages = self: with self; [ xmonadContrib xmonadExtras h-booru dbus ];
+            extraPackages = self: with self; [ dbus ]; # https://github.com/Fuuzetsu/h-booru/issues/2
+            enableContribAndExtras = true;
           };
         };
         desktopManager.xfce.enable = true;
       };
+
+      # For mah eyes.
+      redshift.enable = true;
 
       # UDev
       udev.packages = with pkgs; [ libmtp ];

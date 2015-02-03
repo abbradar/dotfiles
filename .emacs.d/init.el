@@ -183,6 +183,7 @@
   :config (progn
             ;(add-hook 'haskell-mode-hook 'structured-haskell-mode)
             (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+            (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
             ; to be fixed for Nix
             ;(add-hook 'haskell-mode-hook 'ghc-init)
             )

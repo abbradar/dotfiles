@@ -98,7 +98,9 @@ myWorkspaces = [ "1"
                , "9"
                ]
 
-myManageHook = composeAll $ shiftM
+myManageHook = composeAll shiftM <+> composeAll
+               [ className =? "Dwarf_Fortress" --> doFullFloat
+               ]
   where shifts = [ ("4:chat", [ "Pidgin", "Skype" ])
                  ]
         gos = [ ("8:mail", [ "Thunderbird" ])
