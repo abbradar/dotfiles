@@ -155,6 +155,8 @@
     opengl.driSupport32Bit = true;
 
     pulseaudio.configFile = ./default.pa;
+
+    cpu.intel.updateMicrocode = true;
   };
 
   # Zsh with proper path
