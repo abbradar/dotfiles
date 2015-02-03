@@ -15,7 +15,7 @@
     # Use chrooted builds.
     useChroot = true;
 
-    binaryCaches = [ "https://abbradar.net/hydra" ];
+    #binaryCaches = [ "https://abbradar.net/hydra" ];
   };
 
   # Allow unfree packages.
