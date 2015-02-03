@@ -149,6 +149,9 @@
         Agda
         hasktags
         stylish-haskell
+        #yiCustom
+        hasktags
+        stylishHaskell
       ]) ++ (with pkgs.emacs24Packages; [
         autoComplete
         emacs
