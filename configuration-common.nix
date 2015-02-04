@@ -52,8 +52,11 @@
 
     cleanTmpDir = true;
 
-    loader.efi.canTouchEfiVariables = true;
-    loader.grub.version = 2;
+    loader = {
+      timeout = 0;
+      efi.canTouchEfiVariables = true;
+      grub.version = 2;
+    };
   };
 
   # Time zone
