@@ -40,6 +40,8 @@
  '(haskell-tags-on-save t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(jedi:complete-on-dot nil)
+ '(jedi:setup-keys t)
  '(magit-diff-use-overlays nil)
  '(org-export-latex-default-packages-alist
    (quote

@@ -104,6 +104,7 @@
         gcc
         darcs
         mercurial
+        androidsdk_4_4
 
         # Network
         networkmanagerapplet
@@ -128,13 +129,19 @@
 
         # Games
         glxinfo
-        steamChrootEnv
+        steam
         dwarf_fortress
         dwarf-therapist
         zsnes
 
         # Utils
         powertop
+
+        # Ruby development
+        (bundler_HEAD.override {
+          ruby = pkgs.my_ruby;
+        })
+        bundix
       ]) ++ (with pkgs.xfce; [
         xfce4_xkb_plugin
         xfce4_systemload_plugin
@@ -226,7 +233,7 @@
       redshift.enable = true;
 
       # UDev
-      udev.packages = with pkgs; [ libmtp ];
+      udev.packages = with pkgs; [ android-udev-rules libmtp ];
     };
 
     hardware = {
@@ -241,11 +248,15 @@
       defaultUserShell = "/var/run/current-system/sw/bin/zsh";
       mutableUsers = false;
 
+      extraGroups = {
+        adbusers = {};
+      };
+
       extraUsers = {
         root.passwordFile = "/root/.passwd";
         shlomo = rec {
           group = "users";
-          extraGroups = [ "wheel" "networkmanager" ];
+          extraGroups = [ "wheel" "networkmanager" "adbusers" ];
           uid = 1000;
           home = "/home/shlomo";
           createHome = true;

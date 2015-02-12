@@ -108,17 +108,12 @@
 (use-package jedi
   :ensure jedi
   :commands jedi:setup
-  :init
-  (progn
-    (setq jedi:setup-keys t)
-    (setq jedi:complete-on-dot t)
-    )
   )
 
 (use-package python
   :defer t
-  :config
-  (add-hook 'python-mode-hook 'jedi:setup)
+  ;:config
+  ;(add-hook 'python-mode-hook 'jedi:setup)
   )
 
 ;;; newline-and-indent on RET

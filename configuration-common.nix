@@ -16,6 +16,9 @@
     useChroot = true;
 
     #binaryCaches = [ "https://abbradar.net/hydra" ];
+    extraOptions = ''
+      auto-optimise-store = true
+    '';
   };
 
   # Allow unfree packages.
@@ -33,6 +36,7 @@
     };
 
     packageOverrides = self: with self; {
+      my_ruby = ruby_2_2;
       pidgin-with-plugins = pidgin-with-plugins.override {
         plugins = [ pidginlatex pidginotr ];
       };
@@ -124,7 +128,7 @@
 
       # Runtimes
       python3
-      ruby_2_2
+      my_ruby
       jre
       mono
 
