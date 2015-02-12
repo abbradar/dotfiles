@@ -154,6 +154,8 @@
       # Utilities
       screen
       parallel
+    ]) ++ (with config.boot.kernelPackages; [
+      perf
     ]);
   };
 
