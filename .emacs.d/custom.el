@@ -33,6 +33,7 @@
  '(fill-column 80)
  '(global-visual-line-mode t)
  '(haskell-font-lock-symbols t)
+ '(haskell-interactive-popup-errors nil)
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)

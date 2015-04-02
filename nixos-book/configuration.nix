@@ -19,28 +19,19 @@
 
   i18n.consoleFont = "ter-v16n";
 
-  fonts = {
-    enableFontDir = true;
-    enableGhostscriptFonts = true;
-    fonts = with pkgs; [
-      corefonts  # Microsoft free fonts
-      cm_unicode
-      dejavu_fonts
-      ttf_bitstream_vera
-      ipafont
-    ];
-  };
+  uim.enable = true;
 
   nixpkgs.config = {
     # Build packages with pulseaudio support
     pulseaudio = true;
+
+    steam.primus = true;
   };
 
   # List packages installed in system profile. To search by name, run:
   # nix-env -qaP | grep wget
   environment = {
     sessionVariables.NIX_PATH = [ "nixthings=/home/shlomo/nixthings" ];
-    pathsToLink = [ "/etc/gconf" ];
     systemPackages =
       (with pkgs; [
         # Files
@@ -49,6 +40,9 @@
         gparted
         #xfce.thunar_archive_plugin
         xarchiver
+
+        # Input
+        anthy
 
         # Runtimes
         wineUnstable
@@ -95,22 +89,28 @@
         pavucontrol
 
         # Math
-        rWrapper
+        (rWrapper.override {
+          packages = with rPackages; [
+            data_table
+            parallel
+          ];
+        })
         graphviz
 
         # Development
-        llvm
         binutils
         gcc
         darcs
         mercurial
         androidsdk_4_4
+        patchelf
 
         # Network
         networkmanagerapplet
         wireshark-gtk
 
         # GUI-related
+        gnome3.gnome_themes_standard
         blueman
         xsel
         arandr
@@ -138,15 +138,15 @@
         powertop
 
         # Ruby development
-        (bundler_HEAD.override {
-          ruby = pkgs.my_ruby;
-        })
+        bundler
         bundix
       ]) ++ (with pkgs.xfce; [
         xfce4_xkb_plugin
         xfce4_systemload_plugin
       ]) ++ (with pkgs.haskellngPackages; [
-        ghc
+        ((ghcWithPackages (self: [])).override {
+          withLLVM = true;
+        })
         cabal2nix
         cabal-install
         hlint
@@ -154,18 +154,22 @@
         threadscope
         yesod-bin
         Agda
+        idris
         hasktags
         stylish-haskell
         #yiCustom
         hasktags
-      ]) ++ (with pkgs.emacs24Packages; [
-        autoComplete
+      ]) ++ (with pkgs.emacsPackagesNg; [
         emacs
-        #cedet
-        haskellMode
-        org
-        structuredHaskellMode
-        ess
+        
+        evil
+        auto-complete
+        auctex
+        ghc-mod
+        structured-haskell-mode
+        agda2-mode
+        haskell-mode
+        idris-mode
       ]);
     };
 
@@ -173,6 +177,11 @@
     services = {
       # SSH (for the times when I want additional slave)
       openssh.enable = true;
+
+      #kmscon = {
+      #  enable = true;
+      #  hwRender = true;
+      #};
 
       tlp.enable = true;
       thermald.enable = true;
@@ -215,14 +224,14 @@
       # Enable the X11 windowing system.
       xserver = {
         enable = true;
-        #tty = 1;
+        tty = 1;
 
-        displayManager.lightdm.enable = true;
+        displayManager.sddm.enable = true;
         windowManager = {
           default = "xmonad";
           xmonad = {
             enable = true;
-            extraPackages = self: with self; [ dbus ]; # https://github.com/Fuuzetsu/h-booru/issues/2
+            extraPackages = self: with self; [ dbus ];
             enableContribAndExtras = true;
           };
         };

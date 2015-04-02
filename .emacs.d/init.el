@@ -1,10 +1,13 @@
 (add-to-list 'load-path "~/.emacs.d/use-package")
 (require 'cl)
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(require 'package)
+(add-to-list 'package-directory-list "/run/current-system/sw/share/emacs/site-lisp/elpa")
 (package-initialize)
 
 (use-package evil
@@ -53,7 +56,7 @@
   )
 
 (use-package auto-complete
-;  :ensure auto-complete
+  :ensure auto-complete
   :config (global-auto-complete-mode t)
 )
 
@@ -63,7 +66,7 @@
 )
 
 (use-package powerline
-  :ensure powerline
+  :ensure powerline-evil
   :config (powerline-default-theme)
 )
 
@@ -121,27 +124,25 @@
           '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 
 (use-package ess-site
-; we use Nix for several packages, like this one
-;  :ensure ess
+  :ensure ess
   :mode ("\\.R\\'" . R-mode)
   :interpreter ("R" . R-mode)
   )
 
-(use-package auctex-latexmk
-  :ensure auctex-latexmk
-  )
-
-(add-hook 'tex-mode-hook
-          (lambda ()
-            (auctex-latexmk-setup)
-            (auto-fill-mode)
-            ))
-
-(use-package org
-;  :ensure org
+(use-package auctex
+  ;:ensure auctex
   :defer t
   :config
-  (add-hook 'org-mode-hook 'auto-fill-mode)
+  (add-hook 'tex-mode-hook
+            (lambda ()
+              (auctex-latexmk-setup)
+              (auto-fill-mode)
+              ))
+  )
+
+(use-package auctex-latexmk
+  :ensure auctex-latexmk
+  :commands auctex-latexmk-setup
   )
 
 ; This adds ":NUMBERS:" property to exclude section from numbering.
@@ -156,7 +157,15 @@
          "\\1*" data nil nil 1)
       data)))
 
-(setq org-export-filter-headline-functions '(headline-numbering-filter))
+(use-package org
+  :ensure org
+  :mode "\\.org\\'"
+  :config
+  (progn
+    (add-hook 'org-mode-hook 'auto-fill-mode)
+    (setq org-export-filter-headline-functions '(headline-numbering-filter))
+    )
+  )
 
 (use-package ghc
   :ensure ghc
@@ -164,7 +173,7 @@
 )
 
 (use-package shm
-;  :ensure shm
+  :ensure shm
   :commands structured-haskell-mode
   :config (progn
             (set-face-background 'shm-current-face "#eee8d5")
@@ -173,7 +182,7 @@
 )
 
 (use-package haskell-mode
-;  :ensure haskell-mode
+  :ensure haskell-mode
   :mode "\\.chs\\'"
   :config (progn
             ;(add-hook 'haskell-mode-hook 'structured-haskell-mode)
@@ -185,14 +194,18 @@
   )
 
 (use-package nix-mode
+  :ensure nix-mode
   :mode "\\.nix\\'"
   )
 
 ; Ruby smart mode
-(setq rsense-home "/opt/rsense-0.3")
-(add-to-list 'load-path (concat rsense-home "/etc"))
 (use-package rsense
   :defer t
+  :init
+  (progn
+    (setq rsense-home "/opt/rsense-0.3")
+    (add-to-list 'load-path (concat rsense-home "/etc"))
+    )
   :config
   (add-hook 'ruby-mode-hook
             (lambda ()
@@ -201,18 +214,20 @@
   )
 
 (use-package erc
-  :defer t
+  :commands erc
   :config
   (add-hook 'erc-text-matched-hook 'erc-beep-on-match)
   )
 
 (use-package ruby-mode
-  :defer t
+  :mode "\\.rb\\'"
+  :interpreter "ruby"
   :config
   (require 'rsense nil t)
   )
 
 (use-package hamlet-mode
+  :ensure hamlet-mode
   :mode "\\.hamlet\\'"
   )
 

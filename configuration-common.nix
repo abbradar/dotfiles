@@ -6,6 +6,19 @@
       /etc/nixos/hardware-configuration.nix
     ];
 
+  fonts = {
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      corefonts  # Microsoft free fonts
+      cm_unicode
+      dejavu_fonts
+      ttf_bitstream_vera
+      ipafont
+      symbola
+    ];
+  };
+
   nix = {
     gc = {
       automatic = true;
@@ -16,13 +29,14 @@
     useChroot = true;
 
     #binaryCaches = [ "https://abbradar.net/hydra" ];
+    binaryCaches = [ "http://hydra.cryp.to/" "http://hydra.nixos.org/" ];
     extraOptions = ''
       auto-optimise-store = true
     '';
   };
 
-  # Allow unfree packages.
   nixpkgs.config = {
+    # Allow unfree packages.
     allowUnfree = true;
 
     firefox = {
@@ -122,6 +136,7 @@
       rsync
       file
       pv
+      dos2unix
 
       # Editors
       vim

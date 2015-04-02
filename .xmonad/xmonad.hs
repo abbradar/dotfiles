@@ -8,9 +8,6 @@ import qualified Data.Map as M
 
 import Control.Monad.Error
 import Data.List.Split
-import Data.Vinyl (rGet)
-import Control.Concurrent.STM
-import Control.Concurrent.STM.TChan
 import System.Directory
 import System.FilePath
 
@@ -29,13 +26,10 @@ import XMonad.Util.WindowProperties (getProp32s)
 import XMonad.Util.EZConfig
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import XMonad.Actions.UpdatePointer
 import XMonad.Prompt.Window
 import XMonad.Actions.PhysicalScreens
 import qualified XMonad.StackSet as W
-
-import HBooru.Network
-import qualified HBooru.Types as HT
-import HBooru.Parsers.Gelbooru
 
 import qualified DBus as D
 import qualified DBus.Client as D
@@ -45,15 +39,15 @@ main :: IO ()
 main = do
     dbus <- D.connectSession
     getWellKnownName dbus
-    xmonad $ myConfig { logHook = dynamicLogWithPP (prettyPrinter dbus)
+    xmonad $ myConfig { logHook = logHook myConfig >> dynamicLogWithPP (prettyPrinter dbus)
                       }
-
 myConfig =
   sc
   { modMask = mod4Mask
   , startupHook = startupHook sc <> setWMName "LG3D"
   , manageHook = manageHook sc <+> myManageHook <+> manageDocks
   , layoutHook = smartBorders $ trackFloating $ layoutHook sc
+  , logHook = logHook sc >> updatePointer Nearest
   , handleEventHook = handleEventHook sc <+> docksEventHook <+> fullscreenEventHook
   , keys = \x -> myKeys x `M.union` keys sc x
   , terminal = "urxvt"
@@ -78,7 +72,6 @@ myKeys conf@(XConfig {modMask = modm}) = M.fromList
 myAddKeys =
   [ ("M-p", shellPrompt myXPConfig)
   , ("M-g", windowPromptGoto myXPConfig { autoComplete = Just 500000 })
-  , ("M-S-i", booruPrompt myXPConfig)
   , ("M-S-g", windowPromptBring myXPConfig { autoComplete = Just 500000 })
   , ("M-S-v", runOrRaiseMaster "emacs" (className =? "Emacs"))
   , ("M-S-f", runOrRaiseMaster "firefox" (className =? "Firefox"))
@@ -98,8 +91,11 @@ myWorkspaces = [ "1"
                , "9"
                ]
 
-myManageHook = composeAll shiftM <+> composeAll
-               [ className =? "Dwarf_Fortress" --> doFullFloat
+myManageHook = composeOne $
+               [ transience
+               ] ++ shiftM ++
+               [ title =? "Star Wars: Knights of the Old Republic" -?> doFloat
+               , isFullscreen -?> doFullFloat
                ]
   where shifts = [ ("4:chat", [ "Pidgin", "Skype" ])
                  ]
@@ -109,8 +105,8 @@ myManageHook = composeAll shiftM <+> composeAll
               , ("7:news", [ "liferea" ])
               ]
         shiftM = concat $
-                 [ [className =? x --> doShift w | x <- cs] | (w, cs) <- shifts ] ++
-                 [ [className =? x --> doF (W.greedyView w) <+> doShift w | x <- cs] | (w, cs) <- gos ]
+                 [ [className =? x -?> doShift w | x <- cs] | (w, cs) <- shifts ] ++
+                 [ [className =? x -?> doF (W.greedyView w) <+> doShift w | x <- cs] | (w, cs) <- gos ]
 
 prettyPrinter :: D.Client -> PP
 prettyPrinter dbus = defaultPP
@@ -123,36 +119,6 @@ prettyPrinter dbus = defaultPP
     , ppLayout   = const ""
     , ppSep      = " "
     }
-
--- H-Booru
-
-data HBooru = HBooru
-
-instance XPrompt HBooru where
-  showXPrompt HBooru = "Gelbooru: "
-
-booruPrompt :: XPConfig -> X ()
-booruPrompt c =
-  do
-    mkXPrompt HBooru c (mkComplFunFromList []) showImage
-  where
-    showImage img = liftIO $ do
-      file <- fetchImage img
-      spawn $ "ristretto " ++ file
-
-fetchImage :: String -> IO String
-fetchImage (splitOn " " -> tags) = do
-  let url s = [ (HT.md5 `rGet` r, HT.file_url `rGet` r) | Right r <- s ]
-  Right (md5, url) <- runErrorT $ head <$> url <$> fetchTaggedPosts Gelbooru HT.XML tags
-  chan <- newTChanIO
-  tmp <- getTemporaryDirectory
-  let path = tmp </> md5 <.> (snd $ splitExtension url)
-  downloadFiles [(url, path)] chan 1
-  res <- atomically $ readTChan chan >>= \case
-    Failed x -> return $ Just x
-    _ -> return Nothing
-  maybe (return ()) (fail . show) res
-  return $ show path
 
 -- XMonad Log Applet
 
