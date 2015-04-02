@@ -6,19 +6,6 @@
       /etc/nixos/hardware-configuration.nix
     ];
 
-  fonts = {
-    enableFontDir = true;
-    enableGhostscriptFonts = true;
-    fonts = with pkgs; [
-      corefonts  # Microsoft free fonts
-      cm_unicode
-      dejavu_fonts
-      ttf_bitstream_vera
-      ipafont
-      symbola
-    ];
-  };
-
   nix = {
     gc = {
       automatic = true;

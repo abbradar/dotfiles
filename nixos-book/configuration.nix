@@ -15,6 +15,19 @@
     firewall.enable = false;
   };
 
+  fonts = {
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      corefonts  # Microsoft free fonts
+      cm_unicode
+      dejavu_fonts
+      ttf_bitstream_vera
+      ipafont
+      symbola
+    ];
+  };
+
   boot.supportedFilesystems = [ "nfs" ];
 
   i18n.consoleFont = "ter-v16n";
