@@ -27,6 +27,9 @@
     (define-key evil-normal-state-map (kbd "M-k") 'windmove-up)
     (define-key evil-normal-state-map (kbd "M-l") 'windmove-right)
 
+    ;; Fix window creation
+    (define-key evil-normal-state-map (kbd "^W n") 'split-window-below)
+    
     ;; PageUp/PageDown/Home/End likes
     (define-key evil-motion-state-map (kbd "C-h") 'evil-first-non-blank)
     (define-key evil-motion-state-map (kbd "C-j") 'evil-scroll-page-down)
@@ -63,7 +66,12 @@
 (use-package yasnippet
   :ensure yasnippet
   :config (yas-global-mode 1)
-)
+  )
+
+(use-package flycheck
+  :ensure flycheck
+  :config (add-hook 'after-init-hook 'global-flycheck-mode)
+  )
 
 (use-package powerline
   :ensure powerline-evil
@@ -159,7 +167,7 @@
 
 (use-package org
   :ensure org
-  :mode "\\.org\\'"
+  :mode ("\\.org\\'" . org-mode)
   :config
   (progn
     (add-hook 'org-mode-hook 'auto-fill-mode)
@@ -189,7 +197,7 @@
             (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
             (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
             ; to be fixed for Nix
-            ;(add-hook 'haskell-mode-hook 'ghc-init)
+            (add-hook 'haskell-mode-hook 'ghc-init)
             )
   )
 
@@ -229,6 +237,11 @@
 (use-package hamlet-mode
   :ensure hamlet-mode
   :mode "\\.hamlet\\'"
+  )
+
+(use-package idris-mode
+  :ensure idris-mode
+  :mode "\\.idr\\'"
   )
 
 (use-package agda-mode

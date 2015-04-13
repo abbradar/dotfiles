@@ -32,6 +32,11 @@
  '(fci-rule-color "#073642")
  '(fill-column 80)
  '(global-visual-line-mode t)
+ '(haskell-compile-cabal-build-alt-command
+   "cd %s && cabal2nix --shell . > shell.nix && nix-shell -I nixpkgs=/home/shlomo/nixpkgs --pure --command \"cabal clean -s && cabal build --ghc-option=-ferror-spans\"")
+ '(haskell-compile-cabal-build-command
+   "cd %s && cabal2nix --shell . > shell.nix && nix-shell -I nixpkgs=/home/shlomo/nixpkgs --pure --command \"cabal build --ghc-option=-ferror-spans\"")
+ '(haskell-program-name "nix-repl --pure --command \"ghci\"")
  '(haskell-font-lock-symbols t)
  '(haskell-interactive-popup-errors nil)
  '(haskell-process-auto-import-loaded-modules t)
@@ -44,6 +49,7 @@
  '(jedi:complete-on-dot nil)
  '(jedi:setup-keys t)
  '(magit-diff-use-overlays nil)
+ '(menu-bar-mode nil)
  '(org-export-latex-default-packages-alist
    (quote
     (("AUTO" "inputenc" t)

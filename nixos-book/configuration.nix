@@ -58,11 +58,11 @@
         anthy
 
         # Runtimes
-        wineUnstable
+        wineStaging
         winetricks
 
         # Documents
-        libreoffice
+        #libreoffice
         imagemagick
         gimp
         gutenprint
@@ -70,7 +70,7 @@
         xsane
         (kde4.wrapper kde4.okular) # for commenting
         inkscape
-        #yed
+        yed
         mcomix
         xpdf
         anki
@@ -115,7 +115,7 @@
         gcc
         darcs
         mercurial
-        androidsdk_4_4
+        androidenv.platformTools
         patchelf
 
         # Network
@@ -123,7 +123,6 @@
         wireshark-gtk
 
         # GUI-related
-        gnome3.gnome_themes_standard
         blueman
         xsel
         arandr
@@ -132,7 +131,7 @@
         libnotify
         xlockmore
         gnome.GConf
-        rxvt_unicode_with-plugins
+        rxvt_unicode-with-plugins
         xmonad_log_applet_xfce
         glxinfo
 
@@ -144,6 +143,7 @@
         glxinfo
         steam
         dwarf_fortress
+        the-powder-toy
         dwarf-therapist
         zsnes
 
@@ -151,27 +151,33 @@
         powertop
 
         # Ruby development
-        bundler
+        bundler_HEAD
         bundix
       ]) ++ (with pkgs.xfce; [
         xfce4_xkb_plugin
         xfce4_systemload_plugin
-      ]) ++ (with pkgs.haskellngPackages; [
+      ]) ++ (with pkgs.haskell-ng.packages.ghc7101; [
         ((ghcWithPackages (self: [])).override {
           withLLVM = true;
         })
-        cabal2nix
         cabal-install
+        
+        stylish-haskell
         hlint
-        ghc-mod
         threadscope
+        pointfree
         yesod-bin
-        Agda
-        idris
         hasktags
         stylish-haskell
-        #yiCustom
-        hasktags
+      ]) ++ (with pkgs.haskellngPackages; [
+        cabal2nix
+
+        # https://code.google.com/p/agda/issues/detail?id=1482
+        Agda
+        idris
+
+        # https://github.com/kazu-yamamoto/ghc-mod/issues/437
+        ghc-mod
       ]) ++ (with pkgs.emacsPackagesNg; [
         emacs
         
@@ -237,7 +243,7 @@
       # Enable the X11 windowing system.
       xserver = {
         enable = true;
-        tty = 1;
+        #tty = 1;
 
         displayManager.sddm.enable = true;
         windowManager = {
