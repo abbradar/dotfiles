@@ -16,7 +16,11 @@
     useChroot = true;
 
     #binaryCaches = [ "https://abbradar.net/hydra" ];
-    binaryCaches = [ "http://hydra.cryp.to/" "http://hydra.nixos.org/" ];
+    #binaryCaches = [ "http://hydra.cryp.to/" "http://hydra.nixos.org/" ];
+    binaryCaches = [ "http://hydra.nixos.org/" ];
+    requireSignedBinaryCaches = true;
+    binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
+                            ];
     extraOptions = ''
       auto-optimise-store = true
     '';
@@ -40,13 +44,6 @@
       my_ruby = ruby_2_2;
       pidgin-with-plugins = pidgin-with-plugins.override {
         plugins = [ pidginlatex pidginotr ];
-      };
-      haskellPackages = haskellPackages.override {
-        extension = self: super: {
-          xmonad-with-packages = super.xmonad-with-packages.override {
-            packages = self: [ self.xmonadContrib self.xmonadExtras self.dbus self.h-booru ];
-          };
-        };
       };
     };
   };
@@ -165,7 +162,7 @@
   hardware = {
     opengl.driSupport32Bit = true;
 
-    pulseaudio.configFile = ./default.pa;
+    #pulseaudio.configFile = ./default.pa;
 
     cpu.intel.updateMicrocode = true;
   };

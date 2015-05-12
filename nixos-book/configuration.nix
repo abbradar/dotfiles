@@ -62,7 +62,7 @@
         winetricks
 
         # Documents
-        #libreoffice
+        libreoffice
         imagemagick
         gimp
         gutenprint
@@ -104,6 +104,7 @@
         # Math
         (rWrapper.override {
           packages = with rPackages; [
+            lintr
             data_table
             parallel
           ];
@@ -156,12 +157,13 @@
       ]) ++ (with pkgs.xfce; [
         xfce4_xkb_plugin
         xfce4_systemload_plugin
-      ]) ++ (with pkgs.haskell-ng.packages.ghc7101; [
+      ]) ++ (with pkgs.haskellPackages; [
         ((ghcWithPackages (self: [])).override {
           withLLVM = true;
         })
         cabal-install
         
+        cabal2nix
         stylish-haskell
         hlint
         threadscope
@@ -169,15 +171,10 @@
         yesod-bin
         hasktags
         stylish-haskell
-      ]) ++ (with pkgs.haskellngPackages; [
-        cabal2nix
-
+      ]) ++ (with pkgs.haskell.packages.ghc784; [
         # https://code.google.com/p/agda/issues/detail?id=1482
         Agda
         idris
-
-        # https://github.com/kazu-yamamoto/ghc-mod/issues/437
-        ghc-mod
       ]) ++ (with pkgs.emacsPackagesNg; [
         emacs
         
