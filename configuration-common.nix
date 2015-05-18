@@ -18,9 +18,9 @@
     #binaryCaches = [ "https://abbradar.net/hydra" ];
     #binaryCaches = [ "http://hydra.cryp.to/" "http://hydra.nixos.org/" ];
     binaryCaches = [ "http://hydra.nixos.org/" ];
-    requireSignedBinaryCaches = true;
-    binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
-                            ];
+    #requireSignedBinaryCaches = true;
+    #binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
+    #                        ];
     extraOptions = ''
       auto-optimise-store = true
     '';
@@ -41,7 +41,6 @@
     };
 
     packageOverrides = self: with self; {
-      my_ruby = ruby_2_2;
       pidgin-with-plugins = pidgin-with-plugins.override {
         plugins = [ pidginlatex pidginotr ];
       };
@@ -87,10 +86,6 @@
     openssh = {
       passwordAuthentication = false;
     };
-
-    journald.extraConfig = ''
-      SystemMaxFileSize=5M
-    '';
   };
 
   # Packages
@@ -124,10 +119,11 @@
 
       # Editors
       vim
+      pastebinit
 
       # Runtimes
       python3
-      my_ruby
+      ruby_2_2
       jre
       mono
 

@@ -175,10 +175,10 @@
     )
   )
 
-(use-package ghc
-  :ensure ghc
-  :commands ghc-init
-)
+;(use-package ghc
+;  :ensure ghc
+;  :commands ghc-init
+;)
 
 (use-package shm
   :ensure shm
@@ -197,7 +197,7 @@
             (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
             (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
             ; to be fixed for Nix
-            (add-hook 'haskell-mode-hook 'ghc-init)
+            ;(add-hook 'haskell-mode-hook 'ghc-init)
             )
   )
 

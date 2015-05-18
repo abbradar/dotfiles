@@ -53,6 +53,7 @@
         gparted
         #xfce.thunar_archive_plugin
         xarchiver
+        baobab
 
         # Input
         anthy
@@ -68,7 +69,6 @@
         gutenprint
         zathura
         xsane
-        (kde4.wrapper kde4.okular) # for commenting
         inkscape
         yed
         mcomix
@@ -94,12 +94,13 @@
         bitcoin
 
         # Runtimes
-        icedtea7_web
+        icedtea_web
 
         # Multimedia
         deadbeef
         bomi
         pavucontrol
+        youtube-dl
 
         # Math
         (rWrapper.override {
