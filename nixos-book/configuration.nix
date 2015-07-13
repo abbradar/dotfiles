@@ -21,6 +21,7 @@
     fonts = with pkgs; [
       corefonts  # Microsoft free fonts
       cm_unicode
+      stix-otf
       dejavu_fonts
       ttf_bitstream_vera
       ipafont
@@ -28,7 +29,7 @@
     ];
   };
 
-  boot.supportedFilesystems = [ "nfs" ];
+  boot.supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
 
   i18n.consoleFont = "ter-v16n";
 
@@ -92,15 +93,18 @@
         skype
         mumble
         bitcoin
+        qtox
 
         # Runtimes
         icedtea_web
 
         # Multimedia
         deadbeef
+        ffmpeg
         bomi
         pavucontrol
         youtube-dl
+        imgurbash
 
         # Math
         (rWrapper.override {
@@ -115,6 +119,7 @@
         # Development
         binutils
         gcc
+        gdb
         darcs
         mercurial
         androidenv.platformTools
@@ -123,6 +128,7 @@
         # Network
         networkmanagerapplet
         wireshark-gtk
+        nmap
 
         # GUI-related
         blueman
@@ -136,6 +142,7 @@
         rxvt_unicode-with-plugins
         xmonad_log_applet_xfce
         glxinfo
+        nixops
 
         # TeX
         texLiveFull
@@ -148,6 +155,7 @@
         the-powder-toy
         dwarf-therapist
         zsnes
+        adom
 
         # Utils
         powertop
@@ -159,12 +167,17 @@
         xfce4_xkb_plugin
         xfce4_systemload_plugin
       ]) ++ (with pkgs.haskellPackages; [
-        ((ghcWithPackages (self: [])).override {
+        ((ghcWithPackages (self: with self; [ transformers
+                                              mtl
+                                              lens
+                                            ]
+                          )).override {
           withLLVM = true;
         })
         cabal-install
         
         cabal2nix
+        ghc-core
         stylish-haskell
         hlint
         threadscope
@@ -172,10 +185,11 @@
         yesod-bin
         hasktags
         stylish-haskell
-      ]) ++ (with pkgs.haskell.packages.ghc784; [
+
         # https://code.google.com/p/agda/issues/detail?id=1482
         Agda
         idris
+      ]) ++ (with pkgs.haskell.packages.ghc784; [
       ]) ++ (with pkgs.emacsPackagesNg; [
         emacs
         
@@ -260,6 +274,9 @@
 
       # UDev
       udev.packages = with pkgs; [ android-udev-rules libmtp ];
+
+      # VirtualBox
+      virtualboxHost.enable = true;
     };
 
     hardware = {

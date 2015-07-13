@@ -99,6 +99,8 @@
       nethogs
       psmisc
       lsof
+      pciutils
+      usbutils
 
       # Partitions
       wipe
@@ -149,6 +151,7 @@
       # Utilities
       screen
       parallel
+      beep
     ]) ++ (with config.boot.kernelPackages; [
       perf
     ]);

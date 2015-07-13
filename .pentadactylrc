@@ -1,5 +1,5 @@
 :js editor.defaultRegister="+"
-:set defsearch=google
+:set defsearch=duckduckgo
 
 " Don't ask
 :nmap й q
