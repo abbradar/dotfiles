@@ -145,6 +145,7 @@
       nfsUtils
       openvpn
       wget
+      socat
       miniupnpc
       elinks
 
@@ -153,7 +154,7 @@
       parallel
       beep
     ]) ++ (with config.boot.kernelPackages; [
-      perf
+      #perf
     ]);
   };
 

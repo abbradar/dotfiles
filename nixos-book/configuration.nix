@@ -13,6 +13,12 @@
   networking = {
     networkmanager.enable = true;
     firewall.enable = false;
+    # For containers
+    nat = {
+      enable = true;
+      internalInterfaces = ["ve-+"];
+      externalInterface = "eth0";
+    };
   };
 
   fonts = {
@@ -25,7 +31,7 @@
       dejavu_fonts
       ttf_bitstream_vera
       ipafont
-      symbola
+      #symbola (in hiatus)
     ];
   };
 
@@ -45,7 +51,6 @@
   # List packages installed in system profile. To search by name, run:
   # nix-env -qaP | grep wget
   environment = {
-    sessionVariables.NIX_PATH = [ "nixthings=/home/shlomo/nixthings" ];
     systemPackages =
       (with pkgs; [
         # Files
@@ -142,7 +147,7 @@
         rxvt_unicode-with-plugins
         xmonad_log_applet_xfce
         glxinfo
-        nixops
+        nixopsUnstable
 
         # TeX
         texLiveFull
@@ -276,7 +281,7 @@
       udev.packages = with pkgs; [ android-udev-rules libmtp ];
 
       # VirtualBox
-      virtualboxHost.enable = true;
+      #virtualboxHost.enable = true;
     };
 
     hardware = {
@@ -306,6 +311,13 @@
           useDefaultShell = true;
           #passwordFile = "${home}/.password";
           passwordFile = "/root/.shlomo.passwd";
+        };
+        guest = rec {
+          group = "users";
+          uid = 2000;
+          home = "/run/user/${toString uid}";
+          useDefaultShell = true;
+          password = "123";
         };
       };
     };
