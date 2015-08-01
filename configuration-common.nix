@@ -17,10 +17,10 @@
 
     #binaryCaches = [ "https://abbradar.net/hydra" ];
     #binaryCaches = [ "http://hydra.cryp.to/" "http://hydra.nixos.org/" ];
-    binaryCaches = [ "http://hydra.nixos.org/" ];
+    #binaryCaches = [ "http://hydra.nixos.org/" ];
     #requireSignedBinaryCaches = true;
     #binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
-    #                        ];
+
     extraOptions = ''
       auto-optimise-store = true
     '';
@@ -44,6 +44,9 @@
       pidgin-with-plugins = pidgin-with-plugins.override {
         plugins = [ pidginlatex pidginotr ];
       };
+      sudo = sudo.override {
+        withInsults = true;
+      };
     };
   };
 
@@ -65,7 +68,7 @@
 
   # Security
   security = {
-    sudo.configFile = ''
+    sudo.extraConfig = ''
       Defaults rootpw,insults,timestamp_timeout=60
     '';
     rngd.enable = true;
