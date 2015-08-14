@@ -33,6 +33,9 @@
       ipafont
       #symbola (in hiatus)
     ];
+    fontconfig = { 
+      dpi = 120;
+    };
   };
 
   boot.supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
@@ -46,6 +49,13 @@
     pulseaudio = true;
 
     steam.primus = true;
+
+    haskellPackageOverrides = self: super:
+      let lib = pkgs.haskell.lib;
+      in {
+        xmonad-contrib = lib.appendPatch super.xmonad-contrib /home/shlomo/xmonad-contrib/xmonad-contrib.patch;
+        taffybar = lib.appendPatch super.taffybar /home/shlomo/taffybar/taffybar.patch;
+      };
   };
 
   # List packages installed in system profile. To search by name, run:
@@ -55,10 +65,9 @@
       (with pkgs; [
         # Files
         dropbox
-        libmtp
-        gparted
-        #xfce.thunar_archive_plugin
-        xarchiver
+        gnome3.file-roller
+        xfce.thunar_archive_plugin
+        
         baobab
 
         # Input
@@ -72,13 +81,11 @@
         libreoffice
         imagemagick
         gimp
-        gutenprint
         zathura
         xsane
         inkscape
         yed
         mcomix
-        xpdf
         anki
 
         # Browsing and related
@@ -127,8 +134,10 @@
         gdb
         darcs
         mercurial
+        subversion
         androidenv.platformTools
         patchelf
+        nixopsUnstable
 
         # Network
         networkmanagerapplet
@@ -138,23 +147,18 @@
         # GUI-related
         blueman
         xsel
-        arandr
         xkb_switch
-        xfontsel
-        libnotify
         xlockmore
-        gnome.GConf
         rxvt_unicode-with-plugins
-        xmonad_log_applet_xfce
-        glxinfo
-        nixopsUnstable
-
         # TeX
         texLiveFull
         biber
+        taffybar
+        (pkgs.xmonad-with-packages.override {
+          packages = pkgs: with pkgs; [ taffybar xmonad-contrib xmonad-extras ];
+        })
 
         # Games
-        glxinfo
         steam
         dwarf_fortress
         the-powder-toy
@@ -163,6 +167,7 @@
         adom
 
         # Utils
+        glxinfo
         powertop
 
         # Ruby development
@@ -191,10 +196,8 @@
         hasktags
         stylish-haskell
 
-        # https://code.google.com/p/agda/issues/detail?id=1482
         Agda
         idris
-      ]) ++ (with pkgs.haskell.packages.ghc784; [
       ]) ++ (with pkgs.emacsPackagesNg; [
         emacs
         
@@ -214,21 +217,16 @@
       # SSH (for the times when I want additional slave)
       openssh.enable = true;
 
-      #kmscon = {
-      #  enable = true;
-      #  hwRender = true;
-      #};
-
       tlp.enable = true;
       thermald.enable = true;
 
-      udev.extraRules =
-        let rule = level: x: ''ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}==${toString level}, RUN+="${cmd x}"'';
-            cmd = x: "${pkgs.dbus_tools}/bin/dbus-send --system --dest=org.freedesktop.thermald /org/freedesktop/thermald org.freedesktop.thermald.SetCurrentPreference string:${x}";
-        in ''
-          ${rule 0 "ENERGY_CONSERVE"}
-          ${rule 1 "PERFORMANCE"}
-        '';
+      #udev.extraRules =
+      #  let rule = level: x: ''ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}==${toString level}, RUN+="${cmd x}"'';
+      #      cmd = x: "${pkgs.dbus_tools}/bin/dbus-send --system --dest=org.freedesktop.thermald /org/freedesktop/thermald org.freedesktop.thermald.SetCurrentPreference string:${x}";
+      #  in ''
+      #    ${rule 0 "ENERGY_CONSERVE"}
+      #    ${rule 1 "PERFORMANCE"}
+      #  '';
 
       # Printing
       printing = {
@@ -260,28 +258,20 @@
       # Enable the X11 windowing system.
       xserver = {
         enable = true;
-        #tty = 1;
-
         displayManager.sddm.enable = true;
-        windowManager = {
-          default = "xmonad";
-          xmonad = {
-            enable = true;
-            extraPackages = self: with self; [ dbus ];
-            enableContribAndExtras = true;
-          };
+        desktopManager.xfce = {
+          enable = true;
+          enableWM = false;
         };
-        desktopManager.xfce.enable = true;
       };
+
+      gnome3.gnome-keyring.enable = true;
 
       # For mah eyes.
       redshift.enable = true;
 
       # UDev
       udev.packages = with pkgs; [ android-udev-rules libmtp ];
-
-      # VirtualBox
-      #virtualboxHost.enable = true;
     };
 
     hardware = {
@@ -309,7 +299,6 @@
           home = "/home/shlomo";
           createHome = true;
           useDefaultShell = true;
-          #passwordFile = "${home}/.password";
           passwordFile = "/root/.shlomo.passwd";
         };
         guest = rec {

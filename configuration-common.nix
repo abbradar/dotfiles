@@ -17,7 +17,7 @@
 
     #binaryCaches = [ "https://abbradar.net/hydra" ];
     #binaryCaches = [ "http://hydra.cryp.to/" "http://hydra.nixos.org/" ];
-    #binaryCaches = [ "http://hydra.nixos.org/" ];
+    binaryCaches = [ "http://hydra.nixos.org/" ];
     #requireSignedBinaryCaches = true;
     #binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
 
@@ -106,7 +106,6 @@
       usbutils
 
       # Partitions
-      wipe
       btrfsProgs
       hdparm
 
@@ -155,7 +154,6 @@
       # Utilities
       screen
       parallel
-      beep
     ]) ++ (with config.boot.kernelPackages; [
       #perf
     ]);
