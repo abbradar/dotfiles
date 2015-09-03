@@ -31,6 +31,7 @@
       dejavu_fonts
       ttf_bitstream_vera
       ipafont
+      source-code-pro
       #symbola (in hiatus)
     ];
     fontconfig = { 
@@ -66,7 +67,6 @@
         # Files
         dropbox
         gnome3.file-roller
-        xfce.thunar_archive_plugin
         
         baobab
 
@@ -111,11 +111,11 @@
         icedtea_web
 
         # Multimedia
-        deadbeef
+        deadbeef-with-plugins
         ffmpeg
         bomi
         pavucontrol
-        youtube-dl
+        python3Packages.youtube-dl
         imgurbash
 
         # Math
@@ -261,7 +261,6 @@
         displayManager.sddm.enable = true;
         desktopManager.xfce = {
           enable = true;
-          enableWM = false;
         };
       };
 
@@ -273,6 +272,10 @@
       # UDev
       udev.packages = with pkgs; [ android-udev-rules libmtp ];
     };
+
+    # For games, disable when unused!
+    services.logmein-hamachi.enable = true;
+    systemd.services.logmein-hamachi.wantedBy = pkgs.lib.mkForce [];
 
     hardware = {
       # Enable PulseAudio.

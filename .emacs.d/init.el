@@ -249,3 +249,6 @@
   :mode ("\\.lagda\\'" . agda2-mode)
   :init (load-file (let ((coding-system-for-read 'utf-8)) (shell-command-to-string "agda-mode locate")))
   )
+
+;; Set default fallback font
+(set-fontset-font "fontset-default" 'ucs "DejaVu Sans Mono")

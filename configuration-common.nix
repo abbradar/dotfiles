@@ -15,12 +15,6 @@
     # Use chrooted builds.
     useChroot = true;
 
-    #binaryCaches = [ "https://abbradar.net/hydra" ];
-    #binaryCaches = [ "http://hydra.cryp.to/" "http://hydra.nixos.org/" ];
-    binaryCaches = [ "http://hydra.nixos.org/" ];
-    #requireSignedBinaryCaches = true;
-    #binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
-
     extraOptions = ''
       auto-optimise-store = true
     '';
@@ -43,6 +37,14 @@
     packageOverrides = self: with self; {
       pidgin-with-plugins = pidgin-with-plugins.override {
         plugins = [ pidginlatex pidginotr ];
+      };
+      deadbeef-with-plugins = deadbeef-with-plugins.override {
+        plugins = [ deadbeef-mpris2-plugin ];
+      };
+      xfce = xfce // {
+        thunar-with-plugins = xfce.thunar-with-plugins.override {
+          plugins = [ xfce.thunar_archive_plugin ];
+        };
       };
       sudo = sudo.override {
         withInsults = true;
@@ -96,6 +98,7 @@
     systemPackages = (with pkgs; [
       # Management
       smartmontools
+      dmidecode
       lm_sensors
       htop
       iotop
@@ -144,7 +147,7 @@
       # Networking
       inetutils
       cifs_utils
-      nfsUtils
+      nfs-utils
       openvpn
       wget
       socat
@@ -161,9 +164,16 @@
 
   # Enable OpenGL support.
   hardware = {
-    opengl.driSupport32Bit = true;
+    opengl = {
+      driSupport32Bit = true;
+      s3tcSupport = true;
+    };
 
-    #pulseaudio.configFile = ./default.pa;
+    pulseaudio = {
+      package = pkgs.pulseaudioFull;
+      support32Bit = true;
+      #configFile = ./default.pa;
+    };
 
     cpu.intel.updateMicrocode = true;
   };

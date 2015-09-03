@@ -32,11 +32,6 @@
  '(fci-rule-color "#073642")
  '(fill-column 80)
  '(global-visual-line-mode t)
- '(haskell-compile-cabal-build-alt-command
-   "cd %s && cabal2nix --shell . > shell.nix && nix-shell -I nixpkgs=/home/shlomo/nixpkgs --pure --command \"cabal clean -s && cabal build --ghc-option=-ferror-spans\"")
- '(haskell-compile-cabal-build-command
-   "cd %s && cabal2nix --shell . > shell.nix && nix-shell -I nixpkgs=/home/shlomo/nixpkgs --pure --command \"cabal build --ghc-option=-ferror-spans\"")
- '(haskell-program-name "nix-repl --pure --command \"ghci\"")
  '(haskell-font-lock-symbols t)
  '(haskell-interactive-popup-errors nil)
  '(haskell-process-auto-import-loaded-modules t)
@@ -125,9 +120,9 @@
     ("xelatex -interaction nonstopmode -output-directory %o %f" "xelatex -interaction nonstopmode -output-directory %o %f" "xelatex -interaction nonstopmode -output-directory %o %f")))
  '(package-archives
    (quote
-    (("mepla" . "http://melpa.milkbox.net/packages/")
-     ("marmalade" . "http://marmalade-repo.org/packages/")
-     ("gnu" . "http://elpa.gnu.org/packages/"))))
+    (("mepla" . "https://stable.melpa.org/packages/")
+     ("marmalade" . "https://marmalade-repo.org/packages/")
+     ("gnu" . "https://elpa.gnu.org/packages/"))))
  '(preview-auto-cache-preamble t)
  '(python-indent-offset 2)
  '(safe-local-variable-values
@@ -163,4 +158,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Liberation Mono" :foundry "unknown" :slant normal :weight normal :height 98 :width normal)))))
+ '(default ((t (:family "Source Code Pro" :foundry "unknown" :slant normal :weight normal :height 98 :width normal)))))
