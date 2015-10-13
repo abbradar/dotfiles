@@ -84,7 +84,7 @@ myManageHook = composeOne $
                [ title =? "Star Wars: Knights of the Old Republic" -?> doFloat
                , isFullscreen -?> doFullFloat
                ]
-  where shifts = [ ("4:chat", [ "Pidgin", "Skype" ])
+  where shifts = [ ("4:chat", [ "Pidgin", "Gajim", "Skype" ])
                  ]
         gos = [ ("8:mail", [ "Thunderbird" ])
               , ("5:browser", [ "Firefox" ])

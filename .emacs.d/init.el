@@ -7,7 +7,6 @@
 (load custom-file)
 
 (require 'package)
-(add-to-list 'package-directory-list "/run/current-system/sw/share/emacs/site-lisp/elpa")
 (package-initialize)
 
 (use-package evil

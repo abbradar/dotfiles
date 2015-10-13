@@ -29,7 +29,6 @@
       cm_unicode
       stix-otf
       dejavu_fonts
-      ttf_bitstream_vera
       ipafont
       source-code-pro
       #symbola (in hiatus)
@@ -43,7 +42,7 @@
 
   i18n.consoleFont = "ter-v16n";
 
-  uim.enable = true;
+  #uim.enable = true;
 
   nixpkgs.config = {
     # Build packages with pulseaudio support
@@ -67,7 +66,7 @@
         # Files
         dropbox
         gnome3.file-roller
-        
+
         baobab
 
         # Input
@@ -79,7 +78,6 @@
 
         # Documents
         libreoffice
-        imagemagick
         gimp
         zathura
         xsane
@@ -101,7 +99,7 @@
 
         # Messaging and related
         thunderbird
-        pidgin-with-plugins
+        gajim
         skype
         mumble
         bitcoin
@@ -111,11 +109,12 @@
         icedtea_web
 
         # Multimedia
-        deadbeef-with-plugins
+        deadbeef
         ffmpeg
+        imagemagick
         bomi
         pavucontrol
-        python3Packages.youtube-dl
+        youtube-dl
         imgurbash
 
         # Math
@@ -138,6 +137,9 @@
         androidenv.platformTools
         patchelf
         nixopsUnstable
+        (emacsWithPackages (with pkgs.emacsPackagesNg; [
+          # packages are outdated; use package.el directly instead
+        ]))
 
         # Network
         networkmanagerapplet
@@ -151,7 +153,9 @@
         xlockmore
         rxvt_unicode-with-plugins
         # TeX
-        texLiveFull
+        (texlive.combine {
+          inherit (texlive) scheme-basic xetex latexmk dvipng;
+        })
         biber
         taffybar
         (pkgs.xmonad-with-packages.override {
@@ -163,6 +167,7 @@
         dwarf_fortress
         the-powder-toy
         dwarf-therapist
+        wesnoth
         zsnes
         adom
 
@@ -198,17 +203,6 @@
 
         Agda
         idris
-      ]) ++ (with pkgs.emacsPackagesNg; [
-        emacs
-        
-        evil
-        auto-complete
-        auctex
-        ghc-mod
-        structured-haskell-mode
-        agda2-mode
-        haskell-mode
-        idris-mode
       ]);
     };
 
@@ -272,10 +266,6 @@
       # UDev
       udev.packages = with pkgs; [ android-udev-rules libmtp ];
     };
-
-    # For games, disable when unused!
-    services.logmein-hamachi.enable = true;
-    systemd.services.logmein-hamachi.wantedBy = pkgs.lib.mkForce [];
 
     hardware = {
       # Enable PulseAudio.

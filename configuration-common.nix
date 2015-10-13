@@ -38,6 +38,9 @@
       pidgin-with-plugins = pidgin-with-plugins.override {
         plugins = [ pidginlatex pidginotr ];
       };
+      gajim = gajim.override {
+        enableNotifications = true;
+      };
       deadbeef-with-plugins = deadbeef-with-plugins.override {
         plugins = [ deadbeef-mpris2-plugin ];
       };
@@ -84,7 +87,7 @@
 
   services = {
     xserver = {
-      layout = "ru,us";
+      layout = "us,ru";
       xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
     };
 
@@ -130,7 +133,7 @@
 
       # Runtimes
       python3
-      ruby_2_2
+      ruby
       jre
       mono
 
@@ -157,6 +160,7 @@
       # Utilities
       screen
       parallel
+      dmidecode
     ]) ++ (with config.boot.kernelPackages; [
       #perf
     ]);
