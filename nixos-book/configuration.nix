@@ -19,13 +19,18 @@
       internalInterfaces = ["ve-+"];
       externalInterface = "eth0";
     };
+    extraHosts = ''
+      0.0.0.0 nw2master.bioware.com
+      0.0.0.0 nwn2.master.gamespy.com
+      0.0.0.0 peerchat.gamespy.com
+    '';
   };
 
   fonts = {
-    enableFontDir = true;
-    enableGhostscriptFonts = true;
+    # enableFontDir = true;
+    # enableGhostscriptFonts = true;
     fonts = with pkgs; [
-      corefonts  # Microsoft free fonts
+      corefonts # Microsoft free fonts
       cm_unicode
       stix-otf
       dejavu_fonts
@@ -35,6 +40,7 @@
     ];
     fontconfig = { 
       dpi = 120;
+      defaultFonts.monospace = [ "Source Code Pro" ];
     };
   };
 
@@ -107,9 +113,12 @@
 
         # Runtimes
         icedtea_web
+        qemu
 
         # Multimedia
-        deadbeef
+        (deadbeef-with-plugins.override {
+          plugins = [ deadbeef-mpris2-plugin ];
+        })
         ffmpeg
         imagemagick
         bomi
@@ -139,6 +148,7 @@
         nixopsUnstable
         (emacsWithPackages (with pkgs.emacsPackagesNg; [
           # packages are outdated; use package.el directly instead
+          racer
         ]))
 
         # Network

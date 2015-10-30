@@ -7,6 +7,8 @@
     ];
 
   nix = {
+    package = pkgs.nixUnstable;
+
     gc = {
       automatic = true;
       dates = "weekly";
