@@ -79,7 +79,8 @@
         anthy
 
         # Runtimes
-        wineStaging
+        wine
+        samba # needed for wine
         winetricks
 
         # Documents

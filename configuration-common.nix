@@ -7,7 +7,7 @@
     ];
 
   nix = {
-    package = pkgs.nixUnstable;
+    #package = pkgs.nixUnstable;
 
     gc = {
       automatic = true;
@@ -20,6 +20,10 @@
     extraOptions = ''
       auto-optimise-store = true
     '';
+
+    # Hydra as a binary cache
+    binaryCaches = [ http://hydra.nixos.org/ ];
+    binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs=" ];
   };
 
   nixpkgs.config = {
@@ -35,6 +39,17 @@
      enablePepperFlash = true;
      enablePepperPDF = true;
     };
+
+    wine.release = "staging";
+
+    bochs = {
+      debugger = true;
+      disasm = true;
+      debuggerGui = true;
+    };
+
+    # Performance
+    zathura.useMupdf = true;
 
     packageOverrides = self: with self; {
       pidgin-with-plugins = pidgin-with-plugins.override {
@@ -154,7 +169,7 @@
       cifs_utils
       nfs-utils
       openvpn
-      wget
+      aria2
       socat
       miniupnpc
       elinks
