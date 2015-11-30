@@ -116,12 +116,13 @@
   # Packages
   environment = {
     systemPackages = (with pkgs; [
-      # Management
+      # Monitors
       smartmontools
       dmidecode
       lm_sensors
       htop
       iotop
+      ftop
       nethogs
       psmisc
       lsof
@@ -166,18 +167,15 @@
 
       # Networking
       inetutils
-      cifs_utils
-      nfs-utils
       openvpn
       aria2
       socat
-      miniupnpc
       elinks
+      mtr
 
       # Utilities
       screen
       parallel
-      dmidecode
     ]) ++ (with config.boot.kernelPackages; [
       #perf
     ]);

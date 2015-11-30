@@ -45,6 +45,7 @@
   };
 
   boot.supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
+  boot.kernelModules = [ "tun" "virtio" ];
 
   i18n.consoleFont = "ter-v16n";
 
@@ -152,10 +153,11 @@
           racer
         ]))
 
-        # Network
+        # Networking
         networkmanagerapplet
         wireshark-gtk
         nmap
+        miniupnpc
 
         # GUI-related
         blueman
