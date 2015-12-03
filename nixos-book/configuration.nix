@@ -4,6 +4,8 @@
 
 { config, pkgs, ... }:
 
+with pkgs.lib;
+
 {
   imports =
     [ ../configuration-common.nix
@@ -47,7 +49,7 @@
   boot.supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
   boot.kernelModules = [ "tun" "virtio" ];
 
-  i18n.consoleFont = "ter-v16n";
+  i18n.consoleFont = "${pkgs.terminus_font}/share/consolefonts/ter-v20n.psf.gz";
 
   #uim.enable = true;
 
@@ -68,7 +70,9 @@
   # List packages installed in system profile. To search by name, run:
   # nix-env -qaP | grep wget
   environment = {
-    systemPackages =
+    systemPackages = mkMerge [
+      # multilib ldd in path
+      (mkBefore [ pkgs.glibc_multi ])
       (with pkgs; [
         # Files
         dropbox
@@ -127,6 +131,7 @@
         pavucontrol
         youtube-dl
         imgurbash
+        soundfont-fluid
 
         # Math
         (rWrapper.override {
@@ -191,10 +196,12 @@
         # Ruby development
         bundler_HEAD
         bundix
-      ]) ++ (with pkgs.xfce; [
+      ])
+      (with pkgs.xfce; [
         xfce4_xkb_plugin
         xfce4_systemload_plugin
-      ]) ++ (with pkgs.haskellPackages; [
+      ])
+      (with pkgs.haskellPackages; [
         ((ghcWithPackages (self: with self; [ transformers
                                               mtl
                                               lens
@@ -216,7 +223,9 @@
 
         Agda
         idris
-      ]);
+      ])];
+
+      pathsToLink = [ "/share/soundfonts" ];
     };
 
     # List services that you want to enable:
