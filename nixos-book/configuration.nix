@@ -28,6 +28,8 @@ with pkgs.lib;
     '';
   };
 
+  nix.nixPath = [ "nixpkgs=/home/shlomo/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
+
   fonts = {
     # enableFontDir = true;
     # enableGhostscriptFonts = true;
@@ -36,9 +38,10 @@ with pkgs.lib;
       cm_unicode
       stix-otf
       dejavu_fonts
-      ipafont
       source-code-pro
-      #symbola (in hiatus)
+      noto-fonts
+      #noto-fonts-cjk
+      noto-fonts-emoji
     ];
     fontconfig = { 
       dpi = 120;
@@ -165,6 +168,7 @@ with pkgs.lib;
         miniupnpc
 
         # GUI-related
+        polkit_gnome
         blueman
         xsel
         xkb_switch
@@ -176,9 +180,7 @@ with pkgs.lib;
         })
         biber
         taffybar
-        (pkgs.xmonad-with-packages.override {
-          packages = pkgs: with pkgs; [ taffybar xmonad-contrib xmonad-extras ];
-        })
+        xmonad-with-packages
 
         # Games
         steam
@@ -274,13 +276,12 @@ with pkgs.lib;
       # Enable the X11 windowing system.
       xserver = {
         enable = true;
+        vaapiDrivers = [ pkgs.vaapiVdpau ];
         displayManager.sddm.enable = true;
         desktopManager.xfce = {
           enable = true;
         };
       };
-
-      gnome3.gnome-keyring.enable = true;
 
       # For mah eyes.
       redshift.enable = true;
@@ -312,15 +313,14 @@ with pkgs.lib;
           extraGroups = [ "wheel" "networkmanager" "adbusers" ];
           uid = 1000;
           home = "/home/shlomo";
-          createHome = true;
-          useDefaultShell = true;
+          isNormalUser = true;
           passwordFile = "/root/.shlomo.passwd";
         };
         guest = rec {
           group = "users";
           uid = 2000;
           home = "/run/user/${toString uid}";
-          useDefaultShell = true;
+          isNormalUser = true;
           password = "123";
         };
       };

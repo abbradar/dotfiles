@@ -61,6 +61,9 @@
       deadbeef-with-plugins = deadbeef-with-plugins.override {
         plugins = [ deadbeef-mpris2-plugin ];
       };
+      xmonad-with-packages = xmonad-with-packages.override {
+        packages = pkgs: with pkgs; [ taffybar xmonad-contrib xmonad-extras ];
+      };
       xfce = xfce // {
         thunar-with-plugins = xfce.thunar-with-plugins.override {
           plugins = [ xfce.thunar_archive_plugin ];
@@ -81,7 +84,6 @@
     loader = {
       timeout = 0;
       efi.canTouchEfiVariables = true;
-      grub.version = 2;
     };
   };
 
@@ -97,10 +99,7 @@
   };
 
   # Select internationalization properties.
-  i18n = {
-    consoleKeyMap = "ruwin_cplk-UTF-8";
-    defaultLocale = "en_US.UTF-8";
-  };
+  i18n.consoleKeyMap = "ruwin_cplk-UTF-8";
 
   services = {
     xserver = {
