@@ -130,6 +130,7 @@ with pkgs.lib;
         })
         ffmpeg
         imagemagick
+        mpv
         bomi
         pavucontrol
         youtube-dl
@@ -148,7 +149,7 @@ with pkgs.lib;
 
         # Development
         binutils
-        gcc
+        clang
         gdb
         darcs
         mercurial
@@ -175,16 +176,24 @@ with pkgs.lib;
         xlockmore
         rxvt_unicode-with-plugins
         # TeX
-        (texlive.combine {
-          inherit (texlive) scheme-basic xetex latexmk dvipng;
-        })
+        #(texlive.combine {
+        #  inherit (texlive) scheme-basic xetex latexmk dvipng
+        #  nag beamer
+        #  unicode-math
+        #  filehook csquotes biblatex biber logreq tabu varwidth
+        #  placeins titlesec totcount multirow lm-math
+        #  dehyph-exptl hyphen-ancientgreek;
+        #})
+        texLiveFull
         biber
         taffybar
         xmonad-with-packages
 
         # Games
         steam
-        dwarf_fortress
+        (dwarf_fortress.override {
+          enableDFHack = true;
+        })
         the-powder-toy
         dwarf-therapist
         wesnoth
@@ -193,6 +202,7 @@ with pkgs.lib;
 
         # Utils
         glxinfo
+        tmux
         powertop
 
         # Ruby development
@@ -276,8 +286,9 @@ with pkgs.lib;
       # Enable the X11 windowing system.
       xserver = {
         enable = true;
-        vaapiDrivers = [ pkgs.vaapiVdpau ];
+        autorun = false;
         displayManager.sddm.enable = true;
+        #displayManager.slim.enable = true;
         desktopManager.xfce = {
           enable = true;
         };
@@ -297,9 +308,15 @@ with pkgs.lib;
       sane.enable = true;
     };
 
+    programs = {
+      # Zsh with proper path
+      zsh.enable = true;
+      cdemu.enable = true;
+    };
+
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users = {
-      defaultUserShell = "/var/run/current-system/sw/bin/zsh";
+      defaultUserShell = "/run/current-system/sw/bin/zsh";
       mutableUsers = false;
 
       extraGroups = {
@@ -310,7 +327,7 @@ with pkgs.lib;
         root.passwordFile = "/root/.passwd";
         shlomo = rec {
           group = "users";
-          extraGroups = [ "wheel" "networkmanager" "adbusers" ];
+          extraGroups = [ "wheel" "networkmanager" "adbusers" "cdrom" ];
           uid = 1000;
           home = "/home/shlomo";
           isNormalUser = true;

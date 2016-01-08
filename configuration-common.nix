@@ -72,12 +72,21 @@
       sudo = sudo.override {
         withInsults = true;
       };
+      mpv = mpv.override {
+        vaapiSupport = true;
+      };
     };
   };
 
   boot = {
     # Use the latest kernel version.
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages =
+      let self = pkgs.linuxPackages_latest;
+      in self // {
+        bumblebee = self.bumblebee.override {
+          #disablePciE = true;
+        };
+      };
 
     cleanTmpDir = true;
 
@@ -180,6 +189,14 @@
     ]);
   };
 
+  # Disable power management defaults.
+  # They can cause problems and we use TLP anyway
+  powerManagement.scsiLinkPolicy = null;
+  powerManagement.cpuFreqGovernor = null;
+
+  # There are problems with private keys in Thunderbird and SLIM; too lazy to debug for now.
+  programs.ssh.startAgent = false;
+
   # Enable OpenGL support.
   hardware = {
     opengl = {
@@ -190,12 +207,9 @@
     pulseaudio = {
       package = pkgs.pulseaudioFull;
       support32Bit = true;
-      #configFile = ./default.pa;
+      configFile = ./default.pa;
     };
 
     cpu.intel.updateMicrocode = true;
   };
-
-  # Zsh with proper path
-  programs.zsh.enable = true;
 }

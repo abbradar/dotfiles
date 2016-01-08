@@ -7,3 +7,5 @@ export PATH="$HOME/bin:$HOME/.cabal/bin:$PATH"
 if [ "$DISPLAY" != "" ]; then
   export BROWSER="firefox"
 fi
+
+export NIX_AUTO_RUN=1
