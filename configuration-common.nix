@@ -114,6 +114,7 @@
     xserver = {
       layout = "us,ru";
       xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
+      enableCtrlAltBackspace = true;
     };
 
     openssh = {
@@ -193,9 +194,6 @@
   # They can cause problems and we use TLP anyway
   powerManagement.scsiLinkPolicy = null;
   powerManagement.cpuFreqGovernor = null;
-
-  # There are problems with private keys in Thunderbird and SLIM; too lazy to debug for now.
-  programs.ssh.startAgent = false;
 
   # Enable OpenGL support.
   hardware = {

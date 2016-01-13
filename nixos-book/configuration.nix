@@ -61,13 +61,6 @@ with pkgs.lib;
     pulseaudio = true;
 
     steam.primus = true;
-
-    haskellPackageOverrides = self: super:
-      let lib = pkgs.haskell.lib;
-      in {
-        xmonad-contrib = lib.appendPatch super.xmonad-contrib /home/shlomo/xmonad-contrib/xmonad-contrib.patch;
-        taffybar = lib.appendPatch super.taffybar /home/shlomo/taffybar/taffybar.patch;
-      };
   };
 
   # List packages installed in system profile. To search by name, run:
@@ -75,7 +68,7 @@ with pkgs.lib;
   environment = {
     systemPackages = mkMerge [
       # multilib ldd in path
-      (mkBefore [ pkgs.glibc_multi ])
+      (mkBefore [ pkgs.glibc_multi pkgs.utillinuxCurses ])
       (with pkgs; [
         # Files
         dropbox
@@ -97,7 +90,7 @@ with pkgs.lib;
         zathura
         xsane
         inkscape
-        yed
+        #yed
         mcomix
         anki
 
@@ -118,7 +111,6 @@ with pkgs.lib;
         skype
         mumble
         bitcoin
-        qtox
 
         # Runtimes
         icedtea_web
@@ -176,22 +168,35 @@ with pkgs.lib;
         xlockmore
         rxvt_unicode-with-plugins
         # TeX
-        #(texlive.combine {
-        #  inherit (texlive) scheme-basic xetex latexmk dvipng
-        #  nag beamer
-        #  unicode-math
-        #  filehook csquotes biblatex biber logreq tabu varwidth
-        #  placeins titlesec totcount multirow lm-math
-        #  dehyph-exptl hyphen-ancientgreek;
-        #})
-        texLiveFull
+        (texlive.combine {
+          inherit (texlive)
+            collection-basic
+            collection-bibtexextra
+            collection-binextra
+            collection-context
+            collection-formatsextra
+            collection-fontutils
+            collection-genericextra
+            collection-genericrecommended
+            collection-langcyrillic
+            collection-langenglish
+            collection-latex
+            collection-latexextra
+            collection-latexrecommended
+            collection-mathextra
+            collection-pictures
+            collection-plainextra
+            collection-pstricks
+            collection-science
+            collection-xetex;
+        })
         biber
         taffybar
         xmonad-with-packages
 
         # Games
         steam
-        (dwarf_fortress.override {
+        (dwarf-fortress.override {
           enableDFHack = true;
         })
         the-powder-toy
@@ -204,6 +209,7 @@ with pkgs.lib;
         glxinfo
         tmux
         powertop
+        sshfsFuse
 
         # Ruby development
         bundler_HEAD
@@ -286,9 +292,7 @@ with pkgs.lib;
       # Enable the X11 windowing system.
       xserver = {
         enable = true;
-        autorun = false;
         displayManager.sddm.enable = true;
-        #displayManager.slim.enable = true;
         desktopManager.xfce = {
           enable = true;
         };
