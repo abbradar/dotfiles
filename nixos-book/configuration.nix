@@ -28,7 +28,11 @@ with pkgs.lib;
     '';
   };
 
-  nix.nixPath = [ "nixpkgs=/home/shlomo/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
+  nix = {
+    nixPath = [ "nixpkgs=/home/shlomo/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
+    daemonNiceLevel = 10;
+    daemonIONiceLevel = 4;
+  };
 
   fonts = {
     # enableFontDir = true;
@@ -90,7 +94,6 @@ with pkgs.lib;
         zathura
         xsane
         inkscape
-        #yed
         mcomix
         anki
 
@@ -167,6 +170,8 @@ with pkgs.lib;
         xkb_switch
         xlockmore
         rxvt_unicode-with-plugins
+        system-config-printer
+
         # TeX
         (texlive.combine {
           inherit (texlive)
@@ -250,6 +255,7 @@ with pkgs.lib;
     services = {
       # SSH (for the times when I want additional slave)
       openssh.enable = true;
+      #teamviewer.enable = true;
 
       tlp.enable = true;
       thermald.enable = true;
@@ -269,7 +275,7 @@ with pkgs.lib;
       };
 
       # DBus
-      dbus.packages = with pkgs; [ gnome.GConf ];
+      dbus.packages = with pkgs; [ gnome.GConf system-config-printer ];
 
       gpm = {
         enable = true;
