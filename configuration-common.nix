@@ -57,6 +57,7 @@
       };
       gajim = gajim.override {
         enableNotifications = true;
+        extraPythonPackages = pkgs: [ pkgs.python-axolotl ];
       };
       deadbeef-with-plugins = deadbeef-with-plugins.override {
         plugins = [ deadbeef-mpris2-plugin ];
@@ -88,7 +89,8 @@
         };
       };
 
-    cleanTmpDir = true;
+    # https://github.com/NixOS/nixpkgs/issues/4825
+    # cleanTmpDir = true;
 
     loader = {
       timeout = 0;
