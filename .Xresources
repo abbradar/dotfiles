@@ -26,3 +26,6 @@ URxvt.keysym.End: \033[8~
 XLock.fontset: -*-helvetica-medium-r-normal-*-24-*-*-*-*-*-*
 XLock.planfontset: -*-helvetica-medium-r-normal-*-24-*-*-*-*-*-*
 XLock.dpmsstandby: 7
+
+! Gnuplot
+gnuplot.encoding: utf-8

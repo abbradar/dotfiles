@@ -1,17 +1,18 @@
-(add-to-list 'load-path "~/.emacs.d/use-package")
 (require 'cl)
-(eval-when-compile
-  (require 'use-package))
+
+; Testing
+;(add-to-list 'load-path "~/projects/ghc-mod/elisp")
+;(require 'ghc)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(require 'use-package)
 (require 'package)
 (add-to-list 'package-directory-list "/run/current-system/sw/share/emacs/site-lisp/elpa")
 (package-initialize)
 
 (use-package evil
-  :ensure evil
   :config
   (progn
     (evil-mode t)
@@ -48,7 +49,6 @@
   )
 
 (use-package key-chord
-  :ensure key-chord
   :config
   (progn
     ;; Exit insert mode by pressing j and then k quickly
@@ -58,28 +58,66 @@
     )
   )
 
-(use-package auto-complete
-  :ensure auto-complete
-  :config (global-auto-complete-mode t)
+(use-package company
+  :config (global-company-mode)
+  )
+
+(use-package projectile
+  )
+
+(use-package company-quickhelp
+  :config (company-quickhelp-mode 1)
+  )
+
+; Gives errors and not too useful for me anyway.
+; (use-package company-nixos-options
+;   :config (add-to-list 'company-backends 'company-nixos-options)
+;   )
+
+(use-package company-ghc
+  :config (add-to-list 'company-backends 'company-ghc)
+  )
+
+(use-package ace-jump-mode
+  :config (progn
+            (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+            )
 )
 
 (use-package yasnippet
-  :ensure yasnippet
   :config (yas-global-mode 1)
   )
 
 (use-package flycheck
-  :ensure flycheck
-  :config (add-hook 'after-init-hook 'global-flycheck-mode)
+  :config (progn
+            (add-hook 'after-init-hook 'global-flycheck-mode)
+            (setq flycheck-command-wrapper-function
+                  (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command))
+                  flycheck-executable-find
+                  (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd)))
+            )
   )
 
-(use-package powerline
-  :ensure powerline-evil
-  :config (powerline-default-theme)
-)
+(use-package flycheck-pos-tip
+  :config (flycheck-pos-tip-mode)
+  )
+
+(use-package flycheck-haskell
+  :config (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
+  )
+
+(use-package magit
+  :config (progn
+            (global-set-key (kbd "C-x g") 'magit-status)
+            (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+            )
+  )
+
+(use-package undo-tree
+  :config (global-undo-tree-mode)
+  )
 
 (use-package linum-relative
-  :ensure linum-relative
   :config
   (progn
     (global-linum-mode t)
@@ -101,7 +139,6 @@
   )
 
 (use-package sql-indent
-  :ensure sql-indent
   :defer t
   )
 
@@ -117,7 +154,6 @@
 
 ; python autocompletion
 (use-package jedi
-  :ensure jedi
   :commands jedi:setup
   )
 
@@ -132,13 +168,11 @@
           '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 
 (use-package ess-site
-  :ensure ess
   :mode ("\\.R\\'" . R-mode)
   :interpreter ("R" . R-mode)
   )
 
 (use-package auctex
-  ;:ensure auctex
   :defer t
   :config
   (add-hook 'tex-mode-hook
@@ -149,7 +183,6 @@
   )
 
 (use-package auctex-latexmk
-  :ensure auctex-latexmk
   :commands auctex-latexmk-setup
   )
 
@@ -166,7 +199,6 @@
       data)))
 
 (use-package org
-  :ensure org
   :mode ("\\.org\\'" . org-mode)
   :config
   (progn
@@ -176,12 +208,12 @@
   )
 
 ;(use-package ghc
-;  :ensure ghc
 ;  :commands ghc-init
+;  :config (setq ghc-process-wrapper-function
+;                (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))
 ;)
 
 (use-package shm
-  :ensure shm
   :commands structured-haskell-mode
   :config (progn
             (set-face-background 'shm-current-face "#eee8d5")
@@ -190,35 +222,19 @@
 )
 
 (use-package haskell-mode
-  :ensure haskell-mode
   :mode "\\.chs\\'"
   :config (progn
             ;(add-hook 'haskell-mode-hook 'structured-haskell-mode)
             (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
             (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-            ; to be fixed for Nix
             ;(add-hook 'haskell-mode-hook 'ghc-init)
+            (setq haskell-process-wrapper-function
+                  (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))
             )
   )
 
 (use-package nix-mode
-  :ensure nix-mode
   :mode "\\.nix\\'"
-  )
-
-; Ruby smart mode
-(use-package rsense
-  :defer t
-  :init
-  (progn
-    (setq rsense-home "/opt/rsense-0.3")
-    (add-to-list 'load-path (concat rsense-home "/etc"))
-    )
-  :config
-  (add-hook 'ruby-mode-hook
-            (lambda ()
-              (add-to-list 'ac-sources 'ac-source-rsense-method)
-              (add-to-list 'ac-sources 'ac-source-rsense-constant)))
   )
 
 (use-package erc
@@ -235,12 +251,10 @@
   )
 
 (use-package hamlet-mode
-  :ensure hamlet-mode
   :mode "\\.hamlet\\'"
   )
 
 (use-package idris-mode
-  :ensure idris-mode
   :mode "\\.idr\\'"
   )
 
@@ -249,6 +263,12 @@
   :mode ("\\.lagda\\'" . agda2-mode)
   :init (load-file (let ((coding-system-for-read 'utf-8)) (shell-command-to-string "agda-mode locate")))
   )
+
+;(use-package powerline
+;  :config (progn
+;            (powerline-default-theme)
+;            )
+;  )
 
 ;; Set default fallback font
 (set-fontset-font "fontset-default" 'ucs "DejaVu Sans Mono")

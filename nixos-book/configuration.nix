@@ -29,6 +29,7 @@ with pkgs.lib;
   };
 
   nix = {
+    package = pkgs.nixUnstable;
     nixPath = [ "nixpkgs=/home/shlomo/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
     daemonNiceLevel = 10;
     daemonIONiceLevel = 4;
@@ -44,7 +45,7 @@ with pkgs.lib;
       dejavu_fonts
       source-code-pro
       noto-fonts
-      #noto-fonts-cjk
+      noto-fonts-cjk
       noto-fonts-emoji
     ];
     fontconfig = { 
@@ -63,8 +64,6 @@ with pkgs.lib;
   nixpkgs.config = {
     # Build packages with pulseaudio support
     pulseaudio = true;
-
-    steam.primus = true;
   };
 
   # List packages installed in system profile. To search by name, run:
@@ -94,6 +93,7 @@ with pkgs.lib;
         zathura
         xsane
         inkscape
+        blender
         mcomix
         anki
 
@@ -131,6 +131,7 @@ with pkgs.lib;
         youtube-dl
         imgurbash
         soundfont-fluid
+        geeqie
 
         # Math
         (rWrapper.override {
@@ -152,9 +153,21 @@ with pkgs.lib;
         androidenv.platformTools
         patchelf
         nixopsUnstable
-        (emacsWithPackages (with pkgs.emacsPackagesNg; [
-          # packages are outdated; use package.el directly instead
-          racer
+        nox
+        (emacsWithPackages (with emacsPackagesNg; [
+          evil undo-tree powerline-evil key-chord linum-relative ace-jump-mode
+          use-package projectile magit
+          company company-quickhelp company-nixos-options company-ghc
+          flycheck flycheck-pos-tip flycheck-haskell
+          yasnippet
+          nixos-options nix-sandbox
+          haskell-mode structured-haskell-mode #ghc
+          org hamlet-mode ruby
+          # idris-mode
+          auctex auctex-latexmk
+          ess
+          rust-mode
+          python jedi
         ]))
 
         # Networking
@@ -167,6 +180,7 @@ with pkgs.lib;
         polkit_gnome
         blueman
         xsel
+        xiccd
         xkb_switch
         xlockmore
         rxvt_unicode-with-plugins
@@ -200,21 +214,30 @@ with pkgs.lib;
         xmonad-with-packages
 
         # Games
-        steam
+        (steam.override {
+          withPrimus = true;
+        })
         (dwarf-fortress.override {
           enableDFHack = true;
+          theme = dwarf-fortress-packages.cla-theme;
         })
         the-powder-toy
         dwarf-therapist
         wesnoth
         zsnes
         adom
+        doomseeker
+        zandronum-bin
 
         # Utils
         glxinfo
         tmux
         powertop
         sshfsFuse
+
+        # 3D printing
+        cura
+        slic3r
 
         # Ruby development
         bundler_HEAD
@@ -233,6 +256,7 @@ with pkgs.lib;
           withLLVM = true;
         })
         cabal-install
+        stack
         
         cabal2nix
         ghc-core
@@ -243,9 +267,10 @@ with pkgs.lib;
         yesod-bin
         hasktags
         stylish-haskell
+        #ghc-mod
 
         Agda
-        idris
+        #idris
       ])];
 
       pathsToLink = [ "/share/soundfonts" ];
@@ -260,18 +285,13 @@ with pkgs.lib;
       tlp.enable = true;
       thermald.enable = true;
 
-      #udev.extraRules =
-      #  let rule = level: x: ''ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_ONLINE}==${toString level}, RUN+="${cmd x}"'';
-      #      cmd = x: "${pkgs.dbus_tools}/bin/dbus-send --system --dest=org.freedesktop.thermald /org/freedesktop/thermald org.freedesktop.thermald.SetCurrentPreference string:${x}";
-      #  in ''
-      #    ${rule 0 "ENERGY_CONSERVE"}
-      #    ${rule 1 "PERFORMANCE"}
-      #  '';
-
       # Printing
       printing = {
         enable = true;
-        drivers = with pkgs; [ gutenprint ];
+        gutenprint = true;
+        extraConf = ''
+          LogLevel debug
+        '';
       };
 
       # DBus
@@ -293,19 +313,21 @@ with pkgs.lib;
       ntp.enable = false;
 
       # Avahi
-      avahi.enable = true;
+      avahi = {
+        enable = true;
+        nssmdns = true;
+      };
 
       # Enable the X11 windowing system.
       xserver = {
         enable = true;
         displayManager.sddm.enable = true;
-        desktopManager.xfce = {
-          enable = true;
-        };
+        desktopManager.xfce.enable = true;
       };
 
       # For mah eyes.
       redshift.enable = true;
+      colord.enable = true;
 
       # UDev
       udev.packages = with pkgs; [ android-udev-rules libmtp ];
@@ -335,14 +357,14 @@ with pkgs.lib;
 
       extraUsers = {
         root.passwordFile = "/root/.passwd";
+
         shlomo = rec {
-          group = "users";
           extraGroups = [ "wheel" "networkmanager" "adbusers" "cdrom" ];
           uid = 1000;
-          home = "/home/shlomo";
           isNormalUser = true;
           passwordFile = "/root/.shlomo.passwd";
         };
+
         guest = rec {
           group = "users";
           uid = 2000;

@@ -56,7 +56,6 @@
         plugins = [ pidginlatex pidginotr ];
       };
       gajim = gajim.override {
-        enableNotifications = true;
         extraPythonPackages = pkgs: [ pkgs.python-axolotl ];
       };
       deadbeef-with-plugins = deadbeef-with-plugins.override {
@@ -112,6 +111,8 @@
   # Select internationalization properties.
   i18n.consoleKeyMap = "ruwin_cplk-UTF-8";
 
+  fonts.fontconfig.cache32Bit = true;
+
   services = {
     xserver = {
       layout = "us,ru";
@@ -161,7 +162,8 @@
       pastebinit
 
       # Runtimes
-      python3
+      python2Full
+      python3 # inconsistent
       ruby
       jre
       mono
