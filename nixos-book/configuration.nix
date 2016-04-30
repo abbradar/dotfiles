@@ -98,11 +98,12 @@ with pkgs.lib;
         anki
 
         # Browsing and related
-        firefoxWrapper
+        firefox
         chromium
         liferea
         deluge
         remmina
+        wget
 
         # Encryption
         easyrsa
@@ -114,6 +115,7 @@ with pkgs.lib;
         skype
         mumble
         bitcoin
+        tdesktop
 
         # Runtimes
         icedtea_web
@@ -124,14 +126,18 @@ with pkgs.lib;
           plugins = [ deadbeef-mpris2-plugin ];
         })
         ffmpeg
+        #avidemux
         imagemagick
         mpv
         bomi
         pavucontrol
         youtube-dl
-        imgurbash
+        imgurbash2
         soundfont-fluid
         geeqie
+
+        # CD/DVD
+        brasero
 
         # Math
         (rWrapper.override {
@@ -154,6 +160,7 @@ with pkgs.lib;
         patchelf
         nixopsUnstable
         nox
+        julia
         (emacsWithPackages (with emacsPackagesNg; [
           evil undo-tree powerline-evil key-chord linum-relative ace-jump-mode
           use-package projectile magit
@@ -211,12 +218,12 @@ with pkgs.lib;
         })
         biber
         taffybar
-        xmonad-with-packages
 
         # Games
         (steam.override {
           withPrimus = true;
         })
+        steam-run
         (dwarf-fortress.override {
           enableDFHack = true;
           theme = dwarf-fortress-packages.cla-theme;
@@ -228,12 +235,14 @@ with pkgs.lib;
         adom
         doomseeker
         zandronum-bin
+        lgogdownloader
 
         # Utils
         glxinfo
         tmux
         powertop
         sshfsFuse
+        libcgroup
 
         # 3D printing
         cura
@@ -305,7 +314,7 @@ with pkgs.lib;
       # PostgreSQL
       postgresql = {
         enable = true;
-        package = pkgs.postgresql93;
+        package = pkgs.postgresql95;
       };
 
       # Time synchronization.
@@ -322,7 +331,15 @@ with pkgs.lib;
       xserver = {
         enable = true;
         displayManager.sddm.enable = true;
-        desktopManager.xfce.enable = true;
+        windowManager.xmonad = {
+          enable = true;
+          extraPackages = self: with self; [ taffybar ];
+          enableContribAndExtras = true;
+        };
+        desktopManager.xfce = {
+          enable = true;
+          noDesktop = true;
+        };
       };
 
       # For mah eyes.
@@ -331,6 +348,8 @@ with pkgs.lib;
 
       # UDev
       udev.packages = with pkgs; [ android-udev-rules libmtp ];
+
+      #logmein-hamachi.enable = true;
     };
 
     hardware = {

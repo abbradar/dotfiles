@@ -20,10 +20,6 @@
     extraOptions = ''
       auto-optimise-store = true
     '';
-
-    # Hydra as a binary cache
-    binaryCaches = [ http://hydra.nixos.org/ ];
-    binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs=" ];
   };
 
   nixpkgs.config = {
@@ -61,9 +57,6 @@
       deadbeef-with-plugins = deadbeef-with-plugins.override {
         plugins = [ deadbeef-mpris2-plugin ];
       };
-      xmonad-with-packages = xmonad-with-packages.override {
-        packages = pkgs: with pkgs; [ taffybar xmonad-contrib xmonad-extras ];
-      };
       xfce = xfce // {
         thunar-with-plugins = xfce.thunar-with-plugins.override {
           plugins = [ xfce.thunar_archive_plugin ];
@@ -74,6 +67,12 @@
       };
       mpv = mpv.override {
         vaapiSupport = true;
+      };
+      mumble = mumble.override {
+        speechdSupport = true;
+        speechd = speechd.override {
+          withEspeak = true;
+        };
       };
     };
   };

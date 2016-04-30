@@ -123,6 +123,7 @@
     (("mepla" . "https://melpa.org/packages/")
      ("marmalade" . "https://marmalade-repo.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/"))))
+ '(password-cache-expiry nil)
  '(preview-auto-cache-preamble t)
  '(python-indent-offset 2)
  '(rust-indent-offset 2)
