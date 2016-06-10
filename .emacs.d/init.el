@@ -74,9 +74,9 @@
 ;   :config (add-to-list 'company-backends 'company-nixos-options)
 ;   )
 
-(use-package company-ghc
-  :config (add-to-list 'company-backends 'company-ghc)
-  )
+;(use-package company-ghc
+;  :config (add-to-list 'company-backends 'company-ghc)
+;  )
 
 (use-package ace-jump-mode
   :config (progn

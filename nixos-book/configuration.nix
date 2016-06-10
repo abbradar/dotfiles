@@ -41,7 +41,7 @@ with pkgs.lib;
     fonts = with pkgs; [
       corefonts # Microsoft free fonts
       cm_unicode
-      stix-otf
+      xits-math
       dejavu_fonts
       source-code-pro
       noto-fonts
@@ -73,6 +73,9 @@ with pkgs.lib;
       # multilib ldd in path
       (mkBefore [ pkgs.glibc_multi pkgs.utillinuxCurses ])
       (with pkgs; [
+        # Style
+        qt56.qtbase.gtk
+
         # Files
         dropbox
         gnome3.file-roller
@@ -164,17 +167,17 @@ with pkgs.lib;
         (emacsWithPackages (with emacsPackagesNg; [
           evil undo-tree powerline-evil key-chord linum-relative ace-jump-mode
           use-package projectile magit
-          company company-quickhelp company-nixos-options company-ghc
+          company company-quickhelp company-nixos-options company-jedi # company-ghc
           flycheck flycheck-pos-tip flycheck-haskell
           yasnippet
           nixos-options nix-sandbox
-          haskell-mode structured-haskell-mode #ghc
+          haskell-mode structured-haskell-mode # ghc
           org hamlet-mode ruby
           # idris-mode
           auctex auctex-latexmk
           ess
           rust-mode
-          python jedi
+          python-mode cython-mode
         ]))
 
         # Networking
@@ -197,6 +200,8 @@ with pkgs.lib;
         (texlive.combine {
           inherit (texlive)
             collection-basic
+            metafont
+            xits
             collection-bibtexextra
             collection-binextra
             collection-context
@@ -232,10 +237,13 @@ with pkgs.lib;
         dwarf-therapist
         wesnoth
         zsnes
-        adom
         doomseeker
         zandronum-bin
         lgogdownloader
+        openspades-git
+        openmw
+        openra
+        dosbox
 
         # Utils
         glxinfo
@@ -274,9 +282,7 @@ with pkgs.lib;
         threadscope
         pointfree
         yesod-bin
-        hasktags
         stylish-haskell
-        #ghc-mod
 
         Agda
         #idris
@@ -330,7 +336,11 @@ with pkgs.lib;
       # Enable the X11 windowing system.
       xserver = {
         enable = true;
-        displayManager.sddm.enable = true;
+        displayManager = {
+          sddm.enable = true;
+          # #16096
+          logToJournal = false;
+        };
         windowManager.xmonad = {
           enable = true;
           extraPackages = self: with self; [ taffybar ];
@@ -350,6 +360,7 @@ with pkgs.lib;
       udev.packages = with pkgs; [ android-udev-rules libmtp ];
 
       #logmein-hamachi.enable = true;
+      #teamviewer.enable = true;
     };
 
     hardware = {
@@ -363,6 +374,7 @@ with pkgs.lib;
       # Zsh with proper path
       zsh.enable = true;
       cdemu.enable = true;
+      #unity3d.enable = true;
     };
 
     # Define a user account. Don't forget to set a password with ‘passwd’.

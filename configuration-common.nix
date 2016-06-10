@@ -14,8 +14,8 @@
       dates = "weekly";
     };
 
-    # Use chrooted builds.
-    useChroot = true;
+    # Use sandboxed builds.
+    useSandbox = true;
 
     extraOptions = ''
       auto-optimise-store = true
@@ -80,7 +80,9 @@
   boot = {
     # Use the latest kernel version.
     kernelPackages =
-      let self = pkgs.linuxPackages_latest;
+      # NVIDIA doesn't support 4.6 for now
+      # let self = pkgs.linuxPackages_latest;
+      let self = pkgs.linuxPackages_4_5;
       in self // {
         bumblebee = self.bumblebee.override {
           #disablePciE = true;
