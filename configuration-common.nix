@@ -32,8 +32,8 @@
     };
 
     chromium = {
-     enablePepperFlash = true;
-     enablePepperPDF = true;
+      enablePepperFlash = true;
+      enablePepperPDF = true;
     };
 
     wine.release = "staging";
@@ -43,9 +43,6 @@
       disasm = true;
       debuggerGui = true;
     };
-
-    # Performance
-    zathura.useMupdf = true;
 
     packageOverrides = self: with self; {
       pidgin-with-plugins = pidgin-with-plugins.override {
@@ -79,15 +76,9 @@
 
   boot = {
     # Use the latest kernel version.
-    kernelPackages =
+    kernelPackages = pkgs.linuxPackages_latest;
       # NVIDIA doesn't support 4.6 for now
       # let self = pkgs.linuxPackages_latest;
-      let self = pkgs.linuxPackages_4_5;
-      in self // {
-        bumblebee = self.bumblebee.override {
-          #disablePciE = true;
-        };
-      };
 
     # https://github.com/NixOS/nixpkgs/issues/4825
     # cleanTmpDir = true;
@@ -167,7 +158,6 @@
       python3 # inconsistent
       ruby
       jre
-      mono
 
       # Encryption
       openssl

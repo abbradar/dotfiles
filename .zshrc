@@ -45,5 +45,8 @@ alias e="emacs"
 alias idle="nice -n 10 ionice -c 3"
 alias top="htop"
 
+# Play nicely with Emacs's tramp
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$'
+
 # Disable right prompt
 RPROMPT=""

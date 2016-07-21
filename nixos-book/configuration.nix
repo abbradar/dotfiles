@@ -46,7 +46,7 @@ with pkgs.lib;
       source-code-pro
       noto-fonts
       noto-fonts-cjk
-      noto-fonts-emoji
+      emojione
     ];
     fontconfig = { 
       dpi = 120;
@@ -54,17 +54,27 @@ with pkgs.lib;
     };
   };
 
-  boot.supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
-  boot.kernelModules = [ "tun" "virtio" ];
+  boot = {
+    supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
+    kernelModules = [ "tun" "virtio" ];
+    plymouth.enable = true;
+    earlyVconsoleSetup = true;
+  };
 
-  i18n.consoleFont = "${pkgs.terminus_font}/share/consolefonts/ter-v20n.psf.gz";
-
-  #uim.enable = true;
+  i18n = {
+    #consoleFont = "ter-v20n";
+    #consolePackages = [ pkgs.terminus_font ];
+    consoleFont = "${pkgs.terminus_font}/share/consolefonts/ter-v20n.psf.gz";
+  };
 
   nixpkgs.config = {
     # Build packages with pulseaudio support
     pulseaudio = true;
   };
+
+  powerManagement.resumeCommands = ''
+    date >> /run/test-resume.log
+  '';
 
   # List packages installed in system profile. To search by name, run:
   # nix-env -qaP | grep wget
@@ -72,9 +82,82 @@ with pkgs.lib;
     systemPackages = mkMerge [
       # multilib ldd in path
       (mkBefore [ pkgs.glibc_multi pkgs.utillinuxCurses ])
+      # Big packages which we want to disable when experimenting.
+      (let a = (with pkgs; [
+        # Runtimes
+        samba # needed for wine
+        mono
+        wine
+        winetricks
+
+        # Big suites
+        chromium
+        libreoffice
+        tdesktop
+        gimp
+        inkscape
+        blender
+        (texlive.combine {
+          inherit (texlive)
+            collection-basic
+            metafont
+            xits
+            collection-bibtexextra
+            collection-binextra
+            collection-context
+            collection-formatsextra
+            collection-fontutils
+            collection-genericextra
+            collection-genericrecommended
+            collection-langcyrillic
+            collection-langenglish
+            collection-latex
+            collection-latexextra
+            collection-latexrecommended
+            collection-mathextra
+            collection-pictures
+            collection-plainextra
+            collection-pstricks
+            collection-science
+            collection-xetex;
+        })
+
+        # Games
+        (steam.override {
+          withPrimus = true;
+        })
+        (steam.override {
+          withPrimus = true;
+          nativeOnly = true;
+          newStdcpp = true;
+        }).run
+        (dwarf-fortress.override {
+          enableDFHack = true;
+          theme = dwarf-fortress-packages.cla-theme;
+        })
+        the-powder-toy
+        dwarf-therapist
+        wesnoth
+        zsnes
+        doomseeker
+        zandronum-bin
+        lgogdownloader
+        openspades-git
+        openmw
+        openra
+        dosbox
+
+        # 3D printing
+        cura
+        slic3r
+      ]) ++ (with pkgs.haskellPackages; [
+          Agda
+          #idris
+      ]); in a)
       (with pkgs; [
         # Style
         qt56.qtbase.gtk
+        terminus_font
 
         # Files
         dropbox
@@ -85,24 +168,14 @@ with pkgs.lib;
         # Input
         anthy
 
-        # Runtimes
-        wine
-        samba # needed for wine
-        winetricks
-
         # Documents
-        libreoffice
-        gimp
         zathura
         xsane
-        inkscape
-        blender
         mcomix
         anki
 
         # Browsing and related
         firefox
-        chromium
         liferea
         deluge
         remmina
@@ -118,7 +191,6 @@ with pkgs.lib;
         skype
         mumble
         bitcoin
-        tdesktop
 
         # Runtimes
         icedtea_web
@@ -138,6 +210,7 @@ with pkgs.lib;
         imgurbash2
         soundfont-fluid
         geeqie
+        simplescreenrecorder
 
         # CD/DVD
         brasero
@@ -171,7 +244,7 @@ with pkgs.lib;
           flycheck flycheck-pos-tip flycheck-haskell
           yasnippet
           nixos-options nix-sandbox
-          haskell-mode structured-haskell-mode # ghc
+          haskell-mode #structured-haskell-mode # ghc
           org hamlet-mode ruby
           # idris-mode
           auctex auctex-latexmk
@@ -195,55 +268,11 @@ with pkgs.lib;
         xlockmore
         rxvt_unicode-with-plugins
         system-config-printer
+        gksu
 
         # TeX
-        (texlive.combine {
-          inherit (texlive)
-            collection-basic
-            metafont
-            xits
-            collection-bibtexextra
-            collection-binextra
-            collection-context
-            collection-formatsextra
-            collection-fontutils
-            collection-genericextra
-            collection-genericrecommended
-            collection-langcyrillic
-            collection-langenglish
-            collection-latex
-            collection-latexextra
-            collection-latexrecommended
-            collection-mathextra
-            collection-pictures
-            collection-plainextra
-            collection-pstricks
-            collection-science
-            collection-xetex;
-        })
         biber
         taffybar
-
-        # Games
-        (steam.override {
-          withPrimus = true;
-        })
-        steam-run
-        (dwarf-fortress.override {
-          enableDFHack = true;
-          theme = dwarf-fortress-packages.cla-theme;
-        })
-        the-powder-toy
-        dwarf-therapist
-        wesnoth
-        zsnes
-        doomseeker
-        zandronum-bin
-        lgogdownloader
-        openspades-git
-        openmw
-        openra
-        dosbox
 
         # Utils
         glxinfo
@@ -251,10 +280,6 @@ with pkgs.lib;
         powertop
         sshfsFuse
         libcgroup
-
-        # 3D printing
-        cura
-        slic3r
 
         # Ruby development
         bundler_HEAD
@@ -273,8 +298,7 @@ with pkgs.lib;
           withLLVM = true;
         })
         cabal-install
-        stack
-        
+
         cabal2nix
         ghc-core
         stylish-haskell
@@ -283,9 +307,6 @@ with pkgs.lib;
         pointfree
         yesod-bin
         stylish-haskell
-
-        Agda
-        #idris
       ])];
 
       pathsToLink = [ "/share/soundfonts" ];
@@ -304,13 +325,12 @@ with pkgs.lib;
       printing = {
         enable = true;
         gutenprint = true;
-        extraConf = ''
-          LogLevel debug
-        '';
       };
 
       # DBus
       dbus.packages = with pkgs; [ gnome.GConf system-config-printer ];
+
+      gnome3.gnome-keyring.enable = true;
 
       gpm = {
         enable = true;
