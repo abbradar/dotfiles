@@ -3,7 +3,7 @@ URxvt.perl-ext-common: default,clipboard,matcher,url-select,keyboard-select,tabb
 URxvt.background: Black
 URxvt.foreground: White
 URxvt.font: xft:Source Code Pro:style=Regular:size=12
-URxvt.depth: 24
+URxvt.depth: 32
 URxvt.iso14755: false
 URxvt.scrollBar: false
 URxvt.scrollTtyOutput: false
@@ -29,3 +29,6 @@ XLock.dpmsstandby: 7
 
 ! Gnuplot
 gnuplot.encoding: utf-8
+
+! Cursor
+Xcursor.size: 64
