@@ -156,11 +156,9 @@ with pkgs.lib;
       ]); in a)
       (with pkgs; [
         # Style
-        qt56.qtbase.gtk
         terminus_font
 
         # Files
-        dropbox
         gnome3.file-roller
 
         baobab
@@ -394,7 +392,6 @@ with pkgs.lib;
       # Zsh with proper path
       zsh.enable = true;
       cdemu.enable = true;
-      #unity3d.enable = true;
     };
 
     # Define a user account. Don't forget to set a password with ‘passwd’.
