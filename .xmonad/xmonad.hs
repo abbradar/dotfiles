@@ -60,7 +60,7 @@ myAddKeys =
   , ("M-g", windowPromptGoto myXPConfig { autoComplete = Just 500000 })
   , ("M-S-g", windowPromptBring myXPConfig { autoComplete = Just 500000 })
   , ("M-S-v", runOrRaiseMaster "emacs" (className =? "Emacs"))
-  , ("M-S-f", runOrRaiseMaster "firefox" (className =? "Firefox"))
+  , ("M-S-f", runOrRaiseMaster "qutebrowser" (className =? "qutebrowser"))
   , ("M-S-t", runOrRaiseMaster "thunderbird" (className =? "Thunderbird"))
   , ("M-S-d", spawn "thunar")
   , ("M-S-l", spawn "xflock4")
@@ -84,10 +84,10 @@ myManageHook = composeOne $
                [ title =? "Star Wars: Knights of the Old Republic" -?> doFloat
                , isFullscreen -?> doFullFloat
                ]
-  where shifts = [ ("4:chat", [ "Pidgin", "Gajim", "Skype" ])
+  where shifts = [ ("4:chat", [ "Pidgin", "Gajim", "Skype", "telegram-desktop" ])
                  ]
         gos = [ ("8:mail", [ "Thunderbird" ])
-              , ("5:browser", [ "Firefox" ])
+              , ("5:browser", [ "Firefox", "qutebrowser" ])
               , ("2:emacs", [ "Emacs" ])
               , ("7:news", [ "liferea" ])
               ]

@@ -59,6 +59,7 @@ with pkgs.lib;
     kernelModules = [ "tun" "virtio" ];
     plymouth.enable = true;
     earlyVconsoleSetup = true;
+
   };
 
   i18n = {
@@ -132,7 +133,7 @@ with pkgs.lib;
           newStdcpp = true;
         }).run
         (dwarf-fortress.override {
-          enableDFHack = true;
+          # enableDFHack = true;
           theme = dwarf-fortress-packages.cla-theme;
         })
         the-powder-toy
@@ -174,6 +175,7 @@ with pkgs.lib;
 
         # Browsing and related
         firefox
+        qutebrowser
         liferea
         deluge
         remmina
@@ -377,7 +379,13 @@ with pkgs.lib;
       # UDev
       udev.packages = with pkgs; [ android-udev-rules libmtp ];
 
-      #logmein-hamachi.enable = true;
+      # Disable lid switch handling
+      logind.extraConfig = ''
+        HandleLidSwitch=ignore
+      '';
+
+      # Proprietary services
+      logmein-hamachi.enable = true;
       #teamviewer.enable = true;
     };
 
