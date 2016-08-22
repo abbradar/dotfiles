@@ -37,5 +37,4 @@ main = do
       tray = systrayNew
   defaultTaffybar defaultTaffybarConfig { startWidgets = [ pager, note ]
                                         , endWidgets = [ tray, bat, clock, mem, cpu, mpris ]
-                                        , barHeight = 46
                                         }
