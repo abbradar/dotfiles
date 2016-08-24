@@ -3,7 +3,7 @@ URxvt.perl-ext-common: default,clipboard,matcher,url-select,keyboard-select,tabb
 URxvt.background: Black
 URxvt.foreground: White
 URxvt.font: xft:Source Code Pro:style=Regular:size=9
-URxvt.depth: 32
+URxvt.depth: 24
 URxvt.iso14755: false
 URxvt.scrollBar: false
 URxvt.scrollTtyOutput: false

@@ -93,7 +93,7 @@ with pkgs.lib;
 
         # Big suites
         chromium
-        libreoffice
+        #libreoffice
         tdesktop
         gimp
         inkscape
