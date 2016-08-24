@@ -171,7 +171,7 @@
 
       # Networking
       inetutils
-      openvpn
+      bind
       aria2
       socat
       elinks

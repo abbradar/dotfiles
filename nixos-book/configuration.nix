@@ -236,7 +236,7 @@ with pkgs.lib;
         patchelf
         nixopsUnstable
         nox
-        julia
+        #julia
         (emacsWithPackages (with emacsPackagesNg; [
           evil undo-tree powerline-evil key-chord linum-relative ace-jump-mode
           use-package projectile magit
