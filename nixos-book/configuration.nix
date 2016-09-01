@@ -93,7 +93,8 @@ with pkgs.lib;
 
         # Big suites
         chromium
-        #libreoffice
+        #firefox
+        libreoffice
         tdesktop
         gimp
         inkscape
@@ -137,7 +138,7 @@ with pkgs.lib;
           theme = dwarf-fortress-packages.cla-theme;
         })
         the-powder-toy
-        dwarf-therapist
+        #dwarf-therapist
         wesnoth
         zsnes
         doomseeker
@@ -174,7 +175,6 @@ with pkgs.lib;
         anki
 
         # Browsing and related
-        firefox
         qutebrowser
         liferea
         deluge
