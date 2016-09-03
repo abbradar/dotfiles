@@ -63,19 +63,14 @@ with pkgs.lib;
   };
 
   i18n = {
-    #consoleFont = "ter-v20n";
-    #consolePackages = [ pkgs.terminus_font ];
-    consoleFont = "${pkgs.terminus_font}/share/consolefonts/ter-v20n.psf.gz";
+    consoleFont = "ter-v20n";
+    consolePackages = [ pkgs.terminus_font ];
   };
 
   nixpkgs.config = {
     # Build packages with pulseaudio support
     pulseaudio = true;
   };
-
-  powerManagement.resumeCommands = ''
-    date >> /run/test-resume.log
-  '';
 
   # List packages installed in system profile. To search by name, run:
   # nix-env -qaP | grep wget
@@ -363,8 +358,7 @@ with pkgs.lib;
         };
         windowManager.xmonad = {
           enable = true;
-          extraPackages = self: with self; [ taffybar ];
-          enableContribAndExtras = true;
+          extraPackages = self: with self; [ taffybar xmonad-contrib xmonad-extras ];
         };
         desktopManager.xfce = {
           enable = true;
@@ -385,7 +379,7 @@ with pkgs.lib;
       '';
 
       # Proprietary services
-      logmein-hamachi.enable = true;
+      #logmein-hamachi.enable = true;
       #teamviewer.enable = true;
     };
 
