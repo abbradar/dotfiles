@@ -190,6 +190,10 @@
   powerManagement.scsiLinkPolicy = null;
   powerManagement.cpuFreqGovernor = null;
 
+  programs.ssh.extraConfig = ''
+    ServerAliveInterval 60
+  '';
+
   # Enable OpenGL support.
   hardware = {
     opengl = {
