@@ -356,13 +356,21 @@ with pkgs.lib;
           # #16096
           logToJournal = false;
         };
-        windowManager.xmonad = {
-          enable = true;
-          extraPackages = self: with self; [ taffybar xmonad-contrib xmonad-extras ];
+
+        desktopManager = {
+          default = "xfce";
+          xfce = {
+            enable = true;
+            noDesktop = true;
+          };
         };
-        desktopManager.xfce = {
-          enable = true;
-          noDesktop = true;
+    
+        windowManager = {
+          default = "none";
+          xmonad = {
+            enable = true;
+            extraPackages = self: with self; [ taffybar xmonad-contrib xmonad-extras ];
+          };
         };
       };
 
