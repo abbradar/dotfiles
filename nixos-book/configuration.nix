@@ -65,6 +65,8 @@ with pkgs.lib;
   i18n = {
     consoleFont = "ter-v20n";
     consolePackages = [ pkgs.terminus_font ];
+    inputMethod.enabled = "ibus";
+    inputMethod.ibus.engines = with pkgs.ibus-engines; [ uniemoji ];
   };
 
   nixpkgs.config = {
