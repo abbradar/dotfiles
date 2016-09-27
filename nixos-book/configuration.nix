@@ -49,7 +49,7 @@ with pkgs.lib;
       emojione
     ];
     fontconfig = { 
-      dpi = 120;
+      dpi = 96;
       defaultFonts.monospace = [ "Source Code Pro" ];
     };
   };
