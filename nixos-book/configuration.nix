@@ -325,7 +325,7 @@ with pkgs.lib;
       };
 
       # DBus
-      dbus.packages = with pkgs; [ gnome.GConf system-config-printer ];
+      dbus.packages = with pkgs; [ gnome2.GConf system-config-printer ];
 
       gnome3.gnome-keyring.enable = true;
 
