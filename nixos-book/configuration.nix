@@ -355,8 +355,6 @@ with pkgs.lib;
         enable = true;
         displayManager = {
           sddm.enable = true;
-          # #16096
-          logToJournal = false;
         };
 
         desktopManager = {
