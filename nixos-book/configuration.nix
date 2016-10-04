@@ -359,6 +359,7 @@ with pkgs.lib;
 
         desktopManager = {
           default = "xfce";
+          xterm.enable = false;
           xfce = {
             enable = true;
             noDesktop = true;
