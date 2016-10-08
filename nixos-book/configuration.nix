@@ -266,6 +266,9 @@ with pkgs.lib;
         rxvt_unicode-with-plugins
         system-config-printer
         gksu
+        (xmonad-with-packages.override {
+          packages = self: with self; [ taffybar xmonad-contrib xmonad-extras ];
+        })
 
         # TeX
         biber
@@ -368,10 +371,6 @@ with pkgs.lib;
     
         windowManager = {
           default = "none";
-          xmonad = {
-            enable = true;
-            extraPackages = self: with self; [ taffybar xmonad-contrib xmonad-extras ];
-          };
         };
       };
 

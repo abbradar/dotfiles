@@ -107,6 +107,9 @@
       Defaults rootpw,insults,timestamp_timeout=60
     '';
     rngd.enable = true;
+    pam.loginLimits = [
+      { domain = "*"; item = "nofile"; type = "-"; value = "4096"; }
+    ];
   };
 
   # Select internationalization properties.
