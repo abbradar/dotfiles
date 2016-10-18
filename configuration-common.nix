@@ -192,6 +192,7 @@
       # Utilities
       screen
       parallel
+      mkpasswd
     ]) ++ (with config.boot.kernelPackages; [
       #perf
     ]);
