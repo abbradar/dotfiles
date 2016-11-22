@@ -22,6 +22,7 @@ with pkgs.lib;
       externalInterface = "eth0";
     };
     extraHosts = ''
+      # Faster loading for NWN2
       0.0.0.0 nw2master.bioware.com
       0.0.0.0 nwn2.master.gamespy.com
       0.0.0.0 peerchat.gamespy.com
@@ -134,16 +135,11 @@ with pkgs.lib;
           # enableDFHack = true;
           theme = dwarf-fortress-packages.cla-theme;
         })
-        the-powder-toy
         #dwarf-therapist
         wesnoth
+        zeroad
         zsnes
-        doomseeker
-        zandronum-bin
         lgogdownloader
-        openspades-git
-        openmw
-        openra
         dosbox
 
         # 3D printing
@@ -201,7 +197,6 @@ with pkgs.lib;
         #avidemux
         imagemagick
         mpv
-        bomi
         pavucontrol
         youtube-dl
         imgurbash2
@@ -404,6 +399,11 @@ with pkgs.lib;
       cdemu.enable = true;
     };
 
+    virtualisation = {
+      virtualbox.host.enable = true;
+      docker.enable = true;
+    };
+
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users = {
       defaultUserShell = pkgs.zsh;
@@ -417,7 +417,7 @@ with pkgs.lib;
         root.passwordFile = "/root/.passwd";
 
         shlomo = rec {
-          extraGroups = [ "wheel" "networkmanager" "adbusers" "cdrom" ];
+          extraGroups = [ "wheel" "networkmanager" "adbusers" "cdrom" "vboxusers" "docker" ];
           uid = 1000;
           isNormalUser = true;
           passwordFile = "/root/.shlomo.passwd";
