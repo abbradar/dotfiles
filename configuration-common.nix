@@ -85,9 +85,7 @@
 
   boot = {
     # Use the latest kernel version.
-    kernelPackages = pkgs.linuxPackages_latest;
-      # NVIDIA doesn't support 4.6 for now
-      # let self = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_latest;
 
     # https://github.com/NixOS/nixpkgs/issues/4825
     # cleanTmpDir = true;
