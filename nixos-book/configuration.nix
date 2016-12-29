@@ -279,6 +279,10 @@ with pkgs.lib;
         # Ruby development
         bundler_HEAD
         bundix
+
+        # Doom
+        zandronum-bin
+        doomseeker
       ])
       (with pkgs.xfce; [
         xfce4_xkb_plugin
