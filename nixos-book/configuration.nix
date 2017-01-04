@@ -275,6 +275,7 @@ with pkgs.lib;
         powertop
         sshfsFuse
         libcgroup
+        efibootmgr
 
         # Ruby development
         bundler_HEAD
@@ -297,6 +298,7 @@ with pkgs.lib;
           withLLVM = true;
         })
         cabal-install
+        stack
 
         cabal2nix
         ghc-core
