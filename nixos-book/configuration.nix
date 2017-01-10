@@ -232,11 +232,11 @@ with pkgs.lib;
         (emacsWithPackages (with emacsPackagesNg; [
           evil undo-tree powerline-evil key-chord linum-relative ace-jump-mode
           use-package projectile magit
-          company company-quickhelp company-nixos-options company-jedi # company-ghc
+          company company-quickhelp company-nixos-options company-jedi
           flycheck flycheck-pos-tip flycheck-haskell
           yasnippet
           nixos-options nix-sandbox
-          haskell-mode #structured-haskell-mode # ghc
+          haskell-mode intero
           org hamlet-mode ruby
           # idris-mode
           auctex auctex-latexmk
@@ -343,10 +343,6 @@ with pkgs.lib;
         enable = true;
         package = pkgs.postgresql95;
       };
-
-      # Time synchronization.
-      chrony.enable = true;
-      ntp.enable = false;
 
       # Avahi
       avahi = {
