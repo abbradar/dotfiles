@@ -125,6 +125,17 @@
     openssh = {
       passwordAuthentication = false;
     };
+
+    udev.extraHwdb = ''
+      # Wheel key on Microsoft Natural Ergonomic Keyboard 4000/7000
+      evdev:input:b0003v045Ep00DB*
+        KEYBOARD_KEY_c022d=pageup
+        KEYBOARD_KEY_c022e=pagedown
+
+      evdev:input:b0003v045Ep071D*
+        KEYBOARD_KEY_c022d=pageup
+        KEYBOARD_KEY_c022e=pagedown
+    '';
   };
 
   # Packages

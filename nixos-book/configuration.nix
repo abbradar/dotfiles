@@ -34,6 +34,7 @@ with pkgs.lib;
     nixPath = [ "nixpkgs=/home/shlomo/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
     daemonNiceLevel = 10;
     daemonIONiceLevel = 4;
+    binaryCaches = [ "http://cache.nixos.org" ];
   };
 
   fonts = {
