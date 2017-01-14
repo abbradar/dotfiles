@@ -402,6 +402,8 @@ with pkgs.lib;
       cdemu.enable = true;
     };
 
+    boot.loader.timeout = 0;
+
     virtualisation = {
       virtualbox.host.enable = true;
       docker.enable = true;

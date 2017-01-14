@@ -90,10 +90,7 @@
     # https://github.com/NixOS/nixpkgs/issues/4825
     # cleanTmpDir = true;
 
-    loader = {
-      timeout = 0;
-      efi.canTouchEfiVariables = true;
-    };
+    loader.efi.canTouchEfiVariables = true;
   };
 
   # Time zone
@@ -202,6 +199,8 @@
       screen
       parallel
       mkpasswd
+
+      rxvt_unicode.terminfo
     ]) ++ (with config.boot.kernelPackages; [
       #perf
     ]);
