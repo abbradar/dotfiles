@@ -156,8 +156,8 @@ with pkgs.lib;
         terminus_font
 
         # Files
+        btrfsUtils
         gnome3.file-roller
-
         baobab
 
         # Input

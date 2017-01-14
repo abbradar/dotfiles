@@ -159,7 +159,6 @@
       p7zip
       zip
       unzip
-      unrar
       tree
       rsync
       file
