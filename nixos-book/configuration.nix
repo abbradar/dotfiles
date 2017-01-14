@@ -87,6 +87,7 @@ with pkgs.lib;
         # Runtimes
         samba # needed for wine
         mono
+        jre
         wine
         winetricks
 

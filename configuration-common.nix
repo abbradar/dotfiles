@@ -139,21 +139,20 @@
   environment = {
     systemPackages = (with pkgs; [
       # Monitors
-      smartmontools
-      dmidecode
-      lm_sensors
       htop
       iotop
       ftop
       nethogs
       psmisc
       lsof
+
+      # Hardware
+      dmidecode
+      lm_sensors
       pciutils
       usbutils
-
-      # Partitions
-      btrfsProgs
       hdparm
+      smartmontools
 
       # Files
       gptfdisk
@@ -175,7 +174,6 @@
       python2Full
       python3 # inconsistent
       ruby
-      jre
 
       # Encryption
       openssl
