@@ -87,10 +87,15 @@
     # Use the latest kernel version.
     # kernelPackages = pkgs.linuxPackages_latest;
 
-    # https://github.com/NixOS/nixpkgs/issues/4825
-    # cleanTmpDir = true;
+    cleanTmpDir = true;
 
     loader.efi.canTouchEfiVariables = true;
+  };
+
+  # https://github.com/NixOS/nixpkgs/issues/4825
+  systemd.services = {
+    systemd-tmpfiles-setup.before = [ "sysinit.target" ];
+    systemd-update-utmp.after = [ "systemd-tmpfiles-setup.service" ];
   };
 
   # Time zone

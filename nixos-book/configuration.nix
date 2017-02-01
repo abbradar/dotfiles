@@ -156,7 +156,7 @@ with pkgs.lib;
         terminus_font
 
         # Files
-        btrfsUtils
+        btrfs-progs
         gnome3.file-roller
         baobab
 
@@ -266,6 +266,8 @@ with pkgs.lib;
         (xmonad-with-packages.override {
           packages = self: with self; [ taffybar xmonad-contrib xmonad-extras ];
         })
+        compton
+        hsetroot
 
         # TeX
         biber
@@ -374,7 +376,7 @@ with pkgs.lib;
       };
 
       # For mah eyes.
-      redshift.enable = true;
+      #redshift.enable = true;
       colord.enable = true;
 
       # UDev
