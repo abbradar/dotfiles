@@ -88,15 +88,15 @@
   :config (yas-global-mode 1)
   )
 
-(use-package flycheck
-  :config (progn
-            (add-hook 'after-init-hook 'global-flycheck-mode)
-            (setq flycheck-command-wrapper-function
-                  (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command))
-                  flycheck-executable-find
-                  (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd)))
-            )
-  )
+; (use-package flycheck
+;   :config (progn
+;             (add-hook 'after-init-hook 'global-flycheck-mode)
+;             (setq flycheck-command-wrapper-function
+;                   (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command))
+;                   flycheck-executable-find
+;                   (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd)))
+;             )
+;   )
 
 (use-package flycheck-pos-tip
   :config (flycheck-pos-tip-mode)

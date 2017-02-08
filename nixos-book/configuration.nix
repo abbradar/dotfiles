@@ -247,6 +247,11 @@ with pkgs.lib;
           python-mode cython-mode
         ]))
 
+        # Qt development
+        qtcreator
+        (qt5.env "qt-${qt5.qtbase.version}" (with qt5; [ qtdeclarative ]))
+        gnumake
+
         # Networking
         networkmanagerapplet
         wireshark-gtk
