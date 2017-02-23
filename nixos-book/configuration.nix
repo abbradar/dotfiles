@@ -30,7 +30,6 @@ with pkgs.lib;
   };
 
   nix = {
-    package = pkgs.nixUnstable;
     nixPath = [ "nixpkgs=/home/shlomo/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
     daemonNiceLevel = 10;
     daemonIONiceLevel = 4;
@@ -326,7 +325,7 @@ with pkgs.lib;
     services = {
       # SSH (for the times when I want additional slave)
       openssh.enable = true;
-      #teamviewer.enable = true;
+      teamviewer.enable = true;
 
       tlp.enable = true;
       thermald.enable = true;
