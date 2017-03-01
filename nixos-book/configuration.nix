@@ -30,6 +30,7 @@ with pkgs.lib;
   };
 
   nix = {
+    #package = pkgs.nixUnstable;
     nixPath = [ "nixpkgs=/home/shlomo/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
     daemonNiceLevel = 10;
     daemonIONiceLevel = 4;
@@ -145,7 +146,6 @@ with pkgs.lib;
 
         # 3D printing
         cura
-        slic3r
       ]) ++ (with pkgs.haskellPackages; [
           Agda
           #idris
@@ -384,7 +384,7 @@ with pkgs.lib;
       colord.enable = true;
 
       # UDev
-      udev.packages = with pkgs; [ android-udev-rules libmtp ];
+      udev.packages = with pkgs; [ android-udev-rules libmtp m33-linux ];
 
       # Disable lid switch handling
       logind.extraConfig = ''
