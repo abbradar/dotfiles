@@ -74,10 +74,6 @@ with pkgs.lib;
   nixpkgs.config = {
     # Build packages with pulseaudio support
     pulseaudio = true;
-    permittedInsecurePackages = [
-      # Liferea
-      "webkitgtk-2.4.11"
-    ];
   };
 
   # List packages installed in system profile. To search by name, run:
@@ -174,10 +170,10 @@ with pkgs.lib;
 
         # Browsing and related
         qutebrowser
-        liferea
         deluge
         remmina
         wget
+        liferea
 
         # Encryption
         easyrsa
@@ -251,7 +247,7 @@ with pkgs.lib;
         ]))
 
         # Qt development
-        qtcreator
+        #qtcreator
         (qt5.env "qt-${qt5.qtbase.version}" (with qt5; [ qtdeclarative ]))
         gnumake
 
