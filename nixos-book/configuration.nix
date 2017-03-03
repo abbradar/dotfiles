@@ -74,6 +74,10 @@ with pkgs.lib;
   nixpkgs.config = {
     # Build packages with pulseaudio support
     pulseaudio = true;
+    permittedInsecurePackages = [
+      # Liferea
+      "webkitgtk-2.4.11"
+    ];
   };
 
   # List packages installed in system profile. To search by name, run:
@@ -380,7 +384,7 @@ with pkgs.lib;
       };
 
       # For mah eyes.
-      #redshift.enable = true;
+      redshift.enable = true;
       colord.enable = true;
 
       # UDev
