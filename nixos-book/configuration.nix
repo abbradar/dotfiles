@@ -224,6 +224,7 @@ with pkgs.lib;
         gdb
         darcs
         mercurial
+        minicom
         subversion
         androidenv.platformTools
         patchelf
@@ -248,7 +249,7 @@ with pkgs.lib;
 
         # Qt development
         #qtcreator
-        (qt5.env "qt-${qt5.qtbase.version}" (with qt5; [ qtdeclarative ]))
+        #(qt5.env "qt-${qt5.qtbase.version}" (with qt5; [ qtdeclarative ]))
         gnumake
 
         # Networking
