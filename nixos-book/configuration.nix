@@ -169,7 +169,7 @@ with pkgs.lib;
         anki
 
         # Browsing and related
-        qutebrowser
+        (qutebrowser.override { withWebEngineDefault = true; })
         deluge
         remmina
         wget
@@ -413,7 +413,10 @@ with pkgs.lib;
     boot.loader.timeout = 0;
 
     virtualisation = {
-      virtualbox.host.enable = true;
+      virtualbox.host = {
+        enable = true;
+        enableHardening = false;
+      };
       docker.enable = true;
     };
 
