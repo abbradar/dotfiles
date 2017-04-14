@@ -74,7 +74,7 @@
       mpv = mpv.override {
         vaapiSupport = true;
       };
-      mumble = mumble.override {
+      mumble_git = mumble_git.override {
         speechdSupport = true;
         speechd = speechd.override {
           withEspeak = true;

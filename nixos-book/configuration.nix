@@ -153,6 +153,7 @@ with pkgs.lib;
       (with pkgs; [
         # Style
         terminus_font
+        gnome3.gnome_themes_standard
 
         # Files
         btrfs-progs
@@ -183,7 +184,7 @@ with pkgs.lib;
         thunderbird
         gajim
         skype
-        mumble
+        mumble_git
         bitcoin
 
         # Runtimes
@@ -326,7 +327,6 @@ with pkgs.lib;
     services = {
       # SSH (for the times when I want additional slave)
       openssh.enable = true;
-      teamviewer.enable = true;
 
       tlp.enable = true;
       thermald.enable = true;
@@ -403,6 +403,9 @@ with pkgs.lib;
       # Scanning
       sane.enable = true;
     };
+
+    # For Unity and others.
+    security.chromiumSuidSandbox.enable = true;
 
     programs = {
       # Zsh with proper path
