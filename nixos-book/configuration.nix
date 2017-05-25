@@ -51,7 +51,6 @@ with pkgs.lib;
       emojione
     ];
     fontconfig = { 
-      dpi = 96;
       defaultFonts.monospace = [ "Source Code Pro" ];
     };
   };
@@ -88,7 +87,7 @@ with pkgs.lib;
         samba # needed for wine
         mono
         jre
-        wine
+        wineFull
         winetricks
 
         # Big suites
@@ -249,8 +248,8 @@ with pkgs.lib;
         ]))
 
         # Qt development
-        #qtcreator
-        #(qt5.env "qt-${qt5.qtbase.version}" (with qt5; [ qtdeclarative ]))
+        qtcreator
+        (qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative ]))
         gnumake
 
         # Networking
@@ -385,7 +384,12 @@ with pkgs.lib;
       colord.enable = true;
 
       # UDev
-      udev.packages = with pkgs; [ android-udev-rules libmtp m33-linux ];
+      udev = {
+        packages = with pkgs; [ android-udev-rules libmtp m33-linux ];
+        extraRules = ''
+          SUBSYSTEM=="usb", ATTRS{idVendor}=="10cf", ATTRS{idProduct}=="2501", GROUP="wheel", MODE="0660"
+        '';
+      };
 
       # Disable lid switch handling
       logind.extraConfig = ''
