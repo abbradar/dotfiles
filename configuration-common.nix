@@ -36,8 +36,6 @@
       enablePepperPDF = true;
     };
 
-    wine.release = "staging";
-
     bochs = {
       debugger = true;
       disasm = true;
@@ -80,6 +78,7 @@
           withEspeak = true;
         };
       };
+      wine = wineStaging;
     };
   };
 

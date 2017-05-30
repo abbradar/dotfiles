@@ -87,7 +87,7 @@ with pkgs.lib;
         samba # needed for wine
         mono
         jre
-        wineFull
+        wine
         winetricks
 
         # Big suites
