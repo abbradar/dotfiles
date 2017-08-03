@@ -182,7 +182,7 @@ with pkgs.lib;
         # Messaging and related
         thunderbird
         gajim
-        skype
+        skypeforlinux
         mumble_git
         bitcoin
 
@@ -380,7 +380,7 @@ with pkgs.lib;
       };
 
       # For mah eyes.
-      redshift.enable = true;
+      #redshift.enable = true;
       colord.enable = true;
 
       # UDev
