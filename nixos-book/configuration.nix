@@ -229,6 +229,7 @@ with pkgs.lib;
         androidenv.platformTools
         patchelf
         nixopsUnstable
+        google-cloud-sdk
         nox
         #julia
         (emacsWithPackages (with emacsPackagesNg; [
@@ -397,8 +398,8 @@ with pkgs.lib;
       '';
 
       # Proprietary services
-      #logmein-hamachi.enable = true;
-      #teamviewer.enable = true;
+      logmein-hamachi.enable = true;
+      teamviewer.enable = true;
     };
 
     hardware = {
