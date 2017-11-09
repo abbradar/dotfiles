@@ -80,8 +80,7 @@
   };
 
   boot = {
-    # Use the latest kernel version.
-    # kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_latest;
 
     cleanTmpDir = true;
 
@@ -203,11 +202,6 @@
       #perf
     ]);
   };
-
-  # Disable power management defaults.
-  # They can cause problems and we use TLP anyway
-  powerManagement.scsiLinkPolicy = null;
-  powerManagement.cpuFreqGovernor = null;
 
   programs.ssh.extraConfig = ''
     ServerAliveInterval 60
