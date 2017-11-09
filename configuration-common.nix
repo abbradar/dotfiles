@@ -1,13 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
-    ];
-
   nix = {
-    #package = pkgs.nixUnstable;
+    package = pkgs.nixUnstable;
+    daemonNiceLevel = 10;
+    daemonIONiceLevel = 4;
 
     gc = {
       automatic = true;

@@ -1,15 +1,10 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 with pkgs.lib;
 
 {
   imports =
-    [ ../configuration-common.nix
-      ./personal-configuration.nix
+    [ ./configuration-common.nix
     ];
 
   networking = {
@@ -29,17 +24,7 @@ with pkgs.lib;
     '';
   };
 
-  nix = {
-    #package = pkgs.nixUnstable;
-    nixPath = [ "nixpkgs=/home/shlomo/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
-    daemonNiceLevel = 10;
-    daemonIONiceLevel = 4;
-    binaryCaches = [ "http://cache.nixos.org" ];
-  };
-
   fonts = {
-    # enableFontDir = true;
-    # enableGhostscriptFonts = true;
     fonts = with pkgs; [
       corefonts # Microsoft free fonts
       cm_unicode
@@ -130,23 +115,24 @@ with pkgs.lib;
         (steam.override {
           withPrimus = true;
           nativeOnly = true;
-          newStdcpp = true;
         }).run
-        (dwarf-fortress.override {
-          # enableDFHack = true;
-          theme = dwarf-fortress-packages.cla-theme;
-        })
+        #(dwarf-fortress.override {
+        #  # enableDFHack = true;
+        #  theme = dwarf-fortress-packages.cla-theme;
+        #})
         #dwarf-therapist
         wesnoth
-        zeroad
+        #zeroad
         zsnes
         lgogdownloader
         dosbox
+        #zandronum
+        #doomseeker
 
         # 3D printing
         cura
       ]) ++ (with pkgs.haskellPackages; [
-          Agda
+          #Agda
           #idris
       ]); in a)
       (with pkgs; [
@@ -169,7 +155,7 @@ with pkgs.lib;
         anki
 
         # Browsing and related
-        (qutebrowser.override { withWebEngineDefault = true; })
+        qutebrowser
         deluge
         remmina
         wget
@@ -209,13 +195,6 @@ with pkgs.lib;
         brasero
 
         # Math
-        (rWrapper.override {
-          packages = with rPackages; [
-            lintr
-            data_table
-            parallel
-          ];
-        })
         graphviz
 
         # Development
@@ -290,10 +269,6 @@ with pkgs.lib;
         # Ruby development
         bundler_HEAD
         bundix
-
-        # Doom
-        zandronum-bin
-        doomseeker
       ])
       (with pkgs.xfce; [
         xfce4_xkb_plugin
@@ -318,143 +293,107 @@ with pkgs.lib;
         pointfree
         yesod-bin
         stylish-haskell
-      ])];
+      ])
+    ];
 
-      pathsToLink = [ "/share/soundfonts" ];
+    pathsToLink = [ "/share/soundfonts" ];
+  };
+
+  # List services that you want to enable:
+  services = {
+    # Printing
+    printing = {
+      enable = true;
+      drivers = with pkgs; [ epson-escpr gutenprint ];
     };
 
-    # List services that you want to enable:
-    services = {
-      # SSH (for the times when I want additional slave)
-      openssh.enable = true;
+    # DBus
+    dbus.packages = with pkgs; [ gnome2.GConf system-config-printer ];
 
-      tlp.enable = true;
-      thermald.enable = true;
+    gnome3.gnome-keyring.enable = true;
 
-      # Printing
-      printing = {
-        enable = true;
-        gutenprint = true;
+    gpm = {
+      enable = true;
+      protocol = "imps2";
+    };
+
+    # Avahi
+    avahi = {
+      enable = true;
+      nssmdns = true;
+    };
+
+    # Enable the X11 windowing system.
+    xserver = {
+      enable = true;
+      displayManager = {
+        sddm.enable = true;
       };
 
-      # DBus
-      dbus.packages = with pkgs; [ gnome2.GConf system-config-printer ];
-
-      gnome3.gnome-keyring.enable = true;
-
-      gpm = {
-        enable = true;
-        protocol = "imps2";
-      };
-
-      # PostgreSQL
-      postgresql = {
-        enable = true;
-        package = pkgs.postgresql95;
-      };
-
-      # Avahi
-      avahi = {
-        enable = true;
-        nssmdns = true;
-      };
-
-      # Enable the X11 windowing system.
-      xserver = {
-        enable = true;
-        displayManager = {
-          sddm.enable = true;
-        };
-
-        desktopManager = {
-          default = "xfce";
-          xterm.enable = false;
-          xfce = {
-            enable = true;
-            noDesktop = true;
-          };
-        };
-    
-        windowManager = {
-          default = "none";
+      desktopManager = {
+        default = "xfce";
+        xterm.enable = false;
+        xfce = {
+          enable = true;
+          noDesktop = true;
         };
       };
 
-      # For mah eyes.
-      #redshift.enable = true;
-      colord.enable = true;
-
-      # UDev
-      udev = {
-        packages = with pkgs; [ android-udev-rules libmtp m33-linux ];
-        extraRules = ''
-          SUBSYSTEM=="usb", ATTRS{idVendor}=="10cf", ATTRS{idProduct}=="2501", GROUP="wheel", MODE="0660"
-        '';
+      windowManager = {
+        default = "none";
       };
+    };
 
-      # Disable lid switch handling
-      logind.extraConfig = ''
-        HandleLidSwitch=ignore
+    # For mah eyes.
+    #redshift.enable = true;
+    colord.enable = true;
+
+    # UDev
+    udev = {
+      packages = with pkgs; [ android-udev-rules libmtp m33-linux ];
+      extraRules = ''
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="10cf", ATTRS{idProduct}=="2501", GROUP="wheel", MODE="0660"
       '';
-
-      # Proprietary services
-      logmein-hamachi.enable = true;
-      teamviewer.enable = true;
     };
 
-    hardware = {
-      # Enable PulseAudio.
-      pulseaudio.enable = true;
-      # Scanning
-      sane.enable = true;
+    # Proprietary services
+    logmein-hamachi.enable = true;
+    teamviewer.enable = true;
+  };
+
+  hardware = {
+    # Enable PulseAudio.
+    pulseaudio.enable = true;
+    # Scanning
+    sane.enable = true;
+  };
+
+  # For Unity and others.
+  security.chromiumSuidSandbox.enable = true;
+
+  programs = {
+    # Zsh with proper path
+    zsh.enable = true;
+    cdemu.enable = true;
+  };
+
+  boot.loader.timeout = 0;
+
+  virtualisation = {
+    virtualbox.host = {
+      enable = true;
+      enableHardening = false;
     };
+    docker.enable = true;
+  };
 
-    # For Unity and others.
-    security.chromiumSuidSandbox.enable = true;
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users = {
+    defaultUserShell = pkgs.zsh;
+    mutableUsers = false;
 
-    programs = {
-      # Zsh with proper path
-      zsh.enable = true;
-      cdemu.enable = true;
+    extraGroups = {
+      adbusers = {};
     };
-
-    boot.loader.timeout = 0;
-
-    virtualisation = {
-      virtualbox.host = {
-        enable = true;
-        enableHardening = false;
-      };
-      docker.enable = true;
-    };
-
-    # Define a user account. Don't forget to set a password with ‘passwd’.
-    users = {
-      defaultUserShell = pkgs.zsh;
-      mutableUsers = false;
-
-      extraGroups = {
-        adbusers = {};
-      };
-
-      extraUsers = {
-        root.passwordFile = "/root/.passwd";
-
-        shlomo = rec {
-          extraGroups = [ "wheel" "networkmanager" "adbusers" "cdrom" "vboxusers" "docker" ];
-          uid = 1000;
-          isNormalUser = true;
-          passwordFile = "/root/.shlomo.passwd";
-        };
-
-        guest = rec {
-          group = "users";
-          uid = 2000;
-          home = "/run/user/${toString uid}";
-          isNormalUser = true;
-          password = "123";
-        };
-      };
-    };
-
-  }
+  };
+}

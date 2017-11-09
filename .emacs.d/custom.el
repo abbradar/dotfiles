@@ -126,7 +126,7 @@
      ("gnu" . "https://elpa.gnu.org/packages/"))))
  '(package-selected-packages
    (quote
-    (csharp-mode yaml-mode yasnippet use-package rust-mode projectile powerline-evil org nix-sandbox magit linum-relative key-chord hamlet-mode flycheck-pos-tip flycheck-haskell ess cython-mode company-quickhelp company-nixos-options company-jedi auctex-latexmk ace-jump-mode wc-mode python-mode evil-nerd-commenter)))
+    (epresent csharp-mode yaml-mode yasnippet use-package rust-mode projectile powerline-evil org nix-sandbox magit linum-relative key-chord hamlet-mode flycheck-pos-tip flycheck-haskell ess cython-mode company-quickhelp company-nixos-options company-jedi auctex-latexmk ace-jump-mode wc-mode python-mode evil-nerd-commenter)))
  '(password-cache-expiry nil)
  '(preview-auto-cache-preamble t)
  '(python-indent-offset 2)
