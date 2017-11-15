@@ -152,6 +152,7 @@
       pciutils
       usbutils
       hdparm
+      ethtool
       smartmontools
 
       # Files

@@ -4,8 +4,7 @@ set -e
 
 typeset -A prereqs_git
 
-prereqs_git=('.emacs.d' 'https://github.com/jwiegley/use-package'
-             '.zsh' 'https://github.com/zsh-users/antigen'
+prereqs_git=('.zsh' 'https://github.com/zsh-users/antigen'
             )
 
 create_dirs=('.zsh/bundle'

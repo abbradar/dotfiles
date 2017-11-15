@@ -80,6 +80,7 @@ with pkgs.lib;
         #firefox
         libreoffice
         tdesktop
+        signal-desktop
         gimp
         inkscape
         blender
