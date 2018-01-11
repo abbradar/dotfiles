@@ -94,18 +94,18 @@ with pkgs.lib;
             collection-context
             collection-formatsextra
             collection-fontutils
-            collection-genericextra
-            collection-genericrecommended
+            #collection-genericextra
+            #collection-genericrecommended
             collection-langcyrillic
             collection-langenglish
             collection-latex
             collection-latexextra
             collection-latexrecommended
-            collection-mathextra
+            #collection-mathextra
             collection-pictures
-            collection-plainextra
+            #collection-plainextra
             collection-pstricks
-            collection-science
+            #collection-science
             collection-xetex;
         })
 
@@ -200,7 +200,7 @@ with pkgs.lib;
 
         # Development
         binutils
-        clang
+        gcc # clang is buggy on NixOS right now
         gdb
         darcs
         mercurial
@@ -220,7 +220,8 @@ with pkgs.lib;
           yasnippet
           nixos-options nix-sandbox
           haskell-mode intero
-          org hamlet-mode ruby
+          # org # fix that!
+          hamlet-mode ruby
           # idris-mode
           auctex auctex-latexmk
           ess
@@ -230,7 +231,7 @@ with pkgs.lib;
 
         # Qt development
         qtcreator
-        (qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative ]))
+        (qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative qtquickcontrols qtquickcontrols2 ]))
         gnumake
 
         # Networking
@@ -290,7 +291,7 @@ with pkgs.lib;
         ghc-core
         stylish-haskell
         hlint
-        threadscope
+        #threadscope
         pointfree
         yesod-bin
         stylish-haskell
