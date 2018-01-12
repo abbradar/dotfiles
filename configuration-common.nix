@@ -24,12 +24,12 @@
     allowUnfree = true;
 
     firefox = {
-      enableAdobeFlash = true;
+      #enableAdobeFlash = true;
       icedtea = true;
     };
 
     chromium = {
-      enablePepperFlash = true;
+      #enablePepperFlash = true;
       enablePepperPDF = true;
     };
 
