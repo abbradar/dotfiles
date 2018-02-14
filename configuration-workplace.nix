@@ -183,6 +183,7 @@ with pkgs.lib;
         imagemagick
         mpv
         pavucontrol
+        paprefs
         youtube-dl
         imgurbash2
         soundfont-fluid
@@ -320,6 +321,10 @@ with pkgs.lib;
     avahi = {
       enable = true;
       nssmdns = true;
+      publish = {
+        enable = true;
+        userServices = true;
+      };
     };
 
     # Enable the X11 windowing system.
@@ -354,6 +359,9 @@ with pkgs.lib;
         SUBSYSTEM=="usb", ATTRS{idVendor}=="10cf", ATTRS{idProduct}=="2501", GROUP="wheel", MODE="0660"
       '';
     };
+
+    # MIDI
+    fluidsynth.enable = true;
 
     # Proprietary services
     logmein-hamachi.enable = true;
