@@ -45,7 +45,6 @@ with pkgs.lib;
     kernelModules = [ "tun" "virtio" ];
     plymouth.enable = true;
     earlyVconsoleSetup = true;
-
   };
 
   i18n = {
@@ -76,8 +75,6 @@ with pkgs.lib;
         winetricks
 
         # Big suites
-        chromium
-        #firefox
         libreoffice
         tdesktop
         signal-desktop
@@ -156,7 +153,7 @@ with pkgs.lib;
         anki
 
         # Browsing and related
-        qutebrowser
+        firefox
         deluge
         remmina
         wget
