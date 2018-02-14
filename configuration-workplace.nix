@@ -321,10 +321,6 @@ with pkgs.lib;
     avahi = {
       enable = true;
       nssmdns = true;
-      publish = {
-        enable = true;
-        userServices = true;
-      };
     };
 
     # Enable the X11 windowing system.
