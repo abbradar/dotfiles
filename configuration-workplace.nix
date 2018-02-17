@@ -168,7 +168,6 @@ with pkgs.lib;
         gajim
         skypeforlinux
         mumble_git
-        bitcoin
 
         # Runtimes
         icedtea_web
@@ -209,7 +208,6 @@ with pkgs.lib;
         nixopsUnstable
         google-cloud-sdk
         nox
-        #julia
         (emacsWithPackages (with emacsPackagesNg; [
           evil undo-tree powerline-evil key-chord linum-relative ace-jump-mode
           use-package projectile magit
@@ -218,7 +216,7 @@ with pkgs.lib;
           yasnippet
           nixos-options nix-sandbox
           haskell-mode intero
-          # org # fix that!
+          org
           hamlet-mode ruby
           # idris-mode
           auctex auctex-latexmk
@@ -355,9 +353,6 @@ with pkgs.lib;
         SUBSYSTEM=="usb", ATTRS{idVendor}=="10cf", ATTRS{idProduct}=="2501", GROUP="wheel", MODE="0660"
       '';
     };
-
-    # MIDI
-    fluidsynth.enable = true;
 
     # Proprietary services
     logmein-hamachi.enable = true;
