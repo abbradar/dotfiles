@@ -81,7 +81,7 @@ myWorkspaces = [ "1"
 myManageHook = composeOne $
                [ transience
                ] ++ shiftM ++
-               [ title =? "Star Wars: Knights of the Old Republic" -?> doFloat
+               [ title =? "Emoji Choice" -?> doFloat
                , isFullscreen -?> doFullFloat
                ]
   where shifts = [ ("4:chat", [ "Pidgin", "Gajim", "Skype", "telegram-desktop" ])
