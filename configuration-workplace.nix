@@ -185,7 +185,6 @@ with pkgs.lib;
         paprefs
         youtube-dl
         imgurbash2
-        soundfont-fluid
         geeqie
         simplescreenrecorder
 
@@ -355,8 +354,7 @@ with pkgs.lib;
     };
 
     # Proprietary services
-    logmein-hamachi.enable = true;
-    teamviewer.enable = true;
+    # logmein-hamachi.enable = true;
   };
 
   hardware = {
