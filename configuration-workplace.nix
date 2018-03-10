@@ -33,7 +33,7 @@ with pkgs.lib;
       source-code-pro
       noto-fonts
       noto-fonts-cjk
-      emojione
+      noto-fonts-emoji
     ];
     fontconfig = { 
       defaultFonts.monospace = [ "Source Code Pro" ];
@@ -259,6 +259,7 @@ with pkgs.lib;
         glxinfo
         tmux
         powertop
+        linuxPackages.cpupower
         sshfsFuse
         libcgroup
         efibootmgr
