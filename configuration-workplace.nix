@@ -71,11 +71,13 @@ with pkgs.lib;
         samba # needed for wine
         mono
         jre
-        wine
-        winetricks
+        # FIXME
+        #wine
+        #winetricks
 
         # Big suites
-        libreoffice
+        # FIXME
+        #libreoffice
         tdesktop
         signal-desktop
         gimp
@@ -124,11 +126,11 @@ with pkgs.lib;
         zsnes
         lgogdownloader
         dosbox
-        #zandronum
-        #doomseeker
+        zandronum
+        doomseeker
 
         # 3D printing
-        cura
+        #cura
       ]) ++ (with pkgs.haskellPackages; [
           #Agda
           #idris
@@ -154,6 +156,7 @@ with pkgs.lib;
 
         # Browsing and related
         firefox
+        chromium
         deluge
         remmina
         wget
@@ -225,8 +228,8 @@ with pkgs.lib;
         ]))
 
         # Qt development
-        qtcreator
-        (qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative qtquickcontrols qtquickcontrols2 ]))
+        #qtcreator
+        #(qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative qtquickcontrols qtquickcontrols2 ]))
         gnumake
 
         # Networking
@@ -289,8 +292,7 @@ with pkgs.lib;
         hlint
         #threadscope
         pointfree
-        yesod-bin
-        stylish-haskell
+        #yesod-bin
       ])
     ];
 
@@ -366,7 +368,7 @@ with pkgs.lib;
   };
 
   # For Unity and others.
-  security.chromiumSuidSandbox.enable = true;
+  # security.chromiumSuidSandbox.enable = true;
 
   programs = {
     # Zsh with proper path
