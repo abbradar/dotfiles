@@ -156,11 +156,13 @@ with pkgs.lib;
 
         # Browsing and related
         firefox
-        chromium
+        # FIXME
+        #chromium
         deluge
         remmina
         wget
-        liferea
+        # FIXME
+        #liferea
 
         # Encryption
         easyrsa
