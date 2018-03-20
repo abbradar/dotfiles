@@ -71,13 +71,11 @@ with pkgs.lib;
         samba # needed for wine
         mono
         jre
-        # FIXME
-        #wine
-        #winetricks
+        wine
+        winetricks
 
         # Big suites
-        # FIXME
-        #libreoffice
+        libreoffice
         tdesktop
         signal-desktop
         gimp
@@ -156,13 +154,11 @@ with pkgs.lib;
 
         # Browsing and related
         firefox
-        # FIXME
-        #chromium
+        chromium
         deluge
         remmina
         wget
-        # FIXME
-        #liferea
+        liferea
 
         # Encryption
         easyrsa
