@@ -7,4 +7,6 @@
   security.pam.services.su.forwardXAuth = lib.mkForce false;
 
   fonts.fontconfig.enable = false;
+
+  services.nixosManual.enable = false;
 }
