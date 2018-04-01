@@ -99,7 +99,6 @@
     sudo.extraConfig = ''
       Defaults rootpw,insults,timestamp_timeout=60
     '';
-    rngd.enable = true;
     pam.loginLimits = [
       { domain = "*"; item = "nofile"; type = "-"; value = "4096"; }
     ];
@@ -178,17 +177,14 @@
       gnupg
 
       # Develompent
-      nix-repl
-      nix-prefetch-scripts
       git
       subversion
 
       # Networking
       inetutils
-      bind
+      dnsutils
       aria2
       socat
-      elinks
       mtr
 
       # Utilities
@@ -218,7 +214,5 @@
       support32Bit = true;
       configFile = ./default.pa;
     };
-
-    cpu.intel.updateMicrocode = true;
   };
 }
