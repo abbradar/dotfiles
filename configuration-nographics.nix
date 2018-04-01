@@ -1,3 +1,5 @@
+{ lib, ... }:
+
 {
   imports = [ ./configuration-common.nix ];
 
