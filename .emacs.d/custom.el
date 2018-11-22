@@ -21,29 +21,14 @@
      (output-pdf "zathura")
      (output-html "xdg-open"))))
  '(c-basic-offset 2)
- '(compilation-message-face (quote default))
- '(custom-enabled-themes (quote (solarized-dark)))
- '(custom-safe-themes
-   (quote
-    ("e16a771a13a202ee6e276d06098bc77f008b73bbac4d526f160faa2d76c1dd0e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(default-input-method "russian-computer")
- '(erc-beep-match-types (quote (current-nick keyword)))
- '(evil-search-module (quote evil-search))
  '(evil-shift-width 2)
  '(fci-rule-color "#073642")
  '(fill-column 80)
- '(global-visual-line-mode t)
  '(haskell-font-lock-symbols t)
- '(haskell-interactive-popup-errors nil)
- '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-log t)
- '(haskell-process-suggest-remove-import-lines t)
- '(haskell-process-type (quote cabal-repl))
  '(haskell-tags-on-save t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
- '(jedi:complete-on-dot nil)
- '(jedi:setup-keys t)
  '(magit-diff-use-overlays nil)
  '(menu-bar-mode nil)
  '(org-export-latex-default-packages-alist
@@ -124,9 +109,6 @@
     (("mepla" . "https://melpa.org/packages/")
      ("marmalade" . "https://marmalade-repo.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/"))))
- '(package-selected-packages
-   (quote
-    (epresent csharp-mode yaml-mode yasnippet use-package rust-mode projectile powerline-evil org nix-sandbox magit linum-relative key-chord hamlet-mode flycheck-pos-tip flycheck-haskell ess cython-mode company-quickhelp company-nixos-options company-jedi auctex-latexmk ace-jump-mode wc-mode python-mode evil-nerd-commenter)))
  '(password-cache-expiry nil)
  '(preview-auto-cache-preamble t)
  '(python-indent-offset 2)
@@ -136,21 +118,6 @@
     ((haskell-process-use-ghci . t)
      (haskell-indent-spaces . 2))))
  '(standard-indent 2)
- '(syslog-debug-face
-   (quote
-    ((t :background unspecified :foreground "#2aa198" :weight bold))))
- '(syslog-error-face
-   (quote
-    ((t :background unspecified :foreground "#dc322f" :weight bold))))
- '(syslog-hour-face (quote ((t :background unspecified :foreground "#859900"))))
- '(syslog-info-face
-   (quote
-    ((t :background unspecified :foreground "#268bd2" :weight bold))))
- '(syslog-ip-face (quote ((t :background unspecified :foreground "#b58900"))))
- '(syslog-su-face (quote ((t :background unspecified :foreground "#d33682"))))
- '(syslog-warn-face
-   (quote
-    ((t :background unspecified :foreground "#cb4b16" :weight bold))))
  '(tab-stop-list
    (quote
     (2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94 96 98 100 102 104 106 108 110 112 114 116 118 120 122 124 126 128 130 132 134 136 138 140 142 144 146 148 150 152 154 156 158 160 162 164 166 168 170 172 174 176 178 180 182 184 186 188 190 192 194 196 198 200)))

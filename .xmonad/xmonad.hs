@@ -22,7 +22,7 @@ import XMonad.Actions.UpdatePointer
 import XMonad.Prompt.Window
 import XMonad.Actions.PhysicalScreens
 import qualified XMonad.StackSet as W
-import System.Taffybar.Hooks.PagerHints (pagerHints)
+import System.Taffybar.Support.PagerHints (pagerHints)
 
 main :: IO ()
 main = xmonad myConfig

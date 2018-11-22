@@ -21,6 +21,7 @@ URxvt.keysym.C-V: perl:clipboard:paste
 URxvt.keysym.C-M-V: perl:clipboard:paste_escaped
 URxvt.keysym.Home: \033[7~
 URxvt.keysym.End: \033[8~
+URxvt.print-pipe: "cat > /dev/null"
 
 ! XLock
 XLock.fontset: -*-helvetica-medium-r-normal-*-24-*-*-*-*-*-*

@@ -75,7 +75,7 @@ with pkgs.lib;
         winetricks
 
         # Big suites
-        libreoffice
+        #libreoffice
         tdesktop
         signal-desktop
         gimp
@@ -124,8 +124,8 @@ with pkgs.lib;
         zsnes
         lgogdownloader
         dosbox
-        zandronum
-        doomseeker
+        #zandronum
+        #doomseeker
 
         # 3D printing
         #cura
@@ -163,6 +163,7 @@ with pkgs.lib;
         # Encryption
         easyrsa
         truecrypt
+        tor
 
         # Messaging and related
         thunderbird
@@ -205,29 +206,26 @@ with pkgs.lib;
         subversion
         androidenv.platformTools
         patchelf
-        nixopsUnstable
-        google-cloud-sdk
         nox
         (emacsWithPackages (with emacsPackagesNg; [
-          evil undo-tree powerline-evil key-chord linum-relative ace-jump-mode
+          evil evil-nerd-commenter undo-tree powerline-evil key-chord linum-relative ace-jump-mode
           use-package projectile magit
-          company company-quickhelp company-nixos-options company-jedi
-          flycheck flycheck-pos-tip flycheck-haskell
+          company company-quickhelp
+          flycheck flycheck-pos-tip
           yasnippet
-          nixos-options nix-sandbox
+          nix-sandbox
           haskell-mode intero
           org
-          hamlet-mode ruby
-          # idris-mode
           auctex auctex-latexmk
           ess
           rust-mode
-          python-mode cython-mode
+          python-mode
+          cider clojure-mode elm-mode markdown-mode lua-mode fsharp-mode csharp-mode yaml-mode
         ]))
 
         # Qt development
-        #qtcreator
-        #(qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative qtquickcontrols qtquickcontrols2 ]))
+        qtcreator
+        (qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative qtquickcontrols qtquickcontrols2 ]))
         gnumake
 
         # Networking
@@ -286,7 +284,6 @@ with pkgs.lib;
 
         cabal2nix
         ghc-core
-        stylish-haskell
         hlint
         #threadscope
         pointfree
@@ -299,6 +296,14 @@ with pkgs.lib;
 
   # List services that you want to enable:
   services = {
+    postgresql = {
+      package = pkgs.postgresql_10;
+      enable = true;
+      extraConfig = ''
+        log_statement = all
+      '';
+    };
+
     # Printing
     printing = {
       enable = true;
@@ -366,7 +371,7 @@ with pkgs.lib;
   };
 
   # For Unity and others.
-  # security.chromiumSuidSandbox.enable = true;
+  security.chromiumSuidSandbox.enable = true;
 
   programs = {
     # Zsh with proper path
