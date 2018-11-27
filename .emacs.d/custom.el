@@ -23,6 +23,7 @@
  '(c-basic-offset 2)
  '(default-input-method "russian-computer")
  '(evil-shift-width 2)
+ '(evil-want-fine-undo t)
  '(fci-rule-color "#073642")
  '(fill-column 80)
  '(haskell-font-lock-symbols t)
