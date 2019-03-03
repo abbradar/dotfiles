@@ -27,10 +27,6 @@
       icedtea = true;
     };
 
-    chromium = {
-      enablePepperPDF = true;
-    };
-
     bochs = {
       debugger = true;
       disasm = true;
@@ -78,7 +74,7 @@
   };
 
   boot = {
-    #kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_latest;
 
     cleanTmpDir = true;
 
