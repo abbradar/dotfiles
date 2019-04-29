@@ -132,6 +132,19 @@
 (use-package python
   :defer t)
 
+(use-package rust-mode
+  :defer t
+  :config
+  (progn
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+    (add-hook 'rust-mode-hook #'racer-mode)))
+
+(use-package racer
+  :defer t
+  :config
+  (progn
+    (add-hook 'racer-mode-hook #'eldoc-mode)))
+
 (use-package ess-site
   :mode ("\\.R\\'" . R-mode)
   :interpreter ("R" . R-mode))
@@ -185,3 +198,12 @@
 
 ;; Set default fallback font
 (set-fontset-font "fontset-default" 'ucs "DejaVu Sans Mono")
+
+;; Avoid closing all windows on ESC-ESC-ESC
+(defadvice keyboard-escape-quit (around my-keyboard-escape-quit activate)
+  (let (orig-one-window-p)
+    (fset 'orig-one-window-p (symbol-function 'one-window-p))
+    (fset 'one-window-p (lambda (&optional nomini all-frames) t))
+    (unwind-protect
+        ad-do-it
+      (fset 'one-window-p (symbol-function 'orig-one-window-p)))))

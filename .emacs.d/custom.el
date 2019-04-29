@@ -53,6 +53,12 @@
      ("" "hyperref" nil)
      ("russian,english" "babel" nil)
      "\\tolerance=1000")))
+ '(org-file-apps
+   (quote
+    ((auto-mode . emacs)
+     ("\\.mm\\'" . default)
+     ("\\.x?html?\\'" . default)
+     ("\\.pdf\\'" . system))))
  '(org-latex-classes
    (quote
     (("beamer" "\\documentclass[presentation]{beamer}"
@@ -115,7 +121,7 @@
      ("gnu" . "https://elpa.gnu.org/packages/"))))
  '(package-selected-packages
    (quote
-    (solarized-theme dracula-theme yasnippet yaml-mode use-package rust-mode python-mode projectile powerline-evil org nix-sandbox markdown-mode magit lua-mode linum-relative key-chord intero fsharp-mode flycheck-pos-tip evil-nerd-commenter ess elm-mode csharp-mode cider auctex-latexmk ace-jump-mode)))
+    (sql-indent solarized-theme dracula-theme yasnippet yaml-mode use-package rust-mode python-mode projectile powerline-evil org nix-sandbox markdown-mode magit lua-mode linum-relative key-chord intero fsharp-mode flycheck-pos-tip evil-nerd-commenter ess elm-mode csharp-mode cider auctex-latexmk ace-jump-mode)))
  '(password-cache-expiry nil)
  '(preview-auto-cache-preamble t)
  '(python-indent-offset 2)
