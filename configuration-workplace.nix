@@ -179,7 +179,6 @@
 
   programs = {
     zsh.enable = true;
-    criu.enable = true;
     cdemu.enable = true;
   };
 
