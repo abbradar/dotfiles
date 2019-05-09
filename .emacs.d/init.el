@@ -46,6 +46,18 @@
     (define-key evil-motion-state-map (kbd "C-k") 'evil-scroll-page-up)
     (define-key evil-motion-state-map (kbd "C-l") 'evil-end-of-line)))
 
+(use-package window-purpose
+  :config
+  (progn
+    (purpose-mode)
+    ;; Python
+    (add-to-list 'purpose-user-mode-purposes '(python-mode . py))
+    (add-to-list 'purpose-user-mode-purposes '(inferior-python-mode . py-repl))
+    ;; Clojure
+    (add-to-list 'purpose-user-mode-purposes '(clojure-mode . clj))
+    (add-to-list 'purpose-user-mode-purposes '(cider-repl-mode . cider))
+    (purpose-compile-user-configuration)))
+
 ;; Remap caps to s-q.
 ;; s-q is captured by xmonad so this should be an unused key.
 (setf (gethash #xfe08 x-keysym-table) (aref (kbd "s-q") 0))
@@ -181,14 +193,19 @@
 
 (use-package haskell-mode
   :mode "\\.chs\\'"
-  :config (progn
-            (require 'intero)
-            (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-            (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-            (add-hook 'haskell-mode-hook 'intero-mode)
-            (evil-define-key 'normal haskell-mode-map (kbd "gs") 'intero-goto-definition)
-            (setq haskell-process-wrapper-function
-                  (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))))
+  :config
+  (progn
+    (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+    (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+    (add-hook 'haskell-mode-hook 'intero-mode)
+    (evil-define-key 'normal haskell-mode-map (kbd "gs") 'intero-goto-definition)
+    (setq haskell-process-wrapper-function
+          (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))))
+
+;;(use-package clojure-mode
+;;  :config
+;;  (progn
+;;    (add-hook 'flycheck-mode-hook #'flycheck-clojure-setup)))
 
 (use-package nix-mode
   :defer t)

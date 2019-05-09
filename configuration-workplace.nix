@@ -76,7 +76,7 @@
     # Development
     vscode
     (emacsWithPackages (with emacsPackagesNg; [
-      evil evil-nerd-commenter undo-tree powerline-evil key-chord linum-relative ace-jump-mode
+      evil evil-nerd-commenter undo-tree powerline-evil key-chord linum-relative ace-jump-mode window-purpose
       use-package projectile magit
       company company-quickhelp
       flycheck flycheck-pos-tip
@@ -88,7 +88,8 @@
       ess
       rust-mode racer flycheck-rust
       python-mode
-      cider clojure-mode elm-mode markdown-mode fsharp-mode csharp-mode yaml-mode
+      cider clojure-mode
+      elm-mode markdown-mode fsharp-mode csharp-mode yaml-mode
       arduino-mode platformio-mode
       elixir-mode
     ]))
@@ -166,6 +167,7 @@
     xserver = {
       enable = true;
       displayManager.gdm.enable = true;
+      displayManager.gdm.wayland = false;
       desktopManager.gnome3.enable = true;
     };
 

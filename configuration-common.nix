@@ -209,6 +209,7 @@
       package = pkgs.pulseaudioFull;
       support32Bit = true;
       configFile = ./default.pa;
+      zeroconf.discovery.enable = true;
     };
   };
 }
