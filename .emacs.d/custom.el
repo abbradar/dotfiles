@@ -119,9 +119,6 @@
     (("mepla" . "https://melpa.org/packages/")
      ("marmalade" . "https://marmalade-repo.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/"))))
- '(package-selected-packages
-   (quote
-    (sql-indent solarized-theme dracula-theme yasnippet yaml-mode use-package rust-mode python-mode projectile powerline-evil org nix-sandbox markdown-mode magit lua-mode linum-relative key-chord intero fsharp-mode flycheck-pos-tip evil-nerd-commenter ess elm-mode csharp-mode cider auctex-latexmk ace-jump-mode)))
  '(password-cache-expiry nil)
  '(preview-auto-cache-preamble t)
  '(python-indent-offset 2)
