@@ -94,6 +94,8 @@
       elixir-mode
     ]))
     hotspot
+    cabal-install
+    cabal2nix
     # qtcreator
     # (qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative qtquickcontrols qtquickcontrols2 ]))
     # clang
@@ -213,7 +215,12 @@
       enable = true;
       storageDriver = "btrfs";
     };
-    virtualbox.host.enable = true;
+    virtualbox.host = {
+      enable = true;
+      package = pkgs.virtualbox.override {
+        javaBindings = true;
+      };
+    };
   };
 
   fileSystems."/media/nfs" = {

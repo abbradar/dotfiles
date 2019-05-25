@@ -8,5 +8,5 @@
 
   fonts.fontconfig.enable = false;
 
-  services.nixosManual.enable = false;
+  documentation.nixos.enable = false;
 }
