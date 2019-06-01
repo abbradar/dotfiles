@@ -224,3 +224,6 @@
     (unwind-protect
         ad-do-it
       (fset 'one-window-p (symbol-function 'orig-one-window-p)))))
+
+(provide 'init)
+;;; init.el ends here

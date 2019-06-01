@@ -194,7 +194,7 @@
     extraUsers = {
       root.passwordFile = "/root/.passwd";
       abbradar = {
-        passwordFile = "/home/abbradar/.passwd";
+        passwordFile = "/root/.abbradar.passwd";
         isNormalUser = true;
         uid = 1000;
         extraGroups = [ "wheel" "docker" "wireshark" ];
