@@ -96,6 +96,7 @@
     hotspot
     cabal-install
     cabal2nix
+    nox
     # qtcreator
     # (qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative qtquickcontrols qtquickcontrols2 ]))
     # clang
