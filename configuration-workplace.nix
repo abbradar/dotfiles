@@ -48,7 +48,7 @@
     steam
     lgogdownloader
     wineStaging
-    jre
+    openjdk11
     leiningen
     icedtea_web
 
@@ -93,13 +93,10 @@
       arduino-mode platformio-mode
       elixir-mode
     ]))
-    hotspot
     cabal-install
+    stack
     cabal2nix
     nox
-    # qtcreator
-    # (qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative qtquickcontrols qtquickcontrols2 ]))
-    # clang
 
     # Network
     deluge
@@ -171,7 +168,10 @@
       enable = true;
       displayManager.gdm.enable = true;
       displayManager.gdm.wayland = false;
-      desktopManager.gnome3.enable = true;
+      desktopManager.gnome3 = {
+        enable = true;
+        sessionPath = with pkgs.gnomeExtensions; [ caffeine appindicator ];
+      };
     };
 
     postgresql = {
