@@ -42,15 +42,19 @@
     pavucontrol
     androidenv.androidPkgs_9_0.platform-tools
     platformio
+    silver-searcher
 
     # Runtimes
     steam-run-native
     steam
     lgogdownloader
-    wineStaging
-    jre
+    wineWowPackages.staging
+    openjdk11
     leiningen
     icedtea_web
+
+    # VM
+    virtmanager
 
     # Multimedia
     firefox
@@ -93,13 +97,10 @@
       arduino-mode platformio-mode
       elixir-mode
     ]))
-    hotspot
     cabal-install
+    stack
     cabal2nix
     nox
-    # qtcreator
-    # (qt5.env "qtenv-${qt5.qtbase.version}" (with qt5; [ qtdeclarative qtquickcontrols qtquickcontrols2 ]))
-    # clang
 
     # Network
     deluge
@@ -171,7 +172,10 @@
       enable = true;
       displayManager.gdm.enable = true;
       displayManager.gdm.wayland = false;
-      desktopManager.gnome3.enable = true;
+      desktopManager.gnome3 = {
+        enable = true;
+        sessionPath = with pkgs.gnomeExtensions; [ caffeine appindicator ];
+      };
     };
 
     postgresql = {
@@ -179,6 +183,20 @@
       extraConfig = ''
         log_statement = all
       '';
+    };
+
+    samba = {
+      enable = true;
+      extraConfig = ''
+        bind interfaces only = yes
+        interfaces = virbr0
+        acl allow execute always = yes
+      '';
+      shares.home = {
+        path = "/home/abbradar";
+        "browseable" = "yes";
+        "read only" = "no";
+      };
     };
   };
 
@@ -197,7 +215,7 @@
         passwordFile = "/root/.abbradar.passwd";
         isNormalUser = true;
         uid = 1000;
-        extraGroups = [ "wheel" "docker" "wireshark" ];
+        extraGroups = [ "wheel" "docker" "wireshark" "libvirtd" ];
       };
     };
   };
@@ -206,6 +224,14 @@
     enable = true;
     package = pkgs.wireshark-qt;
   };
+
+  security.pam.loginLimits = [
+    { domain = "abbradar";
+      type = "-";
+      item = "memlock";
+      value = "unlimited";
+    }
+  ];
 
   security.wrappers."mount.nfs" = {
     source = "${pkgs.nfs-utils}/bin/mount.nfs";
@@ -216,11 +242,9 @@
       enable = true;
       storageDriver = "btrfs";
     };
+    libvirtd.enable = true;
     virtualbox.host = {
       enable = true;
-      package = pkgs.virtualbox.override {
-        javaBindings = true;
-      };
     };
   };
 

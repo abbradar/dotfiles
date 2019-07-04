@@ -197,8 +197,8 @@
   (progn
     (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
     (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-    (add-hook 'haskell-mode-hook 'intero-mode)
-    (evil-define-key 'normal haskell-mode-map (kbd "gs") 'intero-goto-definition)
+    ;;(add-hook 'haskell-mode-hook 'intero-mode)
+    ;;(evil-define-key 'normal haskell-mode-map (kbd "gs") 'intero-goto-definition)
     (setq haskell-process-wrapper-function
           (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))))
 
