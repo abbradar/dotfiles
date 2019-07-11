@@ -36,6 +36,7 @@
   environment.systemPackages = with pkgs; [
     # Utils
     powertop
+    s-tui
     minicom
     mercurial
     google-cloud-sdk
