@@ -178,7 +178,7 @@
       displayManager.gdm.wayland = false;
       desktopManager.gnome3 = {
         enable = true;
-        sessionPath = with pkgs.gnomeExtensions; [ caffeine appindicator ];
+        sessionPath = with pkgs.gnomeExtensions; [ caffeine appindicator topicons-plus ];
       };
     };
 
@@ -219,7 +219,7 @@
         passwordFile = "/root/.abbradar.passwd";
         isNormalUser = true;
         uid = 1000;
-        extraGroups = [ "wheel" "docker" "wireshark" "libvirtd" ];
+        extraGroups = [ "wheel" "docker" "wireshark" "libvirtd" "cdrom" ];
       };
     };
   };
