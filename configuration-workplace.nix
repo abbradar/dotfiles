@@ -50,6 +50,7 @@
     steam
     lgogdownloader
     wineWowPackages.staging
+    lutris
     openjdk11
     leiningen
     icedtea_web
