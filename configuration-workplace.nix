@@ -33,9 +33,6 @@
     wireguard.enable = true;
   };
 
-  # Several issues, in particular Firefox fails to open directories, Thunderbird segfaults etc.
-  xdg.portal.enable = false;
-
   environment.systemPackages = with pkgs; [
     # Utils
     powertop
