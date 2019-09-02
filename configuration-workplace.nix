@@ -75,6 +75,7 @@
     # Messengers
     #dino
     gajim
+    riot-desktop
     tdesktop
     signal-desktop
     mumble_git
