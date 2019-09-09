@@ -174,7 +174,7 @@
     xserver = {
       enable = true;
       displayManager.gdm.enable = true;
-      displayManager.gdm.wayland = false;
+      #displayManager.gdm.wayland = false;
       desktopManager.gnome3 = {
         enable = true;
         sessionPath = with pkgs.gnomeExtensions; [ caffeine appindicator topicons-plus ];
