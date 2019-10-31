@@ -164,8 +164,7 @@
       pastebinit
 
       # Runtimes
-      python2Full
-      python3 # inconsistent
+      python3
       ruby
 
       # Encryption

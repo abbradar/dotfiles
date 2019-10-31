@@ -142,7 +142,10 @@
     (require 'sql-indent)))
 
 (use-package python
-  :defer t)
+  :defer t
+  :config
+  (progn
+    (add-hook 'python-mode-hook (lambda () (auto-complete-mode -1)))))
 
 (use-package rust-mode
   :defer t

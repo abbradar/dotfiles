@@ -82,24 +82,8 @@
 
     # Development
     vscode
-    (emacsWithPackages (with emacsPackagesNg; [
-      evil evil-nerd-commenter undo-tree powerline-evil key-chord linum-relative ace-jump-mode window-purpose
-      use-package projectile magit
-      company company-quickhelp
-      flycheck flycheck-pos-tip
-      yasnippet
-      nix-sandbox
-      haskell-mode intero
-      org
-      auctex auctex-latexmk
-      ess
-      rust-mode racer flycheck-rust
-      python-mode
-      cider clojure-mode
-      elm-mode markdown-mode fsharp-mode csharp-mode yaml-mode
-      arduino-mode platformio-mode
-      elixir-mode
-    ]))
+    emacs
+    irony-server
     cabal-install
     stack
     cabal2nix
@@ -111,6 +95,8 @@
     wget
     openvpn
     remmina
+    shadowsocks-libev
+    tor
 
     # Documents
     libreoffice
@@ -177,7 +163,11 @@
       #displayManager.gdm.wayland = false;
       desktopManager.gnome3 = {
         enable = true;
-        sessionPath = with pkgs.gnomeExtensions; [ caffeine appindicator topicons-plus ];
+        sessionPath = with pkgs.gnomeExtensions; [
+          #caffeine
+          appindicator
+          topicons-plus
+       ];
       };
     };
 
@@ -233,6 +223,11 @@
       type = "-";
       item = "memlock";
       value = "unlimited";
+    }
+    { domain = "abbradar";
+      type = "hard";
+      item = "nofile";
+      value = "524288";
     }
   ];
 
