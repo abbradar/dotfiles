@@ -83,7 +83,7 @@
     # Development
     vscode
     emacs
-    irony-server
+    #irony-server
     cabal-install
     stack
     cabal2nix
