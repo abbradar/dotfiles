@@ -138,6 +138,8 @@
     sane.enable = true;
   };
 
+  boot.extraModulePackages = [ config.boot.kernelPackages.xpadneo ]; 
+
   services = {
     teamviewer.enable = true;
 
@@ -150,6 +152,7 @@
     udev.packages = with pkgs; [
       android-udev-rules
       libmtp
+      config.boot.kernelPackages.xpadneo
       (pkgs.writeTextFile {
         name = "platformio-udev";
         text =  builtins.readFile ./99-platformio-udev.rules;
@@ -173,6 +176,7 @@
 
     postgresql = {
       enable = true;
+      package = pkgs.postgresql_11;
       extraConfig = ''
         log_statement = all
       '';
