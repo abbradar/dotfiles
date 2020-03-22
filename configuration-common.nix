@@ -2,7 +2,7 @@
 
 {
   nix = {
-    package = pkgs.nixUnstable;
+    #package = pkgs.nixUnstable;
     daemonNiceLevel = 10;
     daemonIONiceLevel = 4;
 
@@ -210,5 +210,13 @@
       configFile = ./default.pa;
       zeroconf.discovery.enable = true;
     };
+
+     bluetooth = {
+       config = {
+         General = {
+           ControllerMode = "bredr";
+         };
+       };
+     };
   };
 }

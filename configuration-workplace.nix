@@ -44,6 +44,7 @@
     androidenv.androidPkgs_9_0.platform-tools
     # platformio
     silver-searcher
+    pass
 
     # Runtimes
     steam-run-native
@@ -85,7 +86,8 @@
     emacs
     #irony-server
     cabal-install
-    stack
+    ghc
+    # stack
     cabal2nix
     nox
 
@@ -222,6 +224,11 @@
     package = pkgs.wireshark-qt;
   };
 
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryFlavor = "gnome3";
+  };
+
   security.pam.loginLimits = [
     { domain = "abbradar";
       type = "-";
@@ -245,9 +252,9 @@
       storageDriver = "btrfs";
     };
     libvirtd.enable = true;
-    virtualbox.host = {
-      enable = true;
-    };
+    #virtualbox.host = {
+    #  enable = true;
+    #};
   };
 
   fileSystems."/media/nfs" = {
