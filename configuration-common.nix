@@ -23,10 +23,6 @@
     # Allow unfree packages.
     allowUnfree = true;
 
-    firefox = {
-      icedtea = true;
-    };
-
     bochs = {
       debugger = true;
       disasm = true;
@@ -59,9 +55,6 @@
       };
       sudo = sudo.override {
         withInsults = true;
-      };
-      mpv = mpv.override {
-        vaapiSupport = true;
       };
       mumble_git = mumble_git.override {
         speechdSupport = true;
@@ -100,8 +93,10 @@
     ];
   };
 
-  # Select internationalization properties.
-  i18n.consoleKeyMap = "ruwin_cplk-UTF-8";
+  console = {
+    # Select internationalization properties.
+    keyMap = "ruwin_cplk-UTF-8";
+  };
 
   fonts.fontconfig.cache32Bit = true;
 
@@ -150,7 +145,6 @@
 
       # Files
       gptfdisk
-      p7zip
       zip
       unzip
       tree
@@ -201,7 +195,6 @@
   hardware = {
     opengl = {
       driSupport32Bit = true;
-      s3tcSupport = true;
     };
 
     pulseaudio = {

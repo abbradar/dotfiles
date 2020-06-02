@@ -2,7 +2,7 @@
 
 {
   imports =
-    [ /home/abbradar/dotfiles/configuration-common.nix
+    [ ./configuration-common.nix
     ];
 
   fonts.fonts = with pkgs; [
@@ -45,6 +45,7 @@
     # platformio
     silver-searcher
     pass
+    git-lfs
 
     # Runtimes
     steam-run-native
@@ -70,6 +71,7 @@
     youtube-dl
     syncplay
     gimp
+    audacity
     inkscape
     zathura
 
@@ -129,8 +131,11 @@
   ];
 
   i18n = {
-    consolePackages = [ pkgs.terminus_font ];
     inputMethod.enabled = "ibus";
+  };
+
+  console = {
+    packages = [ pkgs.terminus_font ];
   };
 
   sound.enable = true;
@@ -165,13 +170,13 @@
     xserver = {
       enable = true;
       displayManager.gdm.enable = true;
-      #displayManager.gdm.wayland = false;
+      displayManager.gdm.wayland = false;
+      wacom.enable = true;
       desktopManager.gnome3 = {
         enable = true;
         sessionPath = with pkgs.gnomeExtensions; [
-          #caffeine
+          caffeine
           appindicator
-          topicons-plus
        ];
       };
     };
@@ -252,9 +257,9 @@
       storageDriver = "btrfs";
     };
     libvirtd.enable = true;
-    #virtualbox.host = {
-    #  enable = true;
-    #};
+    virtualbox.host = {
+      enable = true;
+    };
   };
 
   fileSystems."/media/nfs" = {

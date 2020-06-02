@@ -11,4 +11,9 @@
 (add-hook! python-mode
   (setq-default python-shell-interpreter "python3"))
 
+(add-hook! 'visual-fill-column-mode-hook #'visual-line-mode)
+
+(add-hook! pollen-mode
+  (visual-fill-column-mode))
+
 (setq display-line-numbers-type 'relative)
