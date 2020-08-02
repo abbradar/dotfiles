@@ -200,7 +200,13 @@
     pulseaudio = {
       package = pkgs.pulseaudioFull;
       support32Bit = true;
-      configFile = ./default.pa;
+      extraConfig = ''
+        .nofail
+        unload-module module-stream-restore
+        .fail
+        load-module module-stream-restore restore_device=false
+        load-module module-switch-on-connect
+      '';
       zeroconf.discovery.enable = true;
     };
 
