@@ -149,6 +149,7 @@
     pulseaudio.enable = true;
     sane.enable = true;
     xpadneo.enable = true;
+    steam-hardware.enable = true;
   };
 
   services = {
