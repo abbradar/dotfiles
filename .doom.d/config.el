@@ -17,3 +17,9 @@
   (visual-fill-column-mode))
 
 (setq display-line-numbers-type 'relative)
+
+(add-hook! haskell-mode
+  (setq lsp-haskell-process-path-hie "haskell-language-server-wrapper"))
+
+(add-hook! fsharp-mode
+  (setq inferior-fsharp-program "dotnet fsi --readline-"))

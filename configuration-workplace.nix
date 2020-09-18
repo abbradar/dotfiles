@@ -88,10 +88,11 @@
     emacs
     #irony-server
     cabal-install
+    haskellPackages.haskell-language-server
     ghc
     # stack
     cabal2nix
-    nox
+    #nox
 
     # Network
     deluge
@@ -143,9 +144,8 @@
   hardware = {
     pulseaudio.enable = true;
     sane.enable = true;
+    xpadneo.enable = true;
   };
-
-  boot.extraModulePackages = [ config.boot.kernelPackages.xpadneo ]; 
 
   services = {
     teamviewer.enable = true;

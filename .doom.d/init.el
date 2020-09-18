@@ -75,12 +75,11 @@
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        eval              ; run code, run (also, repls)
-       flycheck          ; tasing you for every semicolon you forget
        ;;flyspell          ; tasing you for misspelling mispelling
        ;;gist              ; interacting with github gists
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
-       ;;lsp
+       lsp
        ;;macos             ; MacOS-specific commands
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
@@ -110,7 +109,7 @@
        ess               ; emacs speaks statistics
        fsharp           ; ML stands for Microsoft's Language
        go                ; the hipster dialect
-       (haskell +intero) ; a language that's lazier than I am
+       (haskell +lsp) ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
@@ -148,6 +147,9 @@
        ;;terra             ; Earth and Moon in alignment for performance.
        web               ; the tubes
        ;;vala              ; GObjective-C
+
+       :checkers
+       syntax
 
        :email
        ;;(mu4e +gmail)       ; WIP

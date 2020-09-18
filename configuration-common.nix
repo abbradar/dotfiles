@@ -175,6 +175,7 @@
       aria2
       socat
       mtr
+      sshfs-fuse
 
       # Utilities
       screen
