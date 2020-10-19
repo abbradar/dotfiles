@@ -49,6 +49,9 @@
 
     # Runtimes
     steam-run-native
+    (appimage-run.override {
+      extraPkgs = pkgs: [ pkgs.icu ];
+    })
     steam
     lgogdownloader
     wineWowPackages.staging
@@ -183,10 +186,8 @@
 
     postgresql = {
       enable = true;
-      package = pkgs.postgresql_11;
-      extraConfig = ''
-        log_statement = all
-      '';
+      package = pkgs.postgresql_13;
+      settings."log_statement" = "all";
     };
 
     samba = {
