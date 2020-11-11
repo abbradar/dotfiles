@@ -26,6 +26,7 @@
     loader.timeout = 0;
     supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
     plymouth.enable = true;
+    kernel.sysctl."kernel.sysrq" = 1;
   };
 
   networking = {
