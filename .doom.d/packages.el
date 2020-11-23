@@ -10,3 +10,4 @@
 (package! racket-mode)
 (package! pollen-mode)
 (package! visual-fill-column)
+(package! cobol-mode)

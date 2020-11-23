@@ -2,7 +2,7 @@
 
 {
   nix = {
-    #package = pkgs.nixUnstable;
+    package = pkgs.nixUnstable;
     daemonNiceLevel = 10;
     daemonIONiceLevel = 4;
 
@@ -16,6 +16,7 @@
 
     extraOptions = ''
       auto-optimise-store = true
+      experimental-features = nix-command flakes
     '';
   };
 
