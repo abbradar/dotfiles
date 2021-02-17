@@ -40,3 +40,7 @@
 
 (add-hook! fsharp-mode
   (setq inferior-fsharp-program "dotnet fsi --readline-"))
+
+(use-package! cobol-mode
+  :commands cobol-mode
+  :mode ("\\.cob\\'"))
