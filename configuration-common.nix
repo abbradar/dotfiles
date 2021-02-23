@@ -177,6 +177,7 @@
       socat
       mtr
       sshfs-fuse
+      curlftpfs
 
       # Utilities
       screen
