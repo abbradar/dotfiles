@@ -8,16 +8,26 @@
 
 (after! nix-sandbox
   (defun nix-find-sandbox (path)
-    (let ((sandbox (locate-dominating-file path "shell.nix")))
-      (if sandbox (concat (expand-file-name sandbox) "shell.nix")))))
+    (if-let ((sandbox (locate-dominating-file path "shell.nix")))
+        (concat (expand-file-name sandbox) "shell.nix"))))
 
 (defun default-nix-wrapper (args)
-  (if-let ((sandbox (nix-current-sandbox)))
-    (append
-     (append (list "nix-shell" "-I" "." "--command")
-             (list (mapconcat 'identity args " ")))
-     (list sandbox))
+  (if-let ((sandbox (locate-dominating-file default-directory "shell.nix")))
+      (let ((abs-path (expand-file-name sandbox)))
+        (append
+         '("nix" "develop")
+         (if (file-exists-p (concat abs-path "flake.nix"))
+           (list (concat abs-path "#"))
+           (list "-f" (concat abs-path "shell.nix")))
+         '("--command")
+         args))
     args))
+
+(defun test ()
+(let* ((exec-path (cons (expand-file-name "bin" irony-server-install-prefix)
+                          exec-path))
+       (exe (executable-find "irony-server")))
+  (prin1 (list "server" exe))))
 
 (add-hook! rust-mode
   (setq-default rust-indent-offset 2))

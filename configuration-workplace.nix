@@ -65,7 +65,7 @@
     virtmanager
 
     # Multimedia
-    firefox
+    (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
     chromium
     (deadbeef-with-plugins.override { 
       plugins = [ deadbeef-mpris2-plugin ]; 
@@ -90,6 +90,7 @@
     # Development
     vscode
     emacs
+    irony-server
     #irony-server
     cabal-install
     haskellPackages.haskell-language-server
@@ -154,6 +155,16 @@
 
   services = {
     teamviewer.enable = true;
+
+    /*pipewire = {
+      enable = true;
+      jack.enable = true;
+      pulse.enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+    };*/
 
     avahi.enable = true;
     printing = {
