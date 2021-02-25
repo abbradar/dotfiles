@@ -23,17 +23,14 @@
          args))
     args))
 
-(defun test ()
-(let* ((exec-path (cons (expand-file-name "bin" irony-server-install-prefix)
-                          exec-path))
-       (exe (executable-find "irony-server")))
-  (prin1 (list "server" exe))))
-
 (add-hook! rust-mode
   (setq-default rust-indent-offset 2))
 
 (add-hook! python-mode
   (setq-default python-shell-interpreter "python3"))
+
+(after! irony
+  (setq irony-server-install-prefix "/run/current-system/sw"))
 
 (add-hook! pollen-mode
   (visual-fill-column-mode))
