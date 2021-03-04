@@ -45,7 +45,7 @@
     androidenv.androidPkgs_9_0.platform-tools
     platformio
     silver-searcher
-    pass
+    pass-otp
     git-lfs
 
     # Runtimes
