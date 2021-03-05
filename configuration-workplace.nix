@@ -91,7 +91,6 @@
     vscode
     emacs
     irony-server
-    #irony-server
     cabal-install
     haskellPackages.haskell-language-server
     ghc
