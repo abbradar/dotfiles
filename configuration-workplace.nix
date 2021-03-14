@@ -12,6 +12,7 @@
     noto-fonts-emoji
     source-code-pro
     cm_unicode
+    corefonts
   ];
 
   nix.nixPath = [ "nixpkgs=/home/abbradar/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
