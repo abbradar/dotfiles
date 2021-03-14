@@ -14,13 +14,17 @@
 (defun default-nix-wrapper (args)
   (if-let ((sandbox (locate-dominating-file default-directory "shell.nix")))
       (let ((abs-path (expand-file-name sandbox)))
-        (append
-         '("nix" "develop")
-         (if (file-exists-p (concat abs-path "flake.nix"))
-           (list (concat abs-path "#"))
-           (list "-f" (concat abs-path "shell.nix")))
-         '("--command")
-         args))
+        (if (file-exists-p (concat abs-path "flake.nix"))
+            (append
+             '("nix" "develop")
+             (list (concat abs-path "#"))
+             '("--command")
+             args)
+          (append
+           '("nix-shell" "--run")
+           (list
+            (mapconcat 'shell-quote-argument args " ")
+            (concat abs-path "shell.nix")))))
     args))
 
 (add-hook! rust-mode

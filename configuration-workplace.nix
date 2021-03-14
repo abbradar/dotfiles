@@ -77,6 +77,7 @@
     gimp
     audacity
     inkscape
+    xsane
     zathura
 
     # Messengers
@@ -147,7 +148,10 @@
 
   hardware = {
     pulseaudio.enable = true;
-    sane.enable = true;
+    sane = {
+      enable = true;
+      # extraBackends = [ pkgs.utsushi ];
+    };
     xpadneo.enable = true;
     steam-hardware.enable = true;
   };
@@ -165,7 +169,10 @@
       };
     };*/
 
-    avahi.enable = true;
+    avahi = {
+      enable = true;
+      nssmdns = true;
+    };
     printing = {
       enable = true;
       drivers = with pkgs; [ epson-escpr gutenprint ];
