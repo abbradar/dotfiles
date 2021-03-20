@@ -275,7 +275,7 @@
   virtualisation = {
     docker = {
       enable = true;
-      storageDriver = "btrfs";
+      #storageDriver = "btrfs";
     };
     libvirtd.enable = true;
     virtualbox.host = {

@@ -214,7 +214,7 @@
     };
 
      bluetooth = {
-       config = {
+       settings = {
          General = {
            ControllerMode = "bredr";
          };
