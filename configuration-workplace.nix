@@ -65,6 +65,7 @@
 
     # VM
     virtmanager
+    docker-compose
 
     # Multimedia
     (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
