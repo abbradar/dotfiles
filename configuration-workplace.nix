@@ -48,6 +48,7 @@
     silver-searcher
     pass-otp
     git-lfs
+    jq
 
     # Runtimes
     steam-run-native
@@ -155,6 +156,7 @@
     };
     xpadneo.enable = true;
     steam-hardware.enable = true;
+    usbWwan.enable = true;
   };
 
   services = {
@@ -195,7 +197,7 @@
       displayManager.gdm.enable = true;
       displayManager.gdm.wayland = false;
       wacom.enable = true;
-      desktopManager.gnome3 = {
+      desktopManager.gnome = {
         enable = true;
         sessionPath = with pkgs.gnomeExtensions; [
           caffeine
