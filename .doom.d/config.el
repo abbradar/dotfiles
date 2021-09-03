@@ -55,3 +55,6 @@
 (use-package! cobol-mode
   :commands cobol-mode
   :mode ("\\.cob\\'"))
+
+(add-hook! alchemist-mode
+  (setq inferior-fsharp-program "dotnet fsi --readline-"))

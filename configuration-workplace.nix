@@ -78,6 +78,7 @@
     youtube-dl
     syncplay
     gimp
+    darktable
     audacity
     inkscape
     xsane
@@ -161,7 +162,7 @@
   };
 
   services = {
-    teamviewer.enable = true;
+    #teamviewer.enable = true;
 
     /*pipewire = {
       enable = true;
