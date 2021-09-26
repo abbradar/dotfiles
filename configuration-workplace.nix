@@ -17,6 +17,12 @@
 
   nix.nixPath = [ "nixpkgs=/home/abbradar/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
 
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+    }))
+  ];
+
   nixpkgs.config = {
     android_sdk.accept_license = true;
     # Build packages with pulseaudio support
@@ -94,7 +100,7 @@
 
     # Development
     vscode
-    emacs
+    emacsGcc
     irony-server
     cabal-install
     haskellPackages.haskell-language-server
