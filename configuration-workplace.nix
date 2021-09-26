@@ -272,10 +272,6 @@
     }
   ];
 
-  security.wrappers."mount.nfs" = {
-    source = "${pkgs.nfs-utils}/bin/mount.nfs";
-  };
-
   virtualisation = {
     docker = {
       enable = true;
