@@ -32,6 +32,10 @@
   boot = {
     loader.timeout = 0;
     supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
+    kernelModules = [ "v4l2loopback" ];
+    extraModulePackages = [
+      config.boot.kernelPackages.v4l2loopback
+    ];
     plymouth.enable = true;
     kernel.sysctl."kernel.sysrq" = 1;
   };
@@ -74,7 +78,7 @@
     docker-compose
 
     # Multimedia
-    (firefox.override { extraNativeMessagingHosts = [ passff-host ]; })
+    (firefox.override { extraNativeMessagingHosts = [ (passff-host.override { pass = pass-otp; }) ]; })
     chromium
     (deadbeef-with-plugins.override { 
       plugins = [ deadbeef-mpris2-plugin ]; 
@@ -89,6 +93,7 @@
     inkscape
     xsane
     zathura
+    obs-studio
 
     # Messengers
     #dino
@@ -192,7 +197,6 @@
     udev.packages = with pkgs; [
       android-udev-rules
       libmtp
-      config.boot.kernelPackages.xpadneo
       (pkgs.writeTextFile {
         name = "platformio-udev";
         text =  builtins.readFile ./99-platformio-udev.rules;
