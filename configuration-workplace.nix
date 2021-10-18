@@ -106,6 +106,8 @@
     # Development
     vscode
     emacsGcc
+    # For doom
+    ripgrep fd
     irony-server
     cabal-install
     haskellPackages.haskell-language-server
@@ -289,7 +291,7 @@
     };
     libvirtd.enable = true;
     virtualbox.host = {
-      #enable = true;
+      enable = true;
     };
   };
 
