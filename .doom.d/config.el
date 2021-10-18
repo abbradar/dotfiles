@@ -58,3 +58,8 @@
 
 (add-hook! alchemist-mode
   (setq inferior-fsharp-program "dotnet fsi --readline-"))
+
+(add-hook! org-mode
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t))))
