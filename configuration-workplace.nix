@@ -107,7 +107,8 @@
     vscode
     emacsGcc
     # For doom
-    ripgrep fd
+    ripgrep fd direnv rtags
+    glslang
     irony-server
     cabal-install
     haskellPackages.haskell-language-server
