@@ -62,4 +62,9 @@
 (add-hook! org-mode
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((python . t))))
+   '((python . t)))
+  (setq org-latex-pdf-process '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (add-to-list 'org-latex-packages-alist '("" "tabu"))
+  (setq org-latex-default-table-environment "tabu"))

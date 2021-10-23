@@ -12,6 +12,7 @@
     noto-fonts-emoji
     source-code-pro
     cm_unicode
+    inter
     corefonts
   ];
 
@@ -153,6 +154,7 @@
         #collection-science
         collection-xetex;
     })
+    python3.pkgs.pygments
   ];
 
   i18n = {
