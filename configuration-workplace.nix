@@ -76,6 +76,7 @@
     # VM
     virtmanager
     docker-compose
+    podman-compose
 
     # Multimedia
     (firefox.override { extraNativeMessagingHosts = [ (passff-host.override { pass = pass-otp; }) ]; })
@@ -286,10 +287,8 @@
   ];
 
   virtualisation = {
-    docker = {
-      enable = true;
-      #storageDriver = "btrfs";
-    };
+    docker.enable = true;
+    podman.enable = true;
     libvirtd.enable = true;
     virtualbox.host = {
       enable = true;
