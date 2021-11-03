@@ -23,7 +23,6 @@ antigen use oh-my-zsh
 [[ $distro = *arch* ]] && antigen bundle archlinux
 [[ $distro = *debian* ]] && antigen bundle debian
 antigen bundle command-not-found
-antigen bundle autojump
 antigen bundle cabal
 antigen bundle dircycle
 antigen bundle gitfast

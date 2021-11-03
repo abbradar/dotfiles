@@ -117,7 +117,6 @@
     # stack
     cabal2nix
     #nox
-    autojump
 
     # Network
     deluge
