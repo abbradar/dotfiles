@@ -1,5 +1,6 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
+with lib;
 {
   imports =
     [ ./configuration-common.nix
@@ -95,6 +96,8 @@
     xsane
     zathura
     obs-studio
+    qjackctl
+    pulseaudio # for pacmd
 
     # Messengers
     #dino
@@ -181,16 +184,7 @@
   services = {
     #k3s.enable = true;
     #teamviewer.enable = true;
-
-    pipewire = {
-      enable = true;
-      jack.enable = true;
-      pulse.enable = true;
-      alsa = {
-        enable = true;
-        support32Bit = true;
-      };
-    };
+    pipewire.enable = true;
 
     avahi = {
       enable = true;

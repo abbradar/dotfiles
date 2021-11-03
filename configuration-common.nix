@@ -1,5 +1,6 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
+with lib;
 {
   nix = {
     package = pkgs.nixUnstable;
@@ -122,6 +123,22 @@
         KEYBOARD_KEY_c022d=pageup
         KEYBOARD_KEY_c022e=pagedown
     '';
+
+    pipewire = {
+      jack.enable = true;
+      pulse.enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+    };
+  };
+
+  systemd.user.services.pipewire-pulse = mkIf config.services.pipewire.enable {
+    postStart = ''
+      ${pkgs.pulseaudio}/bin/pactl load-module module-switch-on-connect
+      ${pkgs.pulseaudio}/bin/pactl load-module module-zeroconf-discover
+    '';
   };
 
   # Packages
@@ -200,20 +217,7 @@
       driSupport32Bit = true;
     };
 
-    pulseaudio = {
-      package = pkgs.pulseaudioFull;
-      support32Bit = true;
-      extraConfig = ''
-        .nofail
-        unload-module module-stream-restore
-        .fail
-        load-module module-stream-restore restore_device=false
-        load-module module-switch-on-connect
-      '';
-      zeroconf.discovery.enable = true;
-    };
-
-     bluetooth = {
+    bluetooth = {
        settings = {
          General = {
            ControllerMode = "bredr";
