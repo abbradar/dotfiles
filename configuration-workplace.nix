@@ -167,7 +167,8 @@
   sound.enable = true;
 
   hardware = {
-    pulseaudio.enable = true;
+    # We use PipeWire
+    pulseaudio.enable = false;
     sane = {
       enable = true;
       # extraBackends = [ pkgs.utsushi ];
@@ -178,9 +179,10 @@
   };
 
   services = {
+    #k3s.enable = true;
     #teamviewer.enable = true;
 
-    /*pipewire = {
+    pipewire = {
       enable = true;
       jack.enable = true;
       pulse.enable = true;
@@ -188,7 +190,7 @@
         enable = true;
         support32Bit = true;
       };
-    };*/
+    };
 
     avahi = {
       enable = true;
@@ -273,6 +275,8 @@
     enable = true;
     pinentryFlavor = "gnome3";
   };
+
+  security.rtkit.enable = true;
 
   security.pam.loginLimits = [
     { domain = "abbradar";
