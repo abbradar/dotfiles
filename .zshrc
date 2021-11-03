@@ -22,11 +22,10 @@ antigen use oh-my-zsh
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 [[ $distro = *arch* ]] && antigen bundle archlinux
 [[ $distro = *debian* ]] && antigen bundle debian
-antigen bundle command-not-found
+[[ $distro = *nixos* ]] || antigen bundle command-not-found
 antigen bundle cabal
 antigen bundle dircycle
 antigen bundle gitfast
-antigen bundle mercurial
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
