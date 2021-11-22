@@ -136,8 +136,10 @@ with lib;
 
   systemd.user.services.pipewire-pulse = mkIf config.services.pipewire.enable {
     postStart = ''
-      ${pkgs.pulseaudio}/bin/pactl load-module module-switch-on-connect
-      ${pkgs.pulseaudio}/bin/pactl load-module module-zeroconf-discover
+      if (( UID >= 1000 )); then
+        ${pkgs.pulseaudio}/bin/pactl load-module module-switch-on-connect || true
+        ${pkgs.pulseaudio}/bin/pactl load-module module-zeroconf-discover || true
+      fi
     '';
   };
 

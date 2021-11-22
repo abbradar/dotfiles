@@ -211,7 +211,6 @@ with lib;
     xserver = {
       enable = true;
       displayManager.gdm.enable = true;
-      # displayManager.gdm.wayland = false;
       wacom.enable = true;
       desktopManager.gnome = {
         enable = true;
