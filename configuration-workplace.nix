@@ -99,6 +99,9 @@ with lib;
     qjackctl
     pulseaudio # for pacmd
 
+    # GUI
+    wl-clipboard
+
     # Messengers
     #dino
     gajim

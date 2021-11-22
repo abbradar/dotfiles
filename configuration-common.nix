@@ -4,8 +4,8 @@ with lib;
 {
   nix = {
     package = pkgs.nixUnstable;
-    daemonNiceLevel = 10;
-    daemonIONiceLevel = 4;
+    daemonCPUSchedPolicy = "batch";
+    daemonIOSchedPriority = 4;
 
     gc = {
       automatic = true;
