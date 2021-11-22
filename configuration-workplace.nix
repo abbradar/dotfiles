@@ -71,7 +71,7 @@ with lib;
     lgogdownloader
     wineWowPackages.staging
     lutris
-    openjdk11
+    jdk
     leiningen
     icedtea_web
 
