@@ -94,7 +94,7 @@ with lib;
     })
     thunderbird
     mpv
-    youtube-dl
+    yt-dlp
     syncplay
     gimp
     darktable
