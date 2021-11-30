@@ -29,6 +29,11 @@ with lib;
     android_sdk.accept_license = true;
     # Build packages with pulseaudio support
     pulseaudio = true;
+    firefox = {
+      enableBrowserpass = true;
+      enableGnomeExtensions = true;
+      enableTridactylNative = true;
+    };
   };
 
   boot = {
@@ -80,7 +85,9 @@ with lib;
     docker-compose
 
     # Multimedia
-    (firefox.override { extraNativeMessagingHosts = [ (passff-host.override { pass = pass-otp; }) ]; })
+    (firefox.override {
+      extraNativeMessagingHosts = [ (passff-host.override { pass = pass-otp; }) ];
+    })
     chromium
     (deadbeef-with-plugins.override { 
       plugins = [ deadbeef-mpris2-plugin ]; 
@@ -177,7 +184,7 @@ with lib;
     pulseaudio.enable = false;
     sane = {
       enable = true;
-      # extraBackends = [ pkgs.utsushi ];
+      extraBackends = [ pkgs.utsushi ];
     };
     xpadneo.enable = true;
     steam-hardware.enable = true;
@@ -206,6 +213,7 @@ with lib;
         text =  builtins.readFile ./99-platformio-udev.rules;
         destination = "/etc/udev/rules.d/99-platformio-udev.rules";
       })
+      utsushi
     ];
 
     xserver = {
