@@ -265,7 +265,7 @@ with lib;
         passwordFile = "/root/.abbradar.passwd";
         isNormalUser = true;
         uid = 1000;
-        extraGroups = [ "wheel" "docker" "wireshark" "libvirtd" "cdrom" ];
+        extraGroups = [ "wheel" "docker" "wireshark" "libvirtd" "cdrom" "vboxusers" ];
       };
     };
   };
@@ -300,6 +300,7 @@ with lib;
     libvirtd.enable = true;
     virtualbox.host = {
       enable = true;
+      #enableExtensionPack = true;
     };
   };
 
