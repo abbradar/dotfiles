@@ -41,28 +41,8 @@ with lib;
     };
 
     packageOverrides = self: with self; {
-      pidgin-with-plugins = pidgin-with-plugins.override {
-        plugins = [ pidginlatex pidginotr ];
-      };
-      gajim = gajim.override {
-        extraPythonPackages = pkgs: [ pkgs.python-axolotl ];
-      };
       deadbeef-with-plugins = deadbeef-with-plugins.override {
         plugins = [ deadbeef-mpris2-plugin ];
-      };
-      xfce = xfce // {
-        thunar-with-plugins = xfce.thunar-with-plugins.override {
-          plugins = [ xfce.thunar_archive_plugin ];
-        };
-      };
-      sudo = sudo.override {
-        withInsults = true;
-      };
-      mumble_git = mumble_git.override {
-        speechdSupport = true;
-        speechd = speechd.override {
-          withEspeak = true;
-        };
       };
       wine = wineStaging;
     };

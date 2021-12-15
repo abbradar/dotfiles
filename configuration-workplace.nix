@@ -21,7 +21,7 @@ with lib;
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/c51b95cce591f58e0631f6c3c2cdc0c9ff96adab.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/814b13b4ac9fd9e8aacfcd72c04aeb17643d9f76.tar.gz;
     }))
   ];
 
@@ -297,6 +297,8 @@ with lib;
 
   virtualisation = {
     docker.enable = true;
+    docker.rootless.enable = true;
+    docker.rootless.setSocketVariable = true;
     libvirtd.enable = true;
     virtualbox.host = {
       enable = true;
