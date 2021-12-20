@@ -95,6 +95,7 @@ with lib;
     thunderbird
     mpv
     yt-dlp
+    stremio
     syncplay
     gimp
     darktable
