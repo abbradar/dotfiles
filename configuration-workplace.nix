@@ -195,6 +195,7 @@ with lib;
     #k3s.enable = true;
     #teamviewer.enable = true;
     pipewire.enable = true;
+    flatpak.enable = true;
 
     avahi = {
       enable = true;
