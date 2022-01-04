@@ -1,7 +1,10 @@
 { lib, config, pkgs, ... }:
 
 with lib;
-{
+
+let
+  myUtsushi = pkgs.utsushi.override { withNetworkScan = true; };
+in {
   imports =
     [ ./configuration-common.nix
     ];
@@ -185,7 +188,7 @@ with lib;
     pulseaudio.enable = false;
     sane = {
       enable = true;
-      extraBackends = [ pkgs.utsushi ];
+      extraBackends = [ myUtsushi ];
     };
     xpadneo.enable = true;
     steam-hardware.enable = true;
@@ -215,7 +218,7 @@ with lib;
         text =  builtins.readFile ./99-platformio-udev.rules;
         destination = "/etc/udev/rules.d/99-platformio-udev.rules";
       })
-      utsushi
+      myUtsushi
     ];
 
     xserver = {
