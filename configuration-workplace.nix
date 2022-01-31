@@ -116,6 +116,7 @@ in {
     # Messengers
     #dino
     gajim
+    dino
     element-desktop
     tdesktop
     signal-desktop
