@@ -13,7 +13,7 @@ with lib;
     };
 
     # Use sandboxed builds.
-    useSandbox = true;
+    settings.sandbox = true;
 
     extraOptions = ''
       auto-optimise-store = true
