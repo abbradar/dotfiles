@@ -4,6 +4,8 @@ with lib;
 
 let
   myUtsushi = pkgs.utsushi.override { withNetworkScan = true; };
+
+  myPass = pkgs.pass.withExtensions (exts: with exts; [ pass-otp ]);
 in {
   imports =
     [ ./configuration-common.nix
@@ -66,7 +68,7 @@ in {
     androidenv.androidPkgs_9_0.platform-tools
     #platformio
     silver-searcher
-    pass-otp
+    myPass
     git-lfs
     jq
 
@@ -89,11 +91,11 @@ in {
 
     # Multimedia
     (firefox.override {
-      extraNativeMessagingHosts = [ (passff-host.override { pass = pass-otp; }) ];
+      extraNativeMessagingHosts = [ (passff-host.override { pass = myPass; }) ];
     })
     chromium
     (deadbeef-with-plugins.override { 
-      plugins = [ deadbeef-mpris2-plugin ]; 
+      plugins = with deadbeefPlugins; [ mpris2 ]; 
     })
     thunderbird
     mpv
@@ -105,7 +107,7 @@ in {
     audacity
     inkscape
     xsane
-    zathura
+    # zathura
     obs-studio
     qjackctl
     pulseaudio # for pacmd
@@ -114,8 +116,7 @@ in {
     wl-clipboard
 
     # Messengers
-    #dino
-    gajim
+    #gajim
     dino
     element-desktop
     tdesktop
@@ -196,11 +197,15 @@ in {
     usbWwan.enable = true;
   };
 
+  documentation.nixos.enable = false;
+
   services = {
     #k3s.enable = true;
     #teamviewer.enable = true;
     pipewire.enable = true;
     flatpak.enable = true;
+    # FIXME
+    system-config-printer.enable = false;
 
     avahi = {
       enable = true;
@@ -242,7 +247,7 @@ in {
     };
 
     samba = {
-      enable = true;
+      # enable = true;
       extraConfig = ''
         bind interfaces only = yes
         interfaces = virbr0
@@ -259,6 +264,7 @@ in {
   programs = {
     zsh.enable = true;
     cdemu.enable = true;
+    gnome-terminal.enable = true;
   };
 
   users = {
