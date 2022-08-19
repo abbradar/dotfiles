@@ -6,6 +6,23 @@ let
   myUtsushi = pkgs.utsushi.override { withNetworkScan = true; };
 
   myPass = pkgs.pass.withExtensions (exts: with exts; [ pass-otp ]);
+
+  jupyter = import (builtins.fetchGit {
+    url = https://github.com/tweag/jupyterWith;
+    # Example working revision, check out the latest one.
+    rev = "2b10030df2a29beed10c02d5f64745b143206350";
+  }) {};
+
+  iPython = jupyter.kernels.iPythonWith {
+    name = "python";
+    packages = p: with p; [ numpy pandas ];
+  };
+
+  jupyterEnvironment =
+    jupyter.jupyterlabWith {
+      kernels = [ iPython ];
+    };
+
 in {
   imports =
     [ ./configuration-common.nix
@@ -20,13 +37,14 @@ in {
     cm_unicode
     inter
     corefonts
+    nerdfonts
   ];
 
   nix.nixPath = [ "nixpkgs=/home/abbradar/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/814b13b4ac9fd9e8aacfcd72c04aeb17643d9f76.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/f22fe28d687085b9c969f84b8784aca67b7340f4.tar.gz;
     }))
   ];
 
@@ -55,6 +73,11 @@ in {
   networking = {
     firewall.enable = false;
     wireguard.enable = true;
+    networkmanager = {
+      enable = true;
+      ethernet.macAddress = "stable";
+      wifi.macAddress = "stable";
+    };
   };
 
   environment.systemPackages = with pkgs; [
@@ -116,26 +139,32 @@ in {
     wl-clipboard
 
     # Messengers
-    #gajim
-    dino
+    gajim
     element-desktop
     tdesktop
     signal-desktop
     mumble_git
 
-    # Development
-    vscode
-    emacsGcc
-    # For doom
-    ripgrep fd direnv rtags
-    glslang
+    # Haskell
     irony-server
     cabal-install
     haskellPackages.haskell-language-server
+    jupyterEnvironment
     ghc
     # stack
     cabal2nix
-    #nox
+
+    # Development
+    vscode
+    emacsNativeComp
+    neovim-qt
+    # For doom
+    ripgrep fd direnv fzf
+    # rtags
+    glslang
+    ccls
+    llvmPackages_latest.clang
+    pyright
 
     # Network
     deluge
@@ -190,7 +219,7 @@ in {
     pulseaudio.enable = false;
     sane = {
       enable = true;
-      extraBackends = [ myUtsushi ];
+      # extraBackends = [ myUtsushi ];
     };
     xpadneo.enable = true;
     steam-hardware.enable = true;
@@ -201,7 +230,7 @@ in {
 
   services = {
     #k3s.enable = true;
-    #teamviewer.enable = true;
+    teamviewer.enable = true;
     pipewire.enable = true;
     flatpak.enable = true;
     # FIXME
@@ -224,7 +253,7 @@ in {
         text =  builtins.readFile ./99-platformio-udev.rules;
         destination = "/etc/udev/rules.d/99-platformio-udev.rules";
       })
-      myUtsushi
+      # myUtsushi
     ];
 
     xserver = {
@@ -239,6 +268,8 @@ in {
        ];
       };
     };
+
+    redis.servers."".enable = true;
 
     postgresql = {
       enable = true;
@@ -282,14 +313,20 @@ in {
     };
   };
 
-  programs.wireshark = {
-    enable = true;
-    package = pkgs.wireshark-qt;
-  };
+  programs = {
+    wireshark = {
+      enable = true;
+      package = pkgs.wireshark-qt;
+    };
 
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryFlavor = "gnome3";
+    gnupg.agent = {
+      enable = true;
+      pinentryFlavor = "gnome3";
+    };
+
+    /* neovim.plugins = with pkgs; [
+      (vimPlugins.nvim-treesitter.withPlugins (plugins: tree-sitter.allGrammars))
+    ]; */
   };
 
   security.rtkit.enable = true;
@@ -309,12 +346,12 @@ in {
 
   virtualisation = {
     docker.enable = true;
-    docker.rootless.enable = true;
-    docker.rootless.setSocketVariable = true;
+    #docker.rootless.enable = true;
+    #docker.rootless.setSocketVariable = true;
     libvirtd.enable = true;
     virtualbox.host = {
       enable = true;
-      #enableExtensionPack = true;
+      enableExtensionPack = true;
     };
   };
 

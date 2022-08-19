@@ -23,9 +23,9 @@ antigen use oh-my-zsh
 [[ $distro = *arch* ]] && antigen bundle archlinux
 [[ $distro = *debian* ]] && antigen bundle debian
 [[ $distro = *nixos* ]] || antigen bundle command-not-found
-antigen bundle cabal
-antigen bundle dircycle
-antigen bundle gitfast
+# antigen bundle cabal
+# antigen bundle dircycle
+# antigen bundle gitfast
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting

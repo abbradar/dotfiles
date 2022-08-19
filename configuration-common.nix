@@ -154,8 +154,11 @@ with lib;
       dos2unix
 
       # Editors
-      vim
       pastebinit
+      (neovim.override {
+        viAlias = true;
+        vimAlias = true;
+      })
 
       # Runtimes
       python3
@@ -189,9 +192,17 @@ with lib;
     ]);
   };
 
-  programs.ssh.extraConfig = ''
-    ServerAliveInterval 60
-  '';
+  programs = {
+   neovim = {
+     # enable = true;
+     viAlias = true;
+     vimAlias = true;
+   };
+
+    ssh.extraConfig = ''
+      ServerAliveInterval 60
+    '';
+  };
 
   # Enable OpenGL support.
   hardware = {
