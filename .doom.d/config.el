@@ -68,3 +68,6 @@
   (setq org-latex-listings 'minted)
   (add-to-list 'org-latex-packages-alist '("" "tabu"))
   (setq org-latex-default-table-environment "tabu"))
+
+(add-hook! c++-mode
+  (setq lsp-clients-clangd-executable (locate-file "nix-clangd" exec-path exec-suffixes 1)))

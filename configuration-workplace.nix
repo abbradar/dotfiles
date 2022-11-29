@@ -48,6 +48,9 @@ in {
     }))
   ];
 
+  # Time zone
+  time.timeZone = "Asia/Bangkok";
+
   nixpkgs.config = {
     android_sdk.accept_license = true;
     # Build packages with pulseaudio support
@@ -78,7 +81,14 @@ in {
       ethernet.macAddress = "stable";
       wifi.macAddress = "stable";
     };
+    # Needed for nasty captive portals to work.
+    resolvconf.dnsExtensionMechanism = false;
+    extraHosts = ''
+      10.1.0.59 git.sib.team
+    '';
   };
+
+  environment.pathsToLink = [ "/libexec" ];
 
   environment.systemPackages = with pkgs; [
     # Utils
@@ -144,6 +154,7 @@ in {
     tdesktop
     signal-desktop
     mumble_git
+    zoom-us
 
     # Haskell
     irony-server
@@ -157,13 +168,13 @@ in {
     # Development
     vscode
     emacsNativeComp
-    neovim-qt
+    # neovim-qt
     # For doom
     ripgrep fd direnv fzf
     # rtags
     glslang
-    ccls
     llvmPackages_latest.clang
+    clang-tools
     pyright
 
     # Network
@@ -171,6 +182,7 @@ in {
     miniupnpc
     wget
     openvpn
+    update-resolv-conf
     remmina
     shadowsocks-libev
     tor
@@ -230,11 +242,15 @@ in {
 
   services = {
     #k3s.enable = true;
-    teamviewer.enable = true;
+    # teamviewer.enable = true;
     pipewire.enable = true;
     flatpak.enable = true;
     # FIXME
     system-config-printer.enable = false;
+    # tailscale.enable = true;
+    pcscd = {
+      enable = true;
+    };
 
     avahi = {
       enable = true;
@@ -243,6 +259,15 @@ in {
     printing = {
       enable = true;
       drivers = with pkgs; [ epson-escpr gutenprint ];
+    };
+
+    dnscrypt-proxy2 = {
+      # enable = true;
+      settings = {
+        server_names = [ "cloudflare" ];
+        force_tcp = true;
+        log_level = 0;
+      };
     };
 
     udev.packages = with pkgs; [
@@ -324,9 +349,18 @@ in {
       pinentryFlavor = "gnome3";
     };
 
-    /* neovim.plugins = with pkgs; [
-      (vimPlugins.nvim-treesitter.withPlugins (plugins: tree-sitter.allGrammars))
-    ]; */
+    neovim = {
+      enable = true;
+      withPython3 = true;
+      configure = {
+        packages.myVimPackage = with pkgs.vimPlugins; {
+          start = [
+            (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+            coq_nvim
+          ];
+        };
+      };
+    };
   };
 
   security.rtkit.enable = true;
@@ -345,9 +379,10 @@ in {
   ];
 
   virtualisation = {
-    docker.enable = true;
-    #docker.rootless.enable = true;
-    #docker.rootless.setSocketVariable = true;
+    docker = {
+      enable = true;
+      # enableSysbox = true;
+    };
     libvirtd.enable = true;
     virtualbox.host = {
       enable = true;

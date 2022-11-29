@@ -12,13 +12,10 @@ with lib;
       dates = "weekly";
     };
 
-    # Use sandboxed builds.
-    settings.sandbox = true;
-
-    extraOptions = ''
-      auto-optimise-store = true
-      experimental-features = nix-command flakes
-    '';
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = "nix-command flakes";
+    };
   };
 
   nixpkgs.config = {
@@ -61,9 +58,6 @@ with lib;
     systemd-tmpfiles-setup.before = [ "sysinit.target" ];
     systemd-update-utmp.after = [ "systemd-tmpfiles-setup.service" ];
   };
-
-  # Time zone
-  time.timeZone = "Europe/Moscow";
 
   # Security
   security = {
