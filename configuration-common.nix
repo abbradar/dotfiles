@@ -3,7 +3,7 @@
 with lib;
 {
   nix = {
-    package = pkgs.nixUnstable;
+    # package = pkgs.nixUnstable;
     daemonCPUSchedPolicy = "batch";
     daemonIOSchedPriority = 4;
 
@@ -14,7 +14,7 @@ with lib;
 
     settings = {
       auto-optimise-store = true;
-      experimental-features = "nix-command flakes";
+      experimental-features = ["nix-command" "flakes"];
     };
   };
 
@@ -46,8 +46,6 @@ with lib;
   };
 
   boot = {
-    # kernelPackages = pkgs.linuxPackages_latest;
-
     cleanTmpDir = true;
 
     loader.efi.canTouchEfiVariables = true;
@@ -79,12 +77,20 @@ with lib;
   services = {
     xserver = {
       layout = "us,ru";
-      xkbOptions = "eurosign:e,grp:caps_toggle,grp_led:scroll,terminate:ctrl_alt_bksp";
+      xkbOptions = concatStringsSep "," [
+        "eurosign:e"
+        "grp:caps_toggle"
+        "grp_led:scroll"
+        "terminate:ctrl_alt_bksp"
+        "compose:ralt"
+      ];
       enableCtrlAltBackspace = true;
     };
 
     openssh = {
-      passwordAuthentication = false;
+      settings = {
+        PasswordAuthentication = false;
+      };
     };
 
     udev.extraHwdb = ''

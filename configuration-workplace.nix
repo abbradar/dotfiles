@@ -7,7 +7,7 @@ let
 
   myPass = pkgs.pass.withExtensions (exts: with exts; [ pass-otp ]);
 
-  jupyter = import (builtins.fetchGit {
+  /*jupyter = import (builtins.fetchGit {
     url = https://github.com/tweag/jupyterWith;
     # Example working revision, check out the latest one.
     rev = "2b10030df2a29beed10c02d5f64745b143206350";
@@ -21,7 +21,7 @@ let
   jupyterEnvironment =
     jupyter.jupyterlabWith {
       kernels = [ iPython ];
-    };
+    };*/
 
 in {
   imports =
@@ -66,6 +66,7 @@ in {
     loader.timeout = 0;
     supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
     kernelModules = [ "v4l2loopback" ];
+    kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = [
       config.boot.kernelPackages.v4l2loopback
     ];
@@ -114,6 +115,7 @@ in {
     lgogdownloader
     wineWowPackages.staging
     lutris
+    gnome3.zenity
     jdk
     leiningen
     icedtea_web
@@ -160,7 +162,7 @@ in {
     irony-server
     cabal-install
     haskellPackages.haskell-language-server
-    jupyterEnvironment
+    #jupyterEnvironment
     ghc
     # stack
     cabal2nix
@@ -189,6 +191,7 @@ in {
 
     # Documents
     libreoffice
+    anki
     (texlive.combine {
       inherit (texlive)
         collection-basic
