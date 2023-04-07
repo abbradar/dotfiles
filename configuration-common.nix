@@ -214,7 +214,7 @@ with lib;
        # package = pkgs.bluez5-experimental;
        settings = {
          General = {
-           # ControllerMode = "bredr";
+           ControllerMode = "bredr";
            # ControllerMode = "le";
          };
        };

@@ -85,7 +85,8 @@ in {
     # Needed for nasty captive portals to work.
     resolvconf.dnsExtensionMechanism = false;
     extraHosts = ''
-      10.1.0.59 git.sib.team
+      10.2.3.20 git.sib.team
+      10.2.2.253 git.sib.team
     '';
   };
 

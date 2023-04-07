@@ -1,6 +1,6 @@
 [core]
 [user]
-	email = ab@fmap.me
+	email = nicolas.a@spectral-team.com
 	name = Nikolay Amiantov
 [sendemail]
 	smtpencryption = tls
@@ -13,12 +13,12 @@
 	default = simple
 [rerere]
 	enabled = true
-[filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
 [pull]
 	rebase = true
 [init]
 	defaultBranch = master
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
