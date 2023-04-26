@@ -1,6 +1,6 @@
 [core]
 [user]
-	email = nicolas.a@spectral-team.com
+	email = ab@fmap.me
 	name = Nikolay Amiantov
 [sendemail]
 	smtpencryption = tls

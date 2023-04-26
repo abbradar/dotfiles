@@ -46,7 +46,7 @@ with lib;
   };
 
   boot = {
-    cleanTmpDir = true;
+    tmp.cleanOnBoot = true;
 
     loader.efi.canTouchEfiVariables = true;
   };

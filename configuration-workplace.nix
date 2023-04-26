@@ -153,6 +153,7 @@ in {
 
     # Messengers
     gajim
+    dino
     element-desktop
     tdesktop
     signal-desktop
@@ -191,7 +192,7 @@ in {
     tor
 
     # Documents
-    libreoffice
+    # libreoffice
     anki
     (texlive.combine {
       inherit (texlive)
