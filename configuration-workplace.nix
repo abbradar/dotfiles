@@ -42,12 +42,6 @@ in {
 
   nix.nixPath = [ "nixpkgs=/home/abbradar/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
 
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/f22fe28d687085b9c969f84b8784aca67b7340f4.tar.gz;
-    }))
-  ];
-
   # Time zone
   time.timeZone = "Asia/Bangkok";
 
@@ -84,10 +78,6 @@ in {
     };
     # Needed for nasty captive portals to work.
     resolvconf.dnsExtensionMechanism = false;
-    extraHosts = ''
-      10.2.3.20 git.sib.team
-      10.2.2.253 git.sib.team
-    '';
   };
 
   environment.pathsToLink = [ "/libexec" ];
@@ -134,7 +124,9 @@ in {
       plugins = with deadbeefPlugins; [ mpris2 ]; 
     })
     thunderbird
-    mpv
+    (mpv.override {
+      scripts = with mpvScripts; [ inhibit-gnome ];
+    })
     yt-dlp
     stremio
     syncplay
@@ -171,7 +163,7 @@ in {
 
     # Development
     vscode
-    emacsNativeComp
+    emacs-unstable
     # neovim-qt
     # For doom
     ripgrep fd direnv fzf
@@ -192,8 +184,9 @@ in {
     tor
 
     # Documents
-    # libreoffice
+    libreoffice
     anki
+    nextcloud-client
     (texlive.combine {
       inherit (texlive)
         collection-basic
@@ -246,13 +239,15 @@ in {
   documentation.nixos.enable = false;
 
   services = {
-    #k3s.enable = true;
+    # k3s.enable = true;
     # teamviewer.enable = true;
     pipewire.enable = true;
     flatpak.enable = true;
-    # FIXME
     system-config-printer.enable = false;
-    # tailscale.enable = true;
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "client";
+    };
     pcscd = {
       enable = true;
     };
@@ -338,7 +333,7 @@ in {
         passwordFile = "/root/.abbradar.passwd";
         isNormalUser = true;
         uid = 1000;
-        extraGroups = [ "wheel" "docker" "wireshark" "libvirtd" "cdrom" "vboxusers" ];
+        extraGroups = [ "wheel" "docker" "podman" "wireshark" "libvirtd" "cdrom" "vboxusers" ];
       };
     };
   };
@@ -384,21 +379,18 @@ in {
   ];
 
   virtualisation = {
-    docker = {
+    # docker = {
+    #   enable = true;
+    #   enableSysbox = true;
+    # };
+    podman = {
       enable = true;
-      # enableSysbox = true;
+      dockerSocket.enable = true;
     };
     libvirtd.enable = true;
     virtualbox.host = {
-      enable = true;
-      enableExtensionPack = true;
+      # enable = true;
+      # enableExtensionPack = true;
     };
   };
-
-  fileSystems."/media/nfs" = {
-    fsType = "nfs";
-    device = "abbradarserver.lan:/srv/files";
-    options = [ "user" "noauto" ];
-  };
-
 }

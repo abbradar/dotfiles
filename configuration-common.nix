@@ -51,12 +51,6 @@ with lib;
     loader.efi.canTouchEfiVariables = true;
   };
 
-  # https://github.com/NixOS/nixpkgs/issues/4825
-  systemd.services = {
-    systemd-tmpfiles-setup.before = [ "sysinit.target" ];
-    systemd-update-utmp.after = [ "systemd-tmpfiles-setup.service" ];
-  };
-
   # Security
   security = {
     sudo.extraConfig = ''
@@ -155,10 +149,6 @@ with lib;
 
       # Editors
       pastebinit
-      (neovim.override {
-        viAlias = true;
-        vimAlias = true;
-      })
 
       # Runtimes
       python3
@@ -194,7 +184,7 @@ with lib;
 
   programs = {
    neovim = {
-     # enable = true;
+     enable = true;
      viAlias = true;
      vimAlias = true;
    };

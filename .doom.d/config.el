@@ -6,6 +6,9 @@
 (setq-default indent-tabs-mode nil)
 (setq display-line-numbers-type 'relative)
 
+(setq org-expiry-created-property-name "CREATED") ; Name of property when an item is created
+(setq org-expiry-inactive-timestamps t)           ; Don't have everything in the agenda view
+
 (after! nix-sandbox
   (defun nix-find-sandbox (path)
     (if-let ((sandbox (locate-dominating-file path "shell.nix")))
@@ -70,4 +73,6 @@
   (setq org-latex-default-table-environment "tabu"))
 
 (add-hook! c++-mode
-  (setq lsp-clients-clangd-executable (locate-file "nix-clangd" exec-path exec-suffixes 1)))
+  (setq lsp-clients-clangd-executable (locate-file "nix-clangd" exec-path exec-suffixes 1))) ;
+
+(setq smerge-command-prefix "\C-cv")
