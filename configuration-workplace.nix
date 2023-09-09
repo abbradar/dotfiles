@@ -273,11 +273,6 @@ in {
     udev.packages = with pkgs; [
       android-udev-rules
       libmtp
-      (pkgs.writeTextFile {
-        name = "platformio-udev";
-        text =  builtins.readFile ./99-platformio-udev.rules;
-        destination = "/etc/udev/rules.d/99-platformio-udev.rules";
-      })
       # myUtsushi
     ];
 
