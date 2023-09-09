@@ -28,7 +28,7 @@ in {
     [ ./configuration-common.nix
     ];
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     dejavu_fonts
     noto-fonts
     noto-fonts-cjk
@@ -233,7 +233,7 @@ in {
     };
     xpadneo.enable = true;
     steam-hardware.enable = true;
-    usbWwan.enable = true;
+    usb-modeswitch.enable = true;
   };
 
   documentation.nixos.enable = false;
