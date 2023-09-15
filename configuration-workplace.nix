@@ -86,7 +86,7 @@ in {
     # Utils
     powertop
     s-tui
-    minicom
+    # minicom
     mercurial
     google-cloud-sdk
     pavucontrol
