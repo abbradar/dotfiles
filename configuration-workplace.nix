@@ -47,11 +47,6 @@ in {
     android_sdk.accept_license = true;
     # Build packages with pulseaudio support
     pulseaudio = true;
-    firefox = {
-      enableBrowserpass = true;
-      enableGnomeExtensions = true;
-      enableTridactylNative = true;
-    };
   };
 
   boot = {
@@ -107,15 +102,16 @@ in {
     gnome3.zenity
     jdk
     leiningen
-    icedtea_web
+    # icedtea_web
+    adoptopenjdk-icedtea-web
 
     # VM
-    virtmanager
+    virt-manager
     docker-compose
 
     # Multimedia
     (firefox.override {
-      extraNativeMessagingHosts = [ (passff-host.override { pass = myPass; }) ];
+      nativeMessagingHosts = [ tridactyl-native gnome-browser-connector (passff-host.override { pass = myPass; }) ];
     })
     chromium
     (deadbeef-with-plugins.override { 
@@ -147,7 +143,7 @@ in {
     element-desktop
     tdesktop
     signal-desktop
-    mumble_git
+    mumble
     zoom-us
 
     # Haskell
@@ -319,9 +315,9 @@ in {
     defaultUserShell = pkgs.zsh;
 
     extraUsers = {
-      root.passwordFile = "/root/.passwd";
+      root.hashedPasswordFile = "/root/.passwd";
       abbradar = {
-        passwordFile = "/root/.abbradar.passwd";
+        hashedPasswordFile = "/root/.abbradar.passwd";
         isNormalUser = true;
         uid = 1000;
         extraGroups = [ "wheel" "docker" "podman" "wireshark" "libvirtd" "cdrom" "vboxusers" ];
