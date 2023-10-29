@@ -3,8 +3,6 @@
 with lib;
 
 let
-  myUtsushi = pkgs.utsushi.override { withNetworkScan = true; };
-
   myPass = pkgs.pass.withExtensions (exts: with exts; [ pass-otp ]);
 
   /*jupyter = import (builtins.fetchGit {
@@ -229,7 +227,6 @@ in {
     pulseaudio.enable = false;
     sane = {
       enable = true;
-      # extraBackends = [ myUtsushi ];
     };
     xpadneo.enable = true;
     steam-hardware.enable = true;
@@ -273,7 +270,6 @@ in {
     udev.packages = with pkgs; [
       android-udev-rules
       libmtp
-      # myUtsushi
     ];
 
     xserver = {
@@ -384,7 +380,7 @@ in {
     };
     libvirtd.enable = true;
     virtualbox.host = {
-      # enable = true;
+      enable = true;
       # enableExtensionPack = true;
     };
   };
