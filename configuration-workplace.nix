@@ -245,6 +245,8 @@ in {
       enable = true;
     };
 
+    resolved.enable = true;
+
     avahi = {
       enable = true;
       nssmdns = true;
