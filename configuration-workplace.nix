@@ -283,7 +283,7 @@ in {
       };
     };
 
-    redis.servers."".enable = true;
+    # redis.servers."".enable = true;
 
     postgresql = {
       enable = true;
