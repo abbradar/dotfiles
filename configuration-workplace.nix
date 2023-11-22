@@ -369,14 +369,15 @@ in {
   ];
 
   virtualisation = {
-    # docker = {
-    #   enable = true;
-    #   enableSysbox = true;
-    # };
-    podman = {
+    docker = {
       enable = true;
-      dockerSocket.enable = true;
+      # Fix working with networkd.
+      # enableSysbox = true;
     };
+    # podman = {
+    #   enable = true;
+    #   dockerSocket.enable = true;
+    # };
     libvirtd.enable = true;
     virtualbox.host = {
       enable = true;
