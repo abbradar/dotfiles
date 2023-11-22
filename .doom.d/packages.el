@@ -11,3 +11,6 @@
 (package! pollen-mode)
 (package! visual-fill-column)
 (package! cobol-mode)
+
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))

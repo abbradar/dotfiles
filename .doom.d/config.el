@@ -76,3 +76,11 @@
   (setq lsp-clients-clangd-executable (locate-file "nix-clangd" exec-path exec-suffixes 1))) ;
 
 (setq smerge-command-prefix "\C-cv")
+
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
