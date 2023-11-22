@@ -102,6 +102,7 @@ in {
     gnome3.zenity
     jdk
     leiningen
+    nodejs
     # icedtea_web
     adoptopenjdk-icedtea-web
 
