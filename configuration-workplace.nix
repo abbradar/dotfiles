@@ -88,7 +88,6 @@ in {
     silver-searcher
     myPass
     git-lfs
-    jq
 
     # Runtimes
     steam-run-native
@@ -167,6 +166,7 @@ in {
     llvmPackages_latest.clang
     clang-tools
     pyright
+    beamPackages.elixir-ls
 
     # Network
     deluge
@@ -284,7 +284,7 @@ in {
       };
     };
 
-    # redis.servers."".enable = true;
+    redis.servers."".enable = true;
 
     postgresql = {
       enable = true;

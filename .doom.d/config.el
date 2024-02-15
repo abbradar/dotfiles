@@ -68,12 +68,16 @@
    '((python . t)))
   (setq org-latex-pdf-process '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
   (add-to-list 'org-latex-packages-alist '("" "minted"))
-  (setq org-latex-listings 'minted)
+  (setq org-latex-src-block-backend 'minted)
   (add-to-list 'org-latex-packages-alist '("" "tabu"))
   (setq org-latex-default-table-environment "tabu"))
 
 (add-hook! c++-mode
-  (setq lsp-clients-clangd-executable (locate-file "nix-clangd" exec-path exec-suffixes 1))) ;
+  (setq lsp-clients-clangd-executable (executable-find "nix-clangd")))
+
+(add-hook! elixir-mode
+  (setq lsp-elixir-server-command '("elixir-ls"))
+  (setq lsp-elixir-local-server-command (executable-find "elixir-ls")))
 
 (setq smerge-command-prefix "\C-cv")
 

@@ -173,7 +173,8 @@ with lib;
 
       # Utilities
       screen
-      parallel
+      parallel-full
+      jq
       mkpasswd
 
       rxvt_unicode.terminfo
