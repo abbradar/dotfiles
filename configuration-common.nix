@@ -70,14 +70,16 @@ with lib;
 
   services = {
     xserver = {
-      layout = "us,ru";
-      xkbOptions = concatStringsSep "," [
-        "eurosign:e"
-        "grp:caps_toggle"
-        "grp_led:scroll"
-        "terminate:ctrl_alt_bksp"
-        "compose:ralt"
-      ];
+      xkb = {
+        layout = "us,ru";
+        options = concatStringsSep "," [
+          "eurosign:e"
+          "grp:caps_toggle"
+          "grp_led:scroll"
+          "terminate:ctrl_alt_bksp"
+          "compose:ralt"
+        ];
+      };
       enableCtrlAltBackspace = true;
     };
 

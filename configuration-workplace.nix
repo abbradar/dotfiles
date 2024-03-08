@@ -250,7 +250,7 @@ in {
 
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
     };
     printing = {
       enable = true;
