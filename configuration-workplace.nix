@@ -167,6 +167,7 @@ in {
     clang-tools
     pyright
     beamPackages.elixir-ls
+    shellcheck
 
     # Network
     deluge

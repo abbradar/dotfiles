@@ -15,20 +15,22 @@
         (concat (expand-file-name sandbox) "shell.nix"))))
 
 (defun default-nix-wrapper (args)
-  (if-let ((sandbox (locate-dominating-file default-directory "shell.nix")))
-      (let ((abs-path (expand-file-name sandbox)))
-        (if (file-exists-p (concat abs-path "flake.nix"))
+  (if (getenv "IN_NIX_SHELL")
+      args
+    (if-let ((sandbox (locate-dominating-file default-directory "shell.nix")))
+        (let ((abs-path (expand-file-name sandbox)))
+          (if (file-exists-p (concat abs-path "flake.nix"))
+              (append
+               '("nix" "develop")
+               (list (concat abs-path "#"))
+               '("--command")
+               args)
             (append
-             '("nix" "develop")
-             (list (concat abs-path "#"))
-             '("--command")
-             args)
-          (append
-           '("nix-shell" "--run")
-           (list
-            (mapconcat 'shell-quote-argument args " ")
-            (concat abs-path "shell.nix")))))
-    args))
+             '("nix-shell" "--run")
+             (list
+              (mapconcat 'shell-quote-argument args " ")
+              (concat abs-path "shell.nix")))))
+      args)))
 
 (add-hook! rust-mode
   (setq-default rust-indent-offset 2))
