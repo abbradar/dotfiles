@@ -157,7 +157,8 @@ in {
 
     # Development
     vscode
-    emacs-unstable
+    emacs
+    # emacs-unstable
     # neovim-qt
     # For doom
     ripgrep fd direnv fzf

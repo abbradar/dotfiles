@@ -14,7 +14,7 @@ with lib;
 
     settings = {
       auto-optimise-store = true;
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = ["nix-command" "flakes" "repl-flake"];
     };
   };
 
