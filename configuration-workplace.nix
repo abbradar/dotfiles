@@ -141,7 +141,14 @@ in {
     gajim
     dino
     element-desktop
-    tdesktop
+    # Has issues with Wayland
+    # tdesktop
+    (writers.writeBashBin "telegram-desktop" ''
+      if [ -z "''${QT_QPA_PLATFORM+x}" ]; then
+        export QT_QPA_PLATFORM=xcb
+      fi
+      exec ${tdesktop}/bin/telegram-desktop "$@"
+    '')
     signal-desktop
     mumble
     zoom-us
