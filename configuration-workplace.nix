@@ -88,6 +88,7 @@ in {
     silver-searcher
     myPass
     git-lfs
+    git-filter-repo
 
     # Runtimes
     steam-run-native
