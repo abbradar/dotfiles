@@ -137,6 +137,7 @@ in {
 
     # GUI
     wl-clipboard
+    gnome3.gnome-tweaks
 
     # Messengers
     gajim
@@ -293,6 +294,8 @@ in {
        ];
       };
     };
+
+    gnome.rygel.enable = true;
 
     redis.servers."".enable = true;
 
