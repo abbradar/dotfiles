@@ -138,6 +138,7 @@ in {
     # GUI
     wl-clipboard
     gnome3.gnome-tweaks
+    gnome3.gnome-themes-extra
 
     # Messengers
     gajim
@@ -220,6 +221,8 @@ in {
     python3.pkgs.pygments
   ];
 
+  environment.gnome.excludePackages = with pkgs; [gnome3.gnome-software];
+
   i18n = {
     inputMethod.enabled = "ibus";
   };
@@ -296,14 +299,6 @@ in {
     };
 
     gnome.rygel.enable = true;
-
-    redis.servers."".enable = true;
-
-    postgresql = {
-      enable = true;
-      package = pkgs.postgresql_13;
-      settings."log_statement" = "all";
-    };
 
     samba = {
       # enable = true;
