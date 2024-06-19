@@ -83,7 +83,7 @@ in {
     mercurial
     google-cloud-sdk
     pavucontrol
-    androidenv.androidPkgs_9_0.platform-tools
+    androidenv.androidPkgs.platform-tools
     #platformio
     silver-searcher
     myPass
