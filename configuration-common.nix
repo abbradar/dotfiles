@@ -197,9 +197,8 @@ with lib;
     '';
   };
 
-  # Enable OpenGL support.
   hardware = {
-    opengl.enable32Bit = true;
+    graphics.enable32Bit = true;
 
     bluetooth = {
        # package = pkgs.bluez5-experimental;
