@@ -99,7 +99,7 @@ in {
     lgogdownloader
     wineWowPackages.staging
     lutris
-    gnome3.zenity
+    zenity
     jdk
     leiningen
     nodejs
@@ -138,8 +138,8 @@ in {
 
     # GUI
     wl-clipboard
-    gnome3.gnome-tweaks
-    gnome3.gnome-themes-extra
+    gnome-tweaks
+    gnome-themes-extra
 
     # Messengers
     gajim
