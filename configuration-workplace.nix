@@ -89,6 +89,7 @@ in {
     myPass
     git-lfs
     git-filter-repo
+    rclone
 
     # Runtimes
     steam-run-native
