@@ -109,6 +109,7 @@ in {
     # VM
     virt-manager
     docker-compose
+    kubectl
 
     # Multimedia
     (firefox.override {
