@@ -234,8 +234,6 @@ in {
     packages = [ pkgs.terminus_font ];
   };
 
-  sound.enable = true;
-
   hardware = {
     # We use PipeWire
     pulseaudio.enable = false;
