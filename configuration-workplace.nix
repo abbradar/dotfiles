@@ -224,10 +224,13 @@ in {
     python3.pkgs.pygments
   ];
 
-  environment.gnome.excludePackages = with pkgs; [gnome3.gnome-software];
+  environment.gnome.excludePackages = with pkgs; [gnome-software];
 
   i18n = {
-    inputMethod.enabled = "ibus";
+    inputMethod = {
+      enable = true;
+      type = "ibus";
+    };
   };
 
   console = {
