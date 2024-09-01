@@ -182,6 +182,7 @@ in {
     pyright
     beamPackages.elixir-ls
     shellcheck
+    aichat
 
     # Network
     deluge
