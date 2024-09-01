@@ -246,6 +246,7 @@ in {
     xpadneo.enable = true;
     steam-hardware.enable = true;
     usb-modeswitch.enable = true;
+    flipperzero.enable = true;
   };
 
   documentation.nixos.enable = false;
