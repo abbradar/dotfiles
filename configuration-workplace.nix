@@ -321,12 +321,6 @@ in {
     };
   };
 
-  programs = {
-    zsh.enable = true;
-    cdemu.enable = true;
-    gnome-terminal.enable = true;
-  };
-
   users = {
     mutableUsers = false;
     defaultUserShell = pkgs.zsh;
@@ -343,6 +337,11 @@ in {
   };
 
   programs = {
+    zsh.enable = true;
+    cdemu.enable = true;
+    gnome-terminal.enable = true;
+    direnv.enable = true;
+
     wireshark = {
       enable = true;
       package = pkgs.wireshark-qt;
