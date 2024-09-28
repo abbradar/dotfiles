@@ -170,6 +170,7 @@ in {
 
     # Development
     vscode
+    code-cursor
     emacs
     # emacs-unstable
     # neovim-qt
