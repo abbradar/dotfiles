@@ -308,12 +308,12 @@ in {
 
     samba = {
       # enable = true;
-      settings = {
+      settings.global = {
         "bind interfaces only" = true;
         "interfaces" = "virbr0";
         "acl allow execute always" = true;
       };
-      shares.home = {
+      settings.home = {
         path = "/home/abbradar";
         "browseable" = "yes";
         "read only" = "no";
