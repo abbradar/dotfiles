@@ -308,11 +308,11 @@ in {
 
     samba = {
       # enable = true;
-      extraConfig = ''
-        bind interfaces only = yes
-        interfaces = virbr0
-        acl allow execute always = yes
-      '';
+      settings = {
+        "bind interfaces only" = true;
+        "interfaces" = "virbr0";
+        "acl allow execute always" = true;
+      };
       shares.home = {
         path = "/home/abbradar";
         "browseable" = "yes";
