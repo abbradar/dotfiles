@@ -178,8 +178,6 @@ with lib;
       parallel-full
       jq
       mkpasswd
-
-      rxvt_unicode.terminfo
     ]) ++ (with config.boot.kernelPackages; [
       #perf
     ]);
