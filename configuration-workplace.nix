@@ -184,6 +184,7 @@ in {
     beamPackages.elixir-ls
     shellcheck
     aichat
+    clickhouse
 
     # Network
     deluge
