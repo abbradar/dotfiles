@@ -90,6 +90,7 @@ in {
     git-lfs
     git-filter-repo
     rclone
+    pwgen
 
     # Runtimes
     steam-run-native
