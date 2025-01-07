@@ -35,8 +35,7 @@ in {
     cm_unicode
     inter
     corefonts
-    nerdfonts
-  ];
+  ] ++ filter isDerivation (attrValues nerd-fonts);
 
   nix.nixPath = [ "nixpkgs=/home/abbradar/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
 
