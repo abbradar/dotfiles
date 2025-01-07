@@ -240,8 +240,6 @@ in {
   };
 
   hardware = {
-    # We use PipeWire
-    pulseaudio.enable = false;
     sane = {
       enable = true;
     };
@@ -256,6 +254,8 @@ in {
   services = {
     # k3s.enable = true;
     # teamviewer.enable = true;
+    # We use PipeWire
+    pulseaudio.enable = false;
     pipewire.enable = true;
     flatpak.enable = true;
     system-config-printer.enable = false;
