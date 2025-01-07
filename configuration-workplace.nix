@@ -127,15 +127,14 @@ in {
     stremio
     syncplay
     gimp
-    # Broken
-    #darktable
     audacity
     inkscape
-    xsane
     # zathura
     obs-studio
     qjackctl
-    pulseaudio # for pacmd
+    # Broken
+    #darktable
+    #xsane
 
     # GUI
     wl-clipboard
@@ -171,7 +170,6 @@ in {
     vscode
     code-cursor
     emacs
-    # emacs-unstable
     # neovim-qt
     # For doom
     ripgrep fd direnv fzf
