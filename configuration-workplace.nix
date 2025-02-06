@@ -1,27 +1,30 @@
-{ lib, config, pkgs, ... }:
-
-with lib;
-
-let
-  myPass = pkgs.pass.withExtensions (exts: with exts; [ pass-otp ]);
-
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; let
+  myPass = pkgs.pass.withExtensions (exts: with exts; [pass-otp]);
 in {
-  imports =
-    [ ./configuration-common.nix
-    ];
+  imports = [
+    ./configuration-common.nix
+  ];
 
-  fonts.packages = with pkgs; [
-    dejavu_fonts
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-emoji
-    source-code-pro
-    cm_unicode
-    inter
-    corefonts
-  ] ++ filter isDerivation (attrValues nerd-fonts);
+  fonts.packages = with pkgs;
+    [
+      dejavu_fonts
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
+      source-code-pro
+      cm_unicode
+      inter
+      corefonts
+    ]
+    ++ filter isDerivation (attrValues nerd-fonts);
 
-  nix.nixPath = [ "nixpkgs=/home/abbradar/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" ];
+  nix.nixPath = ["nixpkgs=/home/abbradar/nixpkgs" "nixos-config=/etc/nixos/configuration.nix"];
 
   # Time zone
   time.timeZone = "Asia/Bangkok";
@@ -34,8 +37,8 @@ in {
 
   boot = {
     loader.timeout = 0;
-    supportedFilesystems = [ "nfs" "ntfs" "exfat" ];
-    kernelModules = [ "v4l2loopback" ];
+    supportedFilesystems = ["nfs" "ntfs" "exfat"];
+    kernelModules = ["v4l2loopback"];
     # kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = [
       config.boot.kernelPackages.v4l2loopback
@@ -56,7 +59,7 @@ in {
     resolvconf.dnsExtensionMechanism = false;
   };
 
-  environment.pathsToLink = [ "/libexec" ];
+  environment.pathsToLink = ["/libexec"];
 
   environment.systemPackages = with pkgs; [
     # Utils
@@ -78,7 +81,7 @@ in {
     # Runtimes
     steam-run-native
     (appimage-run.override {
-      extraPkgs = pkgs: [ pkgs.icu ];
+      extraPkgs = pkgs: [pkgs.icu];
     })
     steam
     lgogdownloader
@@ -97,15 +100,15 @@ in {
 
     # Multimedia
     (firefox.override {
-      nativeMessagingHosts = [ tridactyl-native gnome-browser-connector (passff-host.override { pass = myPass; }) ];
+      nativeMessagingHosts = [tridactyl-native gnome-browser-connector (passff-host.override {pass = myPass;})];
     })
     chromium
-    (deadbeef-with-plugins.override { 
-      plugins = with deadbeefPlugins; [ mpris2 ]; 
+    (deadbeef-with-plugins.override {
+      plugins = with deadbeefPlugins; [mpris2];
     })
     thunderbird
     (mpv.override {
-      scripts = with mpvScripts; [ inhibit-gnome ];
+      scripts = with mpvScripts; [inhibit-gnome];
     })
     yt-dlp
     stremio
@@ -129,14 +132,7 @@ in {
     gajim
     dino
     element-desktop
-    # Has issues with Wayland
     tdesktop
-    /*(writers.writeBashBin "telegram-desktop" ''
-      if [ -z "''${QT_QPA_PLATFORM+x}" ]; then
-        export QT_QPA_PLATFORM=xcb
-      fi
-      exec ${tdesktop}/bin/telegram-desktop "$@"
-    '')*/
     signal-desktop
     mumble
     zoom-us
@@ -155,9 +151,11 @@ in {
     code-cursor
     obsidian
     emacs
-    # neovim-qt
     # For doom
-    ripgrep fd direnv fzf
+    ripgrep
+    fd
+    direnv
+    fzf
     # rtags
     glslang
     llvmPackages_latest.clang
@@ -183,7 +181,8 @@ in {
     anki
     nextcloud-client
     (texlive.combine {
-      inherit (texlive)
+      inherit
+        (texlive)
         collection-basic
         metafont
         xits
@@ -204,7 +203,8 @@ in {
         #collection-plainextra
         collection-pstricks
         #collection-science
-        collection-xetex;
+        collection-xetex
+        ;
     })
     python3.pkgs.pygments
   ];
@@ -219,7 +219,7 @@ in {
   };
 
   console = {
-    packages = [ pkgs.terminus_font ];
+    packages = [pkgs.terminus_font];
   };
 
   hardware = {
@@ -255,13 +255,13 @@ in {
     };
     printing = {
       enable = true;
-      drivers = with pkgs; [ epson-escpr gutenprint ];
+      drivers = with pkgs; [epson-escpr gutenprint];
     };
 
     dnscrypt-proxy2 = {
       # enable = true;
       settings = {
-        server_names = [ "cloudflare" ];
+        server_names = ["cloudflare"];
         force_tcp = true;
         log_level = 0;
       };
@@ -281,7 +281,7 @@ in {
         sessionPath = with pkgs.gnomeExtensions; [
           caffeine
           appindicator
-       ];
+        ];
       };
     };
 
@@ -312,8 +312,16 @@ in {
         hashedPasswordFile = "/root/.abbradar.passwd";
         isNormalUser = true;
         uid = 1000;
-        extraGroups = [ "wheel" "docker" "podman" "wireshark" "libvirtd" "cdrom" "vboxusers" ];
+        extraGroups = ["wheel" "docker" "podman" "wireshark" "libvirtd" "cdrom" "vboxusers"];
       };
+    };
+  };
+
+  home-manager = {
+    home-manager.users.abbradar = {pkgs, ...}: {
+      # The state version is required and should stay at the version you
+      # originally installed.
+      home.stateVersion = "24.11";
     };
   };
 
@@ -350,12 +358,14 @@ in {
   security.rtkit.enable = true;
 
   security.pam.loginLimits = [
-    { domain = "abbradar";
+    {
+      domain = "abbradar";
       type = "-";
       item = "memlock";
       value = "unlimited";
     }
-    { domain = "abbradar";
+    {
+      domain = "abbradar";
       type = "hard";
       item = "nofile";
       value = "524288";

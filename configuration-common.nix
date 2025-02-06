@@ -1,7 +1,10 @@
-{ lib, config, pkgs, ... }:
-
-with lib;
 {
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; {
   nix = {
     # package = pkgs.nixUnstable;
     daemonCPUSchedPolicy = "batch";
@@ -28,21 +31,23 @@ with lib;
       debuggerGui = true;
     };
 
-    haskellPackageOverrides = self: super: with pkgs.haskell.lib; {
-      xmonad-contrib = appendPatch super.xmonad-contrib (pkgs.fetchpatch {
-        name = "net_wm_state_fullscreen.patch";
-        url = "http://git.pld-linux.org/gitweb.cgi?p=packages/ghc-xmonad-contrib.git;a=blob_plain;f=net_wm_state_fullscreen.patch;h=499c76422424465cce488198e5295d0fba6f32ff;hb=904aa3f61cb4a5d2cd0dae7c1b2436ccf360b2df";
-        extraPrefix = "";
-        sha256 = "0s08k20403796hw4rhpvvzipy8a773qpym07jcnl8gla0p7qjzrj";
-      });
-    };
-
-    packageOverrides = self: with self; {
-      deadbeef-with-plugins = deadbeef-with-plugins.override {
-        plugins = [ deadbeef-mpris2-plugin ];
+    haskellPackageOverrides = self: super:
+      with pkgs.haskell.lib; {
+        xmonad-contrib = appendPatch super.xmonad-contrib (pkgs.fetchpatch {
+          name = "net_wm_state_fullscreen.patch";
+          url = "http://git.pld-linux.org/gitweb.cgi?p=packages/ghc-xmonad-contrib.git;a=blob_plain;f=net_wm_state_fullscreen.patch;h=499c76422424465cce488198e5295d0fba6f32ff;hb=904aa3f61cb4a5d2cd0dae7c1b2436ccf360b2df";
+          extraPrefix = "";
+          sha256 = "0s08k20403796hw4rhpvvzipy8a773qpym07jcnl8gla0p7qjzrj";
+        });
       };
-      wine = wineStaging;
-    };
+
+    packageOverrides = self:
+      with self; {
+        deadbeef-with-plugins = deadbeef-with-plugins.override {
+          plugins = [deadbeef-mpris2-plugin];
+        };
+        wine = wineStaging;
+      };
   };
 
   boot = {
@@ -57,7 +62,12 @@ with lib;
       Defaults rootpw,insults,timestamp_timeout=60
     '';
     pam.loginLimits = [
-      { domain = "*"; item = "nofile"; type = "-"; value = "4096"; }
+      {
+        domain = "*";
+        item = "nofile";
+        type = "-";
+        value = "4096";
+      }
     ];
   };
 
@@ -121,74 +131,76 @@ with lib;
 
   # Packages
   environment = {
-    systemPackages = (with pkgs; [
-      # Monitors
-      htop
-      iotop
-      ftop
-      nethogs
-      psmisc
-      lsof
+    systemPackages =
+      (with pkgs; [
+        # Monitors
+        htop
+        iotop
+        ftop
+        nethogs
+        psmisc
+        lsof
 
-      # Hardware
-      dmidecode
-      lm_sensors
-      pciutils
-      usbutils
-      hdparm
-      ethtool
-      smartmontools
+        # Hardware
+        dmidecode
+        lm_sensors
+        pciutils
+        usbutils
+        hdparm
+        ethtool
+        smartmontools
 
-      # Files
-      gptfdisk
-      zip
-      unzip
-      tree
-      rsync
-      file
-      pv
-      dos2unix
+        # Files
+        gptfdisk
+        zip
+        unzip
+        tree
+        rsync
+        file
+        pv
+        dos2unix
 
-      # Editors
-      pastebinit
+        # Editors
+        pastebinit
 
-      # Runtimes
-      python3
-      ruby
+        # Runtimes
+        python3
+        ruby
 
-      # Encryption
-      openssl
-      gnupg
+        # Encryption
+        openssl
+        gnupg
 
-      # Develompent
-      git
-      subversion
+        # Develompent
+        git
+        subversion
 
-      # Networking
-      inetutils
-      dnsutils
-      aria2
-      socat
-      mtr
-      sshfs-fuse
-      curlftpfs
+        # Networking
+        inetutils
+        dnsutils
+        aria2
+        socat
+        mtr
+        sshfs-fuse
+        curlftpfs
 
-      # Utilities
-      screen
-      parallel-full
-      jq
-      mkpasswd
-    ]) ++ (with config.boot.kernelPackages; [
-      #perf
-    ]);
+        # Utilities
+        screen
+        parallel-full
+        jq
+        mkpasswd
+      ])
+      ++ (with config.boot.kernelPackages; [
+        #perf
+      ]);
   };
 
   programs = {
-   neovim = {
-     enable = true;
-     viAlias = true;
-     vimAlias = true;
-   };
+    neovim = {
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
+    };
 
     ssh.extraConfig = ''
       ServerAliveInterval 60
@@ -199,13 +211,13 @@ with lib;
     graphics.enable32Bit = true;
 
     bluetooth = {
-       # package = pkgs.bluez5-experimental;
-       settings = {
-         General = {
-           # ControllerMode = "bredr";
-           # ControllerMode = "le";
-         };
-       };
-     };
+      # package = pkgs.bluez5-experimental;
+      settings = {
+        General = {
+          # ControllerMode = "bredr";
+          # ControllerMode = "le";
+        };
+      };
+    };
   };
 }
