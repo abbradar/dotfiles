@@ -169,6 +169,7 @@ in {
     # Development
     vscode
     code-cursor
+    obsidian
     emacs
     # neovim-qt
     # For doom
