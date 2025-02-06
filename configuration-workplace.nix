@@ -5,22 +5,6 @@ with lib;
 let
   myPass = pkgs.pass.withExtensions (exts: with exts; [ pass-otp ]);
 
-  /*jupyter = import (builtins.fetchGit {
-    url = https://github.com/tweag/jupyterWith;
-    # Example working revision, check out the latest one.
-    rev = "2b10030df2a29beed10c02d5f64745b143206350";
-  }) {};
-
-  iPython = jupyter.kernels.iPythonWith {
-    name = "python";
-    packages = p: with p; [ numpy pandas ];
-  };
-
-  jupyterEnvironment =
-    jupyter.jupyterlabWith {
-      kernels = [ iPython ];
-    };*/
-
 in {
   imports =
     [ ./configuration-common.nix
@@ -262,9 +246,6 @@ in {
       enable = true;
       useRoutingFeatures = "client";
     };
-    pcscd = {
-      enable = true;
-    };
 
     resolved.enable = true;
 
@@ -323,7 +304,7 @@ in {
 
   users = {
     mutableUsers = false;
-    defaultUserShell = pkgs.zsh;
+    defaultUserShell = pkgs.fish;
 
     extraUsers = {
       root.hashedPasswordFile = "/root/.passwd";
@@ -337,7 +318,7 @@ in {
   };
 
   programs = {
-    zsh.enable = true;
+    fish.enable = true;
     cdemu.enable = true;
     gnome-terminal.enable = true;
     direnv.enable = true;
