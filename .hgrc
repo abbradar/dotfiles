@@ -1,6 +1,0 @@
-[ui]
-username = Nikolay Amiantov <nikoamia@gmail.com>
-ssh = ssh -C
-
-[extensions]
-eol =
