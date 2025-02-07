@@ -185,7 +185,7 @@ with lib; {
         curlftpfs
 
         # Utilities
-        screen
+        tmux
         parallel-full
         jq
         mkpasswd
@@ -196,6 +196,8 @@ with lib; {
   };
 
   programs = {
+    fish.enable = true;
+
     neovim = {
       enable = true;
       viAlias = true;
@@ -205,6 +207,11 @@ with lib; {
     ssh.extraConfig = ''
       ServerAliveInterval 60
     '';
+  };
+
+  users = {
+    mutableUsers = false;
+    defaultUserShell = pkgs.fish;
   };
 
   hardware = {

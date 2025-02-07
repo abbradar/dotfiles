@@ -303,9 +303,6 @@ in {
   };
 
   users = {
-    mutableUsers = false;
-    defaultUserShell = pkgs.fish;
-
     extraUsers = {
       root.hashedPasswordFile = "/root/.passwd";
       abbradar = {
@@ -318,15 +315,11 @@ in {
   };
 
   home-manager = {
-    home-manager.users.abbradar = {pkgs, ...}: {
-      # The state version is required and should stay at the version you
-      # originally installed.
-      home.stateVersion = "24.11";
-    };
+    useGlobalPkgs = true;
+    users.abbradar = ./configuration-home.nix;
   };
 
   programs = {
-    fish.enable = true;
     cdemu.enable = true;
     gnome-terminal.enable = true;
     direnv.enable = true;
