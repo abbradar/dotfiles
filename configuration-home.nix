@@ -7,6 +7,10 @@
 
   programs.fish = {
     enable = true;
+
+    interactiveShellInit = ''
+      set fish_greeting
+    '';
   };
 
   # The state version is required and should stay at the version you
