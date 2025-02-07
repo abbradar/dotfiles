@@ -49,7 +49,7 @@ in {
 
   networking = {
     firewall.enable = false;
-    wireguard.enable = true;
+    wireguard.enable = false;
     networkmanager = {
       enable = true;
       ethernet.macAddress = "stable";
@@ -66,12 +66,9 @@ in {
     powertop
     s-tui
     # minicom
-    mercurial
-    google-cloud-sdk
     pavucontrol
     androidenv.androidPkgs.platform-tools
     #platformio
-    silver-searcher
     myPass
     git-lfs
     git-filter-repo
@@ -84,14 +81,11 @@ in {
       extraPkgs = pkgs: [pkgs.icu];
     })
     steam
-    lgogdownloader
     wineWowPackages.staging
     lutris
-    zenity
     jdk
     leiningen
     nodejs
-    # icedtea_web
     adoptopenjdk-icedtea-web
 
     # VM
@@ -116,7 +110,6 @@ in {
     gimp
     audacity
     inkscape
-    # zathura
     obs-studio
     qjackctl
     # Broken
@@ -130,7 +123,6 @@ in {
 
     # Messengers
     gajim
-    dino
     element-desktop
     tdesktop
     signal-desktop
@@ -170,7 +162,6 @@ in {
     deluge
     miniupnpc
     wget
-    openvpn
     update-resolv-conf
     remmina
     shadowsocks-libev
@@ -241,7 +232,7 @@ in {
     pulseaudio.enable = false;
     pipewire.enable = true;
     flatpak.enable = true;
-    system-config-printer.enable = false;
+    system-config-printer.enable = true;
     tailscale = {
       enable = true;
       useRoutingFeatures = "client";
@@ -258,15 +249,6 @@ in {
       drivers = with pkgs; [epson-escpr gutenprint];
     };
 
-    dnscrypt-proxy2 = {
-      # enable = true;
-      settings = {
-        server_names = ["cloudflare"];
-        force_tcp = true;
-        log_level = 0;
-      };
-    };
-
     udev.packages = with pkgs; [
       android-udev-rules
       libmtp
@@ -281,6 +263,7 @@ in {
         sessionPath = with pkgs.gnomeExtensions; [
           caffeine
           appindicator
+          paperwm
         ];
       };
     };

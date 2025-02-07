@@ -31,16 +31,6 @@ with lib; {
       debuggerGui = true;
     };
 
-    haskellPackageOverrides = self: super:
-      with pkgs.haskell.lib; {
-        xmonad-contrib = appendPatch super.xmonad-contrib (pkgs.fetchpatch {
-          name = "net_wm_state_fullscreen.patch";
-          url = "http://git.pld-linux.org/gitweb.cgi?p=packages/ghc-xmonad-contrib.git;a=blob_plain;f=net_wm_state_fullscreen.patch;h=499c76422424465cce488198e5295d0fba6f32ff;hb=904aa3f61cb4a5d2cd0dae7c1b2436ccf360b2df";
-          extraPrefix = "";
-          sha256 = "0s08k20403796hw4rhpvvzipy8a773qpym07jcnl8gla0p7qjzrj";
-        });
-      };
-
     packageOverrides = self:
       with self; {
         deadbeef-with-plugins = deadbeef-with-plugins.override {
@@ -160,12 +150,8 @@ with lib; {
         pv
         dos2unix
 
-        # Editors
-        pastebinit
-
         # Runtimes
         python3
-        ruby
 
         # Encryption
         openssl
@@ -173,7 +159,6 @@ with lib; {
 
         # Develompent
         git
-        subversion
 
         # Networking
         inetutils
@@ -181,8 +166,6 @@ with lib; {
         aria2
         socat
         mtr
-        sshfs-fuse
-        curlftpfs
 
         # Utilities
         tmux
