@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
   programs.git = {
     enable = true;
     userName = "Nikolay Amiantov";
@@ -37,11 +42,11 @@
     enable = true;
   };
 
-  home.file = {
-    # We expect this repo to be cloned to .config/home-manager
-    ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "../.config/home-manager/.config/nvim";
-    ".doom.d".source = config.lib.file.mkOutOfStoreSymlink ".config/home-manager/.doom.d";
-  };
+  # We expect this repo to be cloned to .config/home-manager
+  home.activation = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run ln -s $VERBOSE_ARG "$HOME/.config/home-manager/.config/nvim" "$HOME/.config/nvim"
+    run ln -s $VERBOSE_ARG "$HOME/.config/home-manager/.doom.d" "$HOME/.doom.d"
+  '';
 
   # The state version is required and should stay at the version you
   # originally installed.
