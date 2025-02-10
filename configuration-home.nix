@@ -4,6 +4,8 @@
   pkgs,
   ...
 }: {
+  imports = [./home-relative-links.nix];
+
   programs.git = {
     enable = true;
     userName = "Nikolay Amiantov";
@@ -43,10 +45,10 @@
   };
 
   # We expect this repo to be cloned to .config/home-manager
-  home.activation = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    run ln -s $VERBOSE_ARG "$HOME/.config/home-manager/.config/nvim" "$HOME/.config/nvim"
-    run ln -s $VERBOSE_ARG "$HOME/.config/home-manager/.doom.d" "$HOME/.doom.d"
-  '';
+  home.relativeLinks = {
+    ".config/nvim" = ".config/home-manager/.config/nvim";
+    ".doom.d" = ".config/home-manager/.doom.d";
+  };
 
   # The state version is required and should stay at the version you
   # originally installed.
