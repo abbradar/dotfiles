@@ -316,19 +316,6 @@ in {
       enable = true;
       pinentryPackage = pkgs.pinentry-gnome3;
     };
-
-    neovim = {
-      enable = true;
-      withPython3 = true;
-      configure = {
-        packages.myVimPackage = with pkgs.vimPlugins; {
-          start = [
-            (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
-            coq_nvim
-          ];
-        };
-      };
-    };
   };
 
   security.rtkit.enable = true;

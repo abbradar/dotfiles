@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  imports = [./home-relative-links.nix];
+  imports = [./home-relative-links.nix ./dconf.nix];
 
   programs.git = {
     enable = true;
@@ -42,6 +42,19 @@
 
   programs.command-not-found = {
     enable = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    plugins = with pkgs.vimPlugins; [
+      nvim-lspconfig
+      nvim-treesitter.withAllGrammars
+      packer-nvim
+    ];
   };
 
   # We expect this repo to be cloned to .config/home-manager
