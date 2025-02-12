@@ -17,7 +17,7 @@ with lib.hm.gvariant; {
     "org/gnome/desktop/background" = {
       picture-options = "zoom";
       picture-uri = "file://${./wallpaper.png}";
-      picture-uri-dark = "file://${wallpaper.png}";
+      picture-uri-dark = "file://${./wallpaper.png}";
     };
 
     "org/gnome/desktop/input-sources" = {
