@@ -1,4 +1,4 @@
-local keybindings = require "config.keybindings"
+local keybindings = require("config.keybindings")
 
 local M = {}
 
@@ -19,7 +19,7 @@ function M.setup()
   vim.opt.relativenumber = true
 
   -- Autodetect tabs/spaces.
-  vim.cmd [[autocmd BufRead * silent Sleuth]]
+  vim.cmd([[autocmd BufRead * Sleuth]])
 
   -- Make directory follow the file.
   vim.opt.autochdir = true

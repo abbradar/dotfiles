@@ -1,4 +1,4 @@
-local nvim_tree = require "nvim-tree"
+local nvim_tree = require("nvim-tree")
 
 local M = {}
 
@@ -7,4 +7,3 @@ function M.setup()
 end
 
 return M
-

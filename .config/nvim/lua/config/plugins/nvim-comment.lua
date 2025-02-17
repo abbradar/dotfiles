@@ -1,4 +1,4 @@
-local nvim_comment = require "nvim_comment"
+local nvim_comment = require("nvim_comment")
 
 local M = {}
 

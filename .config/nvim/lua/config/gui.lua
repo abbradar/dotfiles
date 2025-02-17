@@ -1,4 +1,4 @@
-local keybindings = require "config.keybindings"
+local keybindings = require("config.keybindings")
 
 local M = {}
 
@@ -15,7 +15,7 @@ end
 
 function M.setup()
   -- Disable GUI tabs.
-  vim.cmd [[GuiTabline 0]]
+  vim.cmd([[GuiTabline 0]])
 
   keybindings.gui_setup()
 end

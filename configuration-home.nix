@@ -3,7 +3,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+with lib; {
   imports = [./home-relative-links.nix ./dconf.nix];
 
   programs.git = {
@@ -51,15 +52,35 @@
     vimAlias = true;
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
-      nvim-lspconfig
-      nvim-treesitter.withAllGrammars
-      packer-nvim
+      lazy-nvim
     ];
+    # https://github.com/LazyVim/LazyVim/discussions/1972
+    extraLuaConfig = let
+      plugins = with pkgs.vimPlugins; [
+        nvim-lspconfig
+        nvim-treesitter.withAllGrammars
+      ];
+      mkEntryFromDrv = drv:
+        if lib.isDerivation drv
+        then {
+          name = "${lib.getName drv}";
+          path = drv;
+        }
+        else drv;
+      lazyPath = pkgs.linkFarm "lazy-plugins" (builtins.map mkEntryFromDrv plugins);
+    in ''
+      local lazyPath = "${lazyPath}";
+      ${readFile ./.config/nvim/init.lua}
+    '';
+  };
+
+  xdg.configFile = {
+    "nvim/lua".source = ./.config/nvim/lua;
+    "nvim/ginit.vim".source = ./.config/nvim/ginit.vim;
   };
 
   # We expect this repo to be cloned to .config/home-manager
   home.relativeLinks = {
-    ".config/nvim" = ".config/home-manager/.config/nvim";
     ".doom.d" = ".config/home-manager/.doom.d";
   };
 

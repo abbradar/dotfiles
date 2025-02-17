@@ -1,58 +1,192 @@
-local whichkey = require "which-key"
+local whichkey = require("which-key")
 
 local M = {}
 
-local default_opts = { noremap = true, silent = true }
-
-local function keymap(mode, key, cmd)
-  vim.api.nvim_set_keymap(mode, key, cmd, default_opts)
-end
-
 function M.setup()
   -- Leader
-  keymap('n', '<Space>', "<Nop>")
+  vim.api.nvim_set_keymap("n", "<Space>", "<Nop>", { noremap = true, silent = true })
   vim.g.mapleader = " "
 
   --
   -- hop
   --
-  keymap('n', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>")
-  keymap('n', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>")
-  keymap('o', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<CR>")
-  keymap('o', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<CR>")
-  keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<CR>")
-  keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<CR>")
+  whichkey.add({
+    {
+      "f",
+      function()
+        require("hop").hint_char1({
+          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
+          current_line_only = true,
+        })
+      end,
+      desc = "Hop forward to char",
+      mode = "n",
+    },
+    {
+      "F",
+      function()
+        require("hop").hint_char1({
+          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
+          current_line_only = true,
+        })
+      end,
+      desc = "Hop backward to char",
+      mode = "n",
+    },
+    {
+      "f",
+      function()
+        require("hop").hint_char1({
+          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
+          current_line_only = true,
+          inclusive_jump = true,
+        })
+      end,
+      desc = "Hop forward to char",
+      mode = "o",
+    },
+    {
+      "F",
+      function()
+        require("hop").hint_char1({
+          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
+          current_line_only = true,
+          inclusive_jump = true,
+        })
+      end,
+      desc = "Hop backward to char",
+      mode = "o",
+    },
+    {
+      "t",
+      function()
+        require("hop").hint_char1({
+          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
+          current_line_only = true,
+        })
+      end,
+      desc = "Hop forward until char",
+    },
+    {
+      "T",
+      function()
+        require("hop").hint_char1({
+          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
+          current_line_only = true,
+        })
+      end,
+      desc = "Hop backward until char",
+    },
+  })
 
-  whichkey.register({
-    ["w"] = { "<cmd>lua require'hop'.hint_words()<CR>", "Hint words", noremap = true },
-    ["e"] = { "<cmd>lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<CR>", "Hint words", noremap = true },
-  }, { prefix = "<leader>", mode = "n" })
-  whichkey.register({
-    ["w"] = { "<cmd>lua require'hop'.hint_words()<CR>", "Hint words", noremap = true },
-    ["e"] = { "<cmd>lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END })<CR>", "Hint words", noremap = true },
-  }, { prefix = "<leader>", mode = "v" })
-  whichkey.register({
-    ["w"] = { "<cmd>lua require'hop'.hint_words({ inclusive_jump = true })<CR>", "Hint words", noremap = true },
-    ["e"] = { "<cmd>lua require'hop'.hint_words({ hint_position = require'hop.hint'.HintPosition.END, inclusive_jump = true })<CR>", "Hint words", noremap = true },
-  }, { prefix = "<leader>", mode = "o" })
+  whichkey.add({
+    {
+      "<leader>w",
+      function()
+        require("hop").hint_words()
+      end,
+      desc = "Hint words",
+      mode = { "n", "v" },
+      remap = false,
+    },
+    {
+      "<leader>e",
+      function()
+        require("hop").hint_words({ hint_position = require("hop.hint").HintPosition.END })
+      end,
+      desc = "Hint words",
+      mode = { "n", "v" },
+      remap = false,
+    },
+    {
+      "<leader>w",
+      function()
+        require("hop").hint_words({ inclusive_jump = true })
+      end,
+      desc = "Hint words",
+      mode = "o",
+      remap = false,
+    },
+    {
+      "<leader>e",
+      function()
+        require("hop").hint_words({
+          hint_position = require("hop.hint").HintPosition.END,
+          inclusive_jump = true,
+        })
+      end,
+      desc = "Hint words",
+      mode = "o",
+      remap = false,
+    },
+  })
 
   --
   -- Telescope
   --
-  whichkey.register({
-    ["`"] = { "<cmd>lua require'telescope.builtin'.find_files()<CR>", "Find file", noremap = true },
-    ["."] = { "<cmd>lua require'telescope'.extensions.file_browser.file_browser()<CR>", "Browse files", noremap = true },
-    [","] = { "<cmd>lua require'telescope.builtin'.buffers({ sort_lastused = true, ignore_current_buffer = true })<CR>", "Switch buffers", noremap = true },
-    ["/"] = { "<cmd>lua require'telescope.builtin'.live_grep()<CR>", "Search a word", noremap = true },
-    [":"] = { "<cmd>lua require'telescope.builtin'.command_history()<CR>", "Command history", noremap = true },
-  }, { prefix = "<leader>" })
+  whichkey.add({
+    {
+      "<leader>`",
+      function()
+        require("telescope.builtin").find_files()
+      end,
+      desc = "Find file",
+      remap = false,
+    },
+    {
+      "<leader>.",
+      function()
+        require("telescope").extensions.file_browser.file_browser()
+      end,
+      desc = "Browse files",
+      remap = false,
+    },
+    {
+      "<leader>,",
+      function()
+        require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true })
+      end,
+      desc = "Switch buffers",
+      remap = false,
+    },
+    {
+      "<leader>/",
+      function()
+        require("telescope.builtin").live_grep()
+      end,
+      desc = "Search a word",
+      remap = false,
+    },
+    {
+      "<leader>:",
+      function()
+        require("telescope.builtin").command_history()
+      end,
+      desc = "Command history",
+      remap = false,
+    },
+  })
 end
 
 function M.gui_setup()
-  keymap('', '<C-+>', "<cmd>lua require('config.gui').adjust_font_size(1)<CR>")
-  keymap('i', '<C-+>', "<cmd>lua require('config.gui').adjust_font_size(1)<CR>")
-  keymap('', '<C-->', "<cmd>lua require('config.gui').adjust_font_size(-1)<CR>")
-  keymap('i', '<C-->', "<cmd>lua require('config.gui').adjust_font_size(-1)<CR>")
+  whichkey.add({
+    {
+      "<C-+>",
+      function()
+        require("config.gui").adjust_font_size(1)
+      end,
+      desc = "Increase font size",
+      mode = { "n", "i" },
+    },
+    {
+      "<C-->",
+      function()
+        require("config.gui").adjust_font_size(-1)
+      end,
+      desc = "Decrease font size",
+      mode = { "n", "i" },
+    },
+  })
 end
 
 return M

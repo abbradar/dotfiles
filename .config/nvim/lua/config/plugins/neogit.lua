@@ -1,4 +1,4 @@
-local neogit = require "neogit"
+local neogit = require("neogit")
 
 local M = {}
 
@@ -7,4 +7,3 @@ function M.setup()
 end
 
 return M
-

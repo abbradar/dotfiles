@@ -1,4 +1,4 @@
-local filetype = require "filetype"
+local filetype = require("filetype")
 
 local M = {}
 
@@ -21,4 +21,3 @@ function M.setup()
 end
 
 return M
-

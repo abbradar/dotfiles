@@ -35,6 +35,12 @@ in {
     pulseaudio = true;
   };
 
+  stylix = {
+    enable = true;
+    polarity = "dark";
+    image = ./wallpaper.png;
+  };
+
   boot = {
     loader.timeout = 0;
     supportedFilesystems = ["nfs" "ntfs" "exfat"];

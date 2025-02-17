@@ -1,8 +1,6 @@
-local mason = require "mason"
-local mason_lspconfig = require "mason-lspconfig"
-local lspconfig = require "lspconfig"
-local coq = require "coq"
-local lsp_signature = require "lsp_signature"
+local lspconfig = require("lspconfig")
+local coq = require("coq")
+local lsp_signature = require("lsp_signature")
 
 local servers = {
   ccls = {},
@@ -25,14 +23,11 @@ local function on_attach(client, bufnr)
 end
 
 function M.setup()
-  mason.setup()
-  mason_lspconfig.setup()
-
   for server_name, server_opts in pairs(servers) do
-    lspconfig[server_name].setup(coq.lsp_ensure_capabilities {
+    lspconfig[server_name].setup(coq.lsp_ensure_capabilities({
       init_options = server_opts,
       on_attach = on_attach,
-    })
+    }))
   end
 end
 

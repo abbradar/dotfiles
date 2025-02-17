@@ -1,4 +1,4 @@
-local ionide = require "ionide"
+local ionide = require("ionide")
 
 local M = {}
 
@@ -7,4 +7,3 @@ function M.setup()
 end
 
 return M
-

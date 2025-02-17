@@ -14,11 +14,11 @@ with lib.hm.gvariant; {
       first-run = false;
     };
 
-    "org/gnome/desktop/background" = {
-      picture-options = "zoom";
-      picture-uri = "file://${./wallpaper.png}";
-      picture-uri-dark = "file://${./wallpaper.png}";
-    };
+    # "org/gnome/desktop/background" = {
+    #   picture-options = "zoom";
+    #   picture-uri = "file://${./wallpaper.png}";
+    #   picture-uri-dark = "file://${./wallpaper.png}";
+    # };
 
     "org/gnome/desktop/input-sources" = {
       mru-sources = [(mkTuple ["xkb" "us"]) (mkTuple ["xkb" "ru"])];
@@ -27,11 +27,11 @@ with lib.hm.gvariant; {
     };
 
     "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
+      # color-scheme = "prefer-dark";
       font-antialiasing = "rgba";
       font-hinting = "slight";
-      gtk-theme = "Adwaita-dark";
-      icon-theme = "Adwaita";
+      # gtk-theme = "Adwaita-dark";
+      # icon-theme = "Adwaita";
       show-battery-percentage = true;
     };
 
@@ -53,6 +53,7 @@ with lib.hm.gvariant; {
       focus-change-on-pointer-rest = true;
       overlay-key = "Super_L";
       workspaces-only-on-primary = false;
+      experimental-features = ["scale-monitor-framebuffer"];
     };
 
     "org/gnome/shell" = {
