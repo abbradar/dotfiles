@@ -305,7 +305,7 @@ in {
 
   home-manager = {
     useGlobalPkgs = true;
-    users.abbradar = ./configuration-home.nix;
+    users.abbradar = ./home.nix;
   };
 
   programs = {
