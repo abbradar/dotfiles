@@ -1,18 +1,22 @@
 {
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:abbradar/nixpkgs/stable";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs @ {flake-parts, ...}:
+  outputs = inputs @ {
+    flake-parts,
+    home-manager,
+    ...
+  }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
       flake = {
         nixosModules = {
-          common = import ./configuration-common.nix;
-          workplace.imports = [
-            ./configuration-workplace.nix
-          ];
+          common = ./configuration-common.nix;
+          workplace = ./configuration-workplace.nix;
         };
       };
       perSystem = {
@@ -24,6 +28,20 @@
         ...
       }: {
         formatter = pkgs.alejandra;
+        legacyPackages.homeConfigurations = {
+          namiantov = home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            modules = [
+              ./home.nix
+              ({lib, ...}:
+                with lib; {
+                  home.username = "namiantov";
+                  home.homeDirectory = "/home/namiantov";
+                  dconf.settings = mkForce {};
+                })
+            ];
+          };
+        };
       };
     };
 }
