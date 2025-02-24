@@ -155,11 +155,8 @@ in {
     direnv
     fzf
     # rtags
-    glslang
     llvmPackages_latest.clang
     clang-tools
-    pyright
-    beamPackages.elixir-ls
     shellcheck
     aichat
     clickhouse
