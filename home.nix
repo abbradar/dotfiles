@@ -36,10 +36,23 @@ with lib; {
       set -x EDITOR emacs
       # Too heavyweight for emacs
       set -x GIT_EDITOR vim
-      set -x WINEARCH win32
       set -x BROWSER firefox
     '';
   };
+
+  # For environments without fish
+  programs.bash = {
+    enable = true;
+
+    initExtra = ''
+      export EDITOR=emacs
+      # Too heavyweight for emacs
+      export GIT_EDITOR=vim
+      export BROWSER=firefox
+    '';
+  };
+
+  programs.direnv.enable = true;
 
   programs.command-not-found = {
     enable = true;
