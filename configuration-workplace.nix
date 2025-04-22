@@ -126,6 +126,7 @@ in {
     wl-clipboard
     gnome-tweaks
     gnome-themes-extra
+    gnome-screenshot
 
     # Messengers
     gajim
@@ -349,9 +350,5 @@ in {
     #   dockerSocket.enable = true;
     # };
     libvirtd.enable = true;
-    virtualbox.host = {
-      enable = true;
-      # enableExtensionPack = true;
-    };
   };
 }
