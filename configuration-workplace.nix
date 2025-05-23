@@ -148,7 +148,7 @@ in {
     # Development
     vscode
     code-cursor
-    obsidian
+    logseq
     emacs
     # For doom
     ripgrep
