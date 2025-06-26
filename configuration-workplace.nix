@@ -259,18 +259,19 @@ in {
       libmtp
     ];
 
+    displayManager.gdm.enable = true;
+    desktopManager.gnome = {
+      enable = true;
+      sessionPath = with pkgs.gnomeExtensions; [
+        caffeine
+        appindicator
+        paperwm
+      ];
+    };
+
     xserver = {
       enable = true;
-      displayManager.gdm.enable = true;
       wacom.enable = true;
-      desktopManager.gnome = {
-        enable = true;
-        sessionPath = with pkgs.gnomeExtensions; [
-          caffeine
-          appindicator
-          paperwm
-        ];
-      };
     };
 
     gnome.rygel.enable = true;

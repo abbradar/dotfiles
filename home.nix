@@ -7,7 +7,6 @@
 with lib; {
   imports = [./home-relative-links.nix ./dconf.nix];
 
-  nixpkgs.config = import ./.config/nixpkgs/config.nix;
   xdg.configFile."nixpkgs/config.nix".source = ./.config/nixpkgs/config.nix;
 
   programs.git = {
