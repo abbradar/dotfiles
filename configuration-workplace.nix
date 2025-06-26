@@ -127,6 +127,7 @@ in {
     gnome-tweaks
     gnome-themes-extra
     gnome-screenshot
+    gnome-network-displays
 
     # Messengers
     gajim
