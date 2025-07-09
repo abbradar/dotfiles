@@ -102,7 +102,7 @@ in {
     (firefox.override {
       nativeMessagingHosts = [tridactyl-native gnome-browser-connector (passff-host.override {pass = myPass;})];
     })
-    chromium
+    brave
     (deadbeef-with-plugins.override {
       plugins = with deadbeefPlugins; [mpris2];
     })
@@ -312,6 +312,7 @@ in {
     cdemu.enable = true;
     gnome-terminal.enable = true;
     direnv.enable = true;
+    browserpass.enable = true;
 
     wireshark = {
       enable = true;
