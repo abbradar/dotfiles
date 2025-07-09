@@ -103,6 +103,7 @@ in {
       nativeMessagingHosts = [tridactyl-native gnome-browser-connector (passff-host.override {pass = myPass;})];
     })
     brave
+    slack
     (deadbeef-with-plugins.override {
       plugins = with deadbeefPlugins; [mpris2];
     })
