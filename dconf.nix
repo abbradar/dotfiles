@@ -33,6 +33,7 @@ with lib.hm.gvariant; {
       # gtk-theme = "Adwaita-dark";
       # icon-theme = "Adwaita";
       show-battery-percentage = true;
+      scaling-factor = 0;
     };
 
     "org/gnome/desktop/peripherals/mouse" = {
@@ -53,7 +54,7 @@ with lib.hm.gvariant; {
       focus-change-on-pointer-rest = true;
       overlay-key = "Super_L";
       workspaces-only-on-primary = false;
-      experimental-features = ["scale-monitor-framebuffer"];
+      experimental-features = ["scale-monitor-framebuffer" "xwayland-native-scaling"];
     };
 
     "org/gnome/shell" = {
