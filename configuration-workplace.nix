@@ -45,7 +45,6 @@ in {
     loader.timeout = 0;
     supportedFilesystems = ["nfs" "ntfs" "exfat"];
     kernelModules = ["v4l2loopback"];
-    kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = [
       config.boot.kernelPackages.v4l2loopback
     ];
