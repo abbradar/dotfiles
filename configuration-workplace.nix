@@ -112,7 +112,6 @@ in {
       scripts = with mpvScripts; [inhibit-gnome];
     })
     yt-dlp
-    stremio
     syncplay
     gimp
     audacity
@@ -120,6 +119,7 @@ in {
     obs-studio
     qjackctl
     # Broken
+    #stremio
     #darktable
     #xsane
 
