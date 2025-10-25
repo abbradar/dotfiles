@@ -17,6 +17,7 @@
         nixosModules = {
           common = ./configuration-common.nix;
           workplace = ./configuration-workplace.nix;
+          no-graphics = ./configuration-no-graphics.nix;
         };
       };
       perSystem = {
