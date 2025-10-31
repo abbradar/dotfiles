@@ -87,6 +87,7 @@ in {
     })
     steam
     wineWowPackages.staging
+    gamescope
     lutris
     jdk
     leiningen
