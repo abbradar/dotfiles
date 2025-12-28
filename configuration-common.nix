@@ -37,6 +37,11 @@ with lib; {
           plugins = [deadbeef-mpris2-plugin];
         };
         wine = wineStaging;
+        mullvad = mullvad.overrideAttrs (old: {
+          patches = old.patches or [] ++ [
+            ./0001-Set-base-rule-priority.patch
+          ];
+        });
       };
   };
 

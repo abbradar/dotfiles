@@ -1,0 +1,42 @@
+From 11b12726f8f2521033500be7815a12c7a9dea60e Mon Sep 17 00:00:00 2001
+From: Nikolay Amiantov <ab@fmap.me>
+Date: Mon, 29 Dec 2025 00:04:05 +0700
+Subject: [PATCH] Set base rule priority
+
+---
+ talpid-routing/src/unix/linux.rs | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/talpid-routing/src/unix/linux.rs b/talpid-routing/src/unix/linux.rs
+index 186fa07188..4291e808bb 100644
+--- a/talpid-routing/src/unix/linux.rs
++++ b/talpid-routing/src/unix/linux.rs
+@@ -145,6 +145,8 @@ pub struct RouteManagerImpl {
+     fwmark: u32,
+ }
+ 
++static BASE_RULE_PRIORITY: u32 = 5300;
++
+ impl RouteManagerImpl {
+     pub async fn new(table_id: u32, fwmark: u32) -> Result<Self> {
+         let (mut connection, handle, messages) =
+@@ -182,11 +184,14 @@ impl RouteManagerImpl {
+ 
+         self.clear_routing_rules().await?;
+ 
+-        for rule in all_rules(self.fwmark, self.table_id)
++        for (index, rule) in all_rules(self.fwmark, self.table_id)
+             .iter()
+             .filter(|rule| rule.header.family as u16 == AF_INET || enable_ipv6)
++            .enumerate()
+         {
+-            let mut req = NetlinkMessage::from(RtnlMessage::NewRule((*rule).clone()));
++            let mut new_rule = (*rule).clone();
++            new_rule.nlas.push(RuleNla::Priority(BASE_RULE_PRIORITY + index as u32));
++            let mut req = NetlinkMessage::from(RtnlMessage::NewRule(new_rule));
+             req.header.flags = NLM_F_REQUEST | NLM_F_ACK | NLM_F_CREATE | NLM_F_REPLACE;
+ 
+             let mut response = self.handle.request(req).map_err(Error::Netlink)?;
+-- 
+2.51.0
+
