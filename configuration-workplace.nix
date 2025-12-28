@@ -245,6 +245,7 @@ in {
     };
 
     resolved.enable = true;
+    mullvad-vpn.enable = true;
 
     avahi = {
       enable = true;
