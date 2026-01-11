@@ -11,16 +11,22 @@ with lib; {
 
   programs.git = {
     enable = true;
-    userName = "Nikolay Amiantov";
-    userEmail = "ab@fmap.me";
     lfs.enable = true;
-    diff-highlight.enable = true;
-    extraConfig = {
+    settings = {
+      user = {
+        email = "ab@fmap.me";
+        name = "Nikolay Amiantov";
+      };
       rerere.enabled = true;
       push.default = "simple";
       pull.rebase = true;
       init.defaultBranch = "master";
     };
+  };
+
+  programs.diff-highlight = {
+    enable = true;
+    enableGitIntegration = true;
   };
 
   programs.mercurial = {

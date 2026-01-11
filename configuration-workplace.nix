@@ -16,7 +16,7 @@ in {
       dejavu_fonts
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       source-code-pro
       cm_unicode
       inter
@@ -81,7 +81,7 @@ in {
     pwgen
 
     # Runtimes
-    steam-run-native
+    steam-run
     (appimage-run.override {
       extraPkgs = pkgs: [pkgs.icu];
     })
@@ -133,7 +133,7 @@ in {
     # Messengers
     gajim
     element-desktop
-    tdesktop
+    telegram-desktop
     signal-desktop
     mumble
     zoom-us
@@ -257,7 +257,6 @@ in {
     };
 
     udev.packages = with pkgs; [
-      android-udev-rules
       libmtp
     ];
 
