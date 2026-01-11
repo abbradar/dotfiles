@@ -44,9 +44,11 @@
           };
         };
         packages.mullvad = pkgs.mullvad.overrideAttrs (old: {
-          patches = old.patches or [] ++ [
-            ./0001-Set-base-rule-priority.patch
-          ];
+          patches =
+            old.patches or []
+            ++ [
+              ./0001-Set-base-rule-priority.patch
+            ];
         });
       };
     };
