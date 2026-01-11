@@ -7,6 +7,7 @@
   };
 
   outputs = inputs @ {
+    self,
     flake-parts,
     home-manager,
     ...
@@ -19,6 +20,7 @@
           workplace = ./configuration-workplace.nix;
           no-graphics = ./configuration-no-graphics.nix;
         };
+        overlays.default = import ./overlay.nix;
       };
       perSystem = {
         config,
@@ -28,6 +30,12 @@
         system,
         ...
       }: {
+        _module.args.pkgs = import inputs.nixpkgs {
+          inherit system;
+          overlays = [
+            self.overlays.default
+          ];
+        };
         formatter = pkgs.alejandra;
         legacyPackages.homeConfigurations = {
           namiantov = home-manager.lib.homeManagerConfiguration {
@@ -43,13 +51,7 @@
             ];
           };
         };
-        packages.mullvad = pkgs.mullvad.overrideAttrs (old: {
-          patches =
-            old.patches or []
-            ++ [
-              ./0001-Set-base-rule-priority.patch
-            ];
-        });
+        packages.mullvad = pkgs.mullvad;
       };
     };
 }

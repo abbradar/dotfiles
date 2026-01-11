@@ -21,30 +21,10 @@ with lib; {
     };
   };
 
-  nixpkgs.config = {
-    # Allow unfree packages.
-    allowUnfree = true;
-
-    bochs = {
-      debugger = true;
-      disasm = true;
-      debuggerGui = true;
-    };
-
-    packageOverrides = self:
-      with self; {
-        deadbeef-with-plugins = deadbeef-with-plugins.override {
-          plugins = [deadbeef-mpris2-plugin];
-        };
-        wine = wineStaging;
-        mullvad = mullvad.overrideAttrs (old: {
-          patches =
-            old.patches or []
-            ++ [
-              ./0001-Set-base-rule-priority.patch
-            ];
-        });
-      };
+  # Allow unfree packages.
+  nixpkgs = {
+    config.allowUnfree = true;
+    overlays = [(import ./overlay.nix)];
   };
 
   boot = {

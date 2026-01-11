@@ -103,10 +103,10 @@ in {
       nativeMessagingHosts = [tridactyl-native gnome-browser-connector (passff-host.override {pass = myPass;})];
     })
     brave
-    # slack
-    (deadbeef-with-plugins.override {
-      plugins = with deadbeefPlugins; [mpris2];
-    })
+    # Broken
+    # (deadbeef-with-plugins.override {
+    #   plugins = with deadbeefPlugins; [mpris2];
+    # })
     thunderbird
     (mpv.override {
       scripts = with mpvScripts; [inhibit-gnome];
@@ -142,7 +142,6 @@ in {
     irony-server
     cabal-install
     haskellPackages.haskell-language-server
-    #jupyterEnvironment
     ghc
     # stack
     cabal2nix
