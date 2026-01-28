@@ -6,6 +6,16 @@
 }:
 with lib; let
   myPass = pkgs.pass.withExtensions (exts: with exts; [pass-otp]);
+  mullvad-tailscale =
+    pkgs.runCommand "mullvad-tailscale" {
+      path = with pkgs; makeBinPath [mullvad iproute2 nftables];
+      nativeBuildInputs = with pkgs; [makeWrapper];
+    } ''
+      install -Dm755 ${./mullvad-tailscale.sh} $out/bin/mullvad-tailscale
+      patchShebangs $out/bin/mullvad-tailscale
+      wrapProgram $out/bin/mullvad-tailscale \
+        --prefix PATH : "$path"
+    '';
 in {
   imports = [
     ./configuration-common.nix
@@ -54,7 +64,6 @@ in {
 
   networking = {
     firewall.enable = false;
-    wireguard.enable = false;
     networkmanager = {
       enable = true;
       ethernet.macAddress = "stable";
@@ -171,6 +180,7 @@ in {
     remmina
     shadowsocks-libev
     tor
+    mullvad-tailscale
 
     # Documents
     libreoffice
