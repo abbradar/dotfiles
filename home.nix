@@ -77,7 +77,7 @@ with lib; {
       coq_nvim
     ];
     # https://github.com/LazyVim/LazyVim/discussions/1972
-    extraLuaConfig = let
+    initLua = let
       plugins = with pkgs.vimPlugins; [
         nvim-lspconfig
         nvim-treesitter.withAllGrammars
