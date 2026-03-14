@@ -4,7 +4,6 @@
     nixpkgs.url = "github:abbradar/nixpkgs/stable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    claude-code-nix.url = "github:sadjow/claude-code-nix";
   };
 
   outputs = inputs @ {
