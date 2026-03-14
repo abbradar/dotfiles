@@ -158,6 +158,7 @@ in {
     # Development
     vscode
     code-cursor
+    claude-code
     logseq
     emacs
     # For doom
