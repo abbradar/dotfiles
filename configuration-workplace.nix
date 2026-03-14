@@ -95,7 +95,7 @@ in {
       extraPkgs = pkgs: [pkgs.icu];
     })
     steam
-    wineWowPackages.staging
+    wineWow64Packages.staging
     gamescope
     lutris
     jdk
@@ -324,10 +324,7 @@ in {
     direnv.enable = true;
     browserpass.enable = true;
 
-    wireshark = {
-      enable = true;
-      package = pkgs.wireshark-qt;
-    };
+    wireshark.enable = true;
 
     gnupg.agent = {
       enable = true;
