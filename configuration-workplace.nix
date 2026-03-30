@@ -325,7 +325,10 @@ in {
     direnv.enable = true;
     browserpass.enable = true;
 
-    wireshark.enable = true;
+    wireshark = {
+      enable = true;
+      package = pkgs.wireshark;
+    };
 
     gnupg.agent = {
       enable = true;
