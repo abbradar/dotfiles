@@ -97,6 +97,29 @@ with lib; {
     '';
   };
 
+  programs.zed-editor = {
+    enable = true;
+    extensions = [
+      "nix"
+      "toml"
+      "rust"
+      "elixir"
+      "sql"
+      "python"
+      "haskell"
+      "bash"
+    ];
+    userSettings = {
+      theme = {
+        mode = "system";
+        dark = "One Dark";
+        light = "One Light";
+      };
+      hour_format = "hour24";
+      vim_mode = true;
+    };
+  };
+
   xdg.configFile = {
     "nvim/lua".source = ./.config/nvim/lua;
     "nvim/ginit.vim".source = ./.config/nvim/ginit.vim;
