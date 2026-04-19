@@ -99,7 +99,6 @@ in {
     gamescope
     lutris
     jdk
-    leiningen
     nodejs
     adoptopenjdk-icedtea-web
 
@@ -148,12 +147,12 @@ in {
     zoom-us
 
     # Haskell
-    irony-server
     cabal-install
-    haskellPackages.haskell-language-server
     ghc
-    # stack
     cabal2nix
+
+    # Clojure
+    leiningen
 
     # Development
     vscode
@@ -167,10 +166,7 @@ in {
     direnv
     fzf
     # rtags
-    llvmPackages_latest.clang
-    clang-tools
     shellcheck
-    aichat
     clickhouse
 
     # Network
