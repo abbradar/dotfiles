@@ -98,6 +98,7 @@ with lib; {
   };
 
   programs.zed-editor = {
+    # The zed-editor binary doubles as the remote server.
     enable = true;
     extensions = [
       "nix"
@@ -113,8 +114,14 @@ with lib; {
       hour_format = "hour24";
       vim_mode = true;
       load_direnv = "shell_hook";
+      languages.Haskell.formatter = "language_server";
+      lsp.hls.initialization_options.haskell.formattingProvider = "fourmolu";
     };
   };
+
+  home.packages = with pkgs; [
+    basedpyright
+  ];
 
   xdg.configFile = {
     "nvim/lua".source = ./.config/nvim/lua;
