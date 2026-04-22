@@ -113,7 +113,7 @@ with lib; {
     userSettings = {
       hour_format = "hour24";
       vim_mode = true;
-      load_direnv = "shell_hook";
+      load_direnv = "direct";
       languages.Haskell.formatter = "language_server";
       lsp.hls.initialization_options.haskell.formattingProvider = "fourmolu";
     };
