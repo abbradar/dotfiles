@@ -4,119 +4,45 @@ local M = {}
 
 function M.setup()
   -- Leader
-  vim.api.nvim_set_keymap("n", "<Space>", "<Nop>", { noremap = true, silent = true })
+  vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
   vim.g.mapleader = " "
 
   --
-  -- hop
+  -- flash
   --
   whichkey.add({
     {
-      "f",
+      "s",
       function()
-        require("hop").hint_char1({
-          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
-          current_line_only = true,
-        })
+        require("flash").jump()
       end,
-      desc = "Hop forward to char",
-      mode = "n",
+      desc = "Flash jump",
+      mode = { "n", "x", "o" },
     },
     {
-      "F",
+      "S",
       function()
-        require("hop").hint_char1({
-          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
-          current_line_only = true,
-        })
+        require("flash").treesitter()
       end,
-      desc = "Hop backward to char",
-      mode = "n",
+      desc = "Flash treesitter",
+      mode = { "n", "x", "o" },
     },
-    {
-      "f",
-      function()
-        require("hop").hint_char1({
-          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
-          current_line_only = true,
-          inclusive_jump = true,
-        })
-      end,
-      desc = "Hop forward to char",
-      mode = "o",
-    },
-    {
-      "F",
-      function()
-        require("hop").hint_char1({
-          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
-          current_line_only = true,
-          inclusive_jump = true,
-        })
-      end,
-      desc = "Hop backward to char",
-      mode = "o",
-    },
-    {
-      "t",
-      function()
-        require("hop").hint_char1({
-          direction = require("hop.hint").HintDirection.AFTER_CURSOR,
-          current_line_only = true,
-        })
-      end,
-      desc = "Hop forward until char",
-    },
-    {
-      "T",
-      function()
-        require("hop").hint_char1({
-          direction = require("hop.hint").HintDirection.BEFORE_CURSOR,
-          current_line_only = true,
-        })
-      end,
-      desc = "Hop backward until char",
-    },
-  })
-
-  whichkey.add({
     {
       "<leader>w",
       function()
-        require("hop").hint_words()
+        require("flash").jump({ pattern = [[\<\w]] })
       end,
-      desc = "Hint words",
-      mode = { "n", "v" },
+      desc = "Jump to word start",
+      mode = { "n", "x", "o" },
       remap = false,
     },
     {
       "<leader>e",
       function()
-        require("hop").hint_words({ hint_position = require("hop.hint").HintPosition.END })
+        require("flash").jump({ pattern = [[\w\>]], jump = { pos = "end" } })
       end,
-      desc = "Hint words",
-      mode = { "n", "v" },
-      remap = false,
-    },
-    {
-      "<leader>w",
-      function()
-        require("hop").hint_words({ inclusive_jump = true })
-      end,
-      desc = "Hint words",
-      mode = "o",
-      remap = false,
-    },
-    {
-      "<leader>e",
-      function()
-        require("hop").hint_words({
-          hint_position = require("hop.hint").HintPosition.END,
-          inclusive_jump = true,
-        })
-      end,
-      desc = "Hint words",
-      mode = "o",
+      desc = "Jump to word end",
+      mode = { "n", "x", "o" },
       remap = false,
     },
   })

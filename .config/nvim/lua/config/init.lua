@@ -18,6 +18,24 @@ function M.setup()
   vim.opt.number = true
   vim.opt.relativenumber = true
 
+  local numbertoggle = vim.api.nvim_create_augroup("numbertoggle", { clear = true })
+  vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "CmdlineLeave", "WinEnter" }, {
+    group = numbertoggle,
+    callback = function()
+      if vim.wo.number and vim.api.nvim_get_mode().mode ~= "i" then
+        vim.wo.relativenumber = true
+      end
+    end,
+  })
+  vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "CmdlineEnter", "WinLeave" }, {
+    group = numbertoggle,
+    callback = function()
+      if vim.wo.number then
+        vim.wo.relativenumber = false
+      end
+    end,
+  })
+
   -- Autodetect tabs/spaces.
   vim.cmd([[autocmd BufRead * Sleuth]])
 

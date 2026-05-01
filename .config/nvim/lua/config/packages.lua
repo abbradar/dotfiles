@@ -1,34 +1,22 @@
 return {
   -- Autocompletion
   {
-    "ms-jpq/coq_nvim",
-    branch = "coq",
-    event = "BufRead",
+    "saghen/blink.cmp",
+    version = "*",
+    event = "InsertEnter",
     config = function()
-      require("config.plugins.coq").setup()
+      require("config.plugins.blink").setup()
     end,
-    dependencies = {
-      { "ms-jpq/coq.artifacts", branch = "artifacts" },
-      { "ms-jpq/coq.thirdparty", branch = "3p" },
-    },
-    build = ":COQdeps",
   },
 
   -- Syntax trees support
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    build = ":TSUpdate",
     event = "BufRead",
     config = function()
       require("config.plugins.nvim-treesitter").setup()
-    end,
-  },
-
-  -- Comments
-  {
-    "terrortylor/nvim-comment",
-    cmd = "CommentToggle",
-    config = function()
-      require("config.plugins.nvim-comment").setup()
     end,
   },
 
@@ -42,9 +30,10 @@ return {
 
   -- Motion
   {
-    "phaazon/hop.nvim",
+    "folke/flash.nvim",
+    event = "VeryLazy",
     config = function()
-      require("config.plugins.hop").setup()
+      require("config.plugins.flash").setup()
     end,
   },
 
@@ -77,7 +66,7 @@ return {
     end,
   },
   {
-    "TimUntersberger/neogit",
+    "NeogitOrg/neogit",
     cmd = "Neogit",
     config = function()
       require("config.plugins.neogit").setup()
@@ -92,9 +81,6 @@ return {
       require("config.plugins.ionide").setup()
     end,
   },
-
-  -- Smart line numbers
-  "jeffkreeftmeijer/vim-numbertoggle",
 
   -- Fuzzy search
   {
@@ -113,7 +99,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
-    dependencies = { "ray-x/lsp_signature.nvim" },
     config = function()
       require("config.plugins.lsp").setup()
     end,
@@ -168,5 +153,10 @@ return {
 
   -- Automatic surroundings
   "tpope/vim-repeat",
-  "tpope/vim-surround",
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "BufRead",
+    opts = {},
+  },
 }

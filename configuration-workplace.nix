@@ -79,15 +79,16 @@ in {
     # Utils
     powertop
     s-tui
-    # minicom
+    minicom
     pavucontrol
     androidenv.androidPkgs.platform-tools
-    #platformio
     myPass
     git-lfs
     git-filter-repo
     rclone
     pwgen
+    # Broken
+    # platformio
 
     # Runtimes
     steam-run
@@ -97,10 +98,11 @@ in {
     steam
     wineWow64Packages.staging
     gamescope
-    lutris
     jdk
     nodejs
     adoptopenjdk-icedtea-web
+    # Broken
+    # lutris
 
     # VM
     virt-manager
@@ -111,15 +113,12 @@ in {
       nativeMessagingHosts = [tridactyl-native gnome-browser-connector (passff-host.override {pass = myPass;})];
     })
     brave
-    # Broken
-    # (deadbeef-with-plugins.override {
-    #   plugins = with deadbeefPlugins; [mpris2];
-    # })
     thunderbird
     (mpv.override {
       scripts = with mpvScripts; [inhibit-gnome];
+      # Broken
+      youtubeSupport = false;
     })
-    yt-dlp
     syncplay
     gimp
     audacity
@@ -127,9 +126,13 @@ in {
     obs-studio
     qjackctl
     # Broken
-    #stremio
-    #darktable
-    #xsane
+    # yt-dlp
+    # stremio
+    # darktable
+    # Broken
+    # (deadbeef-with-plugins.override {
+    #   plugins = with deadbeefPlugins; [mpris2];
+    # })
 
     # GUI
     wl-clipboard
@@ -155,17 +158,9 @@ in {
     leiningen
 
     # Development
-    vscode
-    code-cursor
     claude-code
     logseq
-    emacs
-    # For doom
     ripgrep
-    fd
-    direnv
-    fzf
-    # rtags
     shellcheck
     clickhouse
 
@@ -183,32 +178,6 @@ in {
     libreoffice
     anki
     nextcloud-client
-    (texlive.combine {
-      inherit
-        (texlive)
-        collection-basic
-        metafont
-        xits
-        collection-bibtexextra
-        collection-binextra
-        collection-context
-        collection-formatsextra
-        collection-fontutils
-        #collection-genericextra
-        #collection-genericrecommended
-        collection-langcyrillic
-        collection-langenglish
-        collection-latex
-        collection-latexextra
-        collection-latexrecommended
-        #collection-mathextra
-        collection-pictures
-        #collection-plainextra
-        collection-pstricks
-        #collection-science
-        collection-xetex
-        ;
-    })
     python3.pkgs.pygments
   ];
 
@@ -238,8 +207,6 @@ in {
   documentation.nixos.enable = false;
 
   services = {
-    # k3s.enable = true;
-    # teamviewer.enable = true;
     # We use PipeWire
     pulseaudio.enable = false;
     pipewire.enable = true;
@@ -316,9 +283,7 @@ in {
   };
 
   programs = {
-    cdemu.enable = true;
     gnome-terminal.enable = true;
-    direnv.enable = true;
     browserpass.enable = true;
 
     wireshark = {

@@ -79,14 +79,12 @@ with lib; {
     withPython3 = false;
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
-      coq_nvim
     ];
     # https://github.com/LazyVim/LazyVim/discussions/1972
     initLua = let
       plugins = with pkgs.vimPlugins; [
         nvim-lspconfig
-        nvim-treesitter.withAllGrammars
-        coq_nvim
+        blink-cmp
       ];
       mkEntryFromDrv = drv:
         if lib.isDerivation drv
@@ -126,6 +124,7 @@ with lib; {
 
   home.packages = with pkgs; [
     basedpyright
+    tree-sitter
   ];
 
   xdg.configFile = {
