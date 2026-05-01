@@ -188,11 +188,13 @@ with lib; {
     graphics.enable32Bit = true;
 
     bluetooth = {
-      # package = pkgs.bluez5-experimental;
       settings = {
         General = {
-          # ControllerMode = "bredr";
-          # ControllerMode = "le";
+          # For LE Audio
+          Experimental = true;
+          KernelExperimental = concatStringsSep "," [
+            "6fbaf188-05e0-496a-9885-d6ddfdb4e03e" # BlueZ Experimental ISO socket
+          ];
         };
       };
     };
