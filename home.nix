@@ -12,6 +12,7 @@ with lib; {
   programs.git = {
     enable = true;
     lfs.enable = true;
+    signing.format = "openpgp";
     settings = {
       user = {
         email = "ab@fmap.me";
@@ -66,12 +67,16 @@ with lib; {
     enable = true;
   };
 
+  gtk.gtk4.theme = null;
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
+    withRuby = false;
+    withPython3 = false;
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
       coq_nvim
