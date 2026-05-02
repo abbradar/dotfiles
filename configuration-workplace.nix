@@ -163,6 +163,7 @@ in {
     ripgrep
     shellcheck
     clickhouse
+    gh
 
     # Network
     deluge
