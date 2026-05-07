@@ -117,8 +117,21 @@ with lib; {
       hour_format = "hour24";
       vim_mode = true;
       load_direnv = "direct";
-      languages.Haskell.formatter = "language_server";
       lsp.hls.initialization_options.haskell.formattingProvider = "fourmolu";
+      languages = {
+        Haskell.formatter = "language_server";
+        CSS.formatter.language_server.name = "biome";
+        GraphQL.formatter.language_server.name = "biome";
+        HTML.formatter.language_server.name = "biome";
+        JSON.formatter.language_server.name = "biome";
+        JSONC.formatter.language_server.name = "biome";
+        JSX.formatter.language_server.name = "biome";
+        JavaScript.formatter.language_server.name = "biome";
+        Svelte.formatter.language_server.name = "biome";
+        TSX.formatter.language_server.name = "biome";
+        TypeScript.formatter.language_server.name = "biome";
+        "Vue.js".formatter.language_server.name = "biome";
+      };
     };
   };
 
