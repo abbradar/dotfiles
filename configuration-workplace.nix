@@ -125,6 +125,7 @@ in {
     inkscape
     obs-studio
     qjackctl
+    blender
     # Broken
     # yt-dlp
     # stremio
