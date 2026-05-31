@@ -129,7 +129,7 @@ in {
     # Broken
     # yt-dlp
     # stremio
-    # darktable
+    darktable
     # Broken
     # (deadbeef-with-plugins.override {
     #   plugins = with deadbeefPlugins; [mpris2];
