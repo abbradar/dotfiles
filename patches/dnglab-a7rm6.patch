@@ -1,0 +1,43 @@
+From 8600de1abd05d23e4aa22c4d24be970aa3e5d605 Mon Sep 17 00:00:00 2001
+From: Nikolay Amiantov <ab@fmap.me>
+Date: Sun, 31 May 2026 16:44:21 +0700
+Subject: [PATCH] Add Sony a7R VI (ILCE-7RM6) camera support
+
+Adds the camera definition for the Sony a7R VI, enabling decoding of its
+uncompressed and lossless-compressed (LJPEG, compression 7) ARW files.
+Color matrices are taken from Adobe DNG Converter output (ColorMatrix1 =
+Standard Light A, ColorMatrix2 = D65); black/white levels, crop, active
+area and white balance are read from the ARW metadata.
+
+The new lossy "Sony Compressed RAW 2" format (compression 32766 / arw6)
+is not yet implemented, so lossy files from this body remain unsupported
+and fail gracefully with an unknown-mode error.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+---
+ rawler/data/cameras/sony/a7rm6.toml | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 rawler/data/cameras/sony/a7rm6.toml
+
+diff --git a/rawler/data/cameras/sony/a7rm6.toml b/rawler/data/cameras/sony/a7rm6.toml
+new file mode 100644
+index 0000000..0bd2a2d
+--- /dev/null
++++ b/rawler/data/cameras/sony/a7rm6.toml
+@@ -0,0 +1,13 @@
++make = "SONY"
++model = "ILCE-7RM6"
++clean_make = "Sony"
++clean_model = "ILCE-7RM6"
++color_pattern = "RGGB"
++bps = 8
++
++# Color matrices for the Sony a7R VI (ILCE-7RM6), extracted from Adobe DNG
++# Converter output: A = ColorMatrix1 (Standard Light A), D65 = ColorMatrix2.
++# Black/white levels, crop, active area and white balance are read from the ARW.
++[cameras.color_matrix]
++A   = [1.1263, -0.7003,  0.149,  -0.2636, 0.9664, 0.3487,  0.0148, 0.0267, 0.6591]
++D65 = [1.1765, -0.5595, -0.1192, -0.3689, 1.1507, 0.2485,  0.0051, 0.0681, 0.5731]
+-- 
+2.53.0
+
