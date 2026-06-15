@@ -172,7 +172,7 @@ in {
     wget
     update-resolv-conf
     remmina
-    shadowsocks-libev
+    wireguard-tools
     tor
     mullvad-tailscale
 
