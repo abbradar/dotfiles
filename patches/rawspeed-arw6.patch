@@ -1,6 +1,6 @@
-From c4947f1ca0cf2ee2596b4e0e24deda06c6f849c4 Mon Sep 17 00:00:00 2001
+From c0df7de60bb6fbd81041e7d1f7f157b05b194184 Mon Sep 17 00:00:00 2001
 From: Nikolay Amiantov <ab@fmap.me>
-Date: Sat, 20 Jun 2026 16:05:23 +0000
+Date: Sat, 20 Jun 2026 16:21:38 +0000
 Subject: [PATCH 2/2] Add Sony ARW6 (LLVC v3) lossy decoder
 
 Reverse-engineered 'Compressed HQ' (Sony LLVC v3, raw SubIFD compression
@@ -14,7 +14,9 @@ compression 32766 into ArwDecoder.
 The linearized output's black/white levels are in the codec curve's scale
 (black 1024, white 32800), not the ARW SR2 14-bit scale: using the SR2
 black (512) leaves a pedestal the white-balance gains turn into a magenta
-cast. They override the camera-database / SR2-tag values for arw6.
+cast. They override the camera-database / SR2-tag values for arw6. The
+a7R VI's lower SONYWHITELEVEL (15360) is also skipped (keeps the camera
+database white 16383) so lossless/uncompressed highlights match Adobe.
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
 ---
@@ -50,7 +52,7 @@ index 30ef93e..a0792b7 100644
      establishClassInvariants();
      invariant(nbits >= 0);
 diff --git a/src/librawspeed/decoders/ArwDecoder.cpp b/src/librawspeed/decoders/ArwDecoder.cpp
-index bf01deb..a93295b 100644
+index bf01deb..be32998 100644
 --- a/src/librawspeed/decoders/ArwDecoder.cpp
 +++ b/src/librawspeed/decoders/ArwDecoder.cpp
 @@ -31,6 +31,7 @@
@@ -161,10 +163,10 @@ index bf01deb..a93295b 100644
 -    if (encryptedIFD.hasEntry(TiffTag::SONYWHITELEVEL)) {
 +    // The SONYWHITELEVEL tag is below the true sensor saturation on some bodies
 +    // (e.g. the a7R VI: 15360 vs the 16383 the 14-bit data actually reaches),
-+    // clipping real highlights. Cameras that set the "no_sony_white_override"
-+    // hint keep the white level from the camera database (cameras.xml Sensor).
++    // clipping real highlights. For those, keep the white level from the camera
++    // database (cameras.xml Sensor) instead of the tag, matching Adobe.
 +    if (encryptedIFD.hasEntry(TiffTag::SONYWHITELEVEL) &&
-+        !hints.contains("no_sony_white_override")) {
++        mRootIFD->getID().model != "ILCE-7RM6") {
        const TiffEntry* wl = encryptedIFD.getEntry(TiffTag::SONYWHITELEVEL);
        if (wl->count != 1 && wl->count != 3)
          ThrowRDE("White Level has %u entries instead of 1 or 3", wl->count);

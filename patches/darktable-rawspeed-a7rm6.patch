@@ -2,7 +2,7 @@ diff --git a/src/external/rawspeed/data/cameras.xml b/src/external/rawspeed/data
 index f800627..6ff06c1 100644
 --- a/src/external/rawspeed/data/cameras.xml
 +++ b/src/external/rawspeed/data/cameras.xml
-@@ -14170,6 +14170,32 @@
+@@ -14170,6 +14170,29 @@
  			</ColorMatrix>
  		</ColorMatrices>
  	</Camera>
@@ -15,6 +15,9 @@ index f800627..6ff06c1 100644
 +			<Color x="1" y="1">BLUE</Color>
 +		</CFA>
 +		<Crop x="0" y="0" width="-232" height="-496"/>
++		<!-- Sony's SONYWHITELEVEL tag (15360) is below the true 14-bit
++		     saturation; the ArwDecoder keeps this Sensor white (16383, the value
++		     the data actually reaches) for the a7R VI, matching Adobe. -->
 +		<Sensor black="512" white="16383"/>
 +		<!-- a7R VI ColorMatrix2/D65 x10000, from the Adobe DNG Converter
 +		     (same values as dnglab's a7rm6.toml D65 entry). -->
@@ -25,12 +28,6 @@ index f800627..6ff06c1 100644
 +				<ColorMatrixRow plane="2">51 681 5731</ColorMatrixRow>
 +			</ColorMatrix>
 +		</ColorMatrices>
-+		<!-- Sony's SONYWHITELEVEL tag (15360) is below the true 14-bit
-+		     saturation (16383); keep the Sensor white above so highlights
-+		     are not clipped early (matches the Adobe DNG Converter). -->
-+		<Hints>
-+			<Hint name="no_sony_white_override" value=""/>
-+		</Hints>
 +	</Camera>
  	<Camera make="SONY" model="ILCE-7S">
  		<ID make="Sony" model="ILCE-7S">Sony ILCE-7S</ID>
