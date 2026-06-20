@@ -4,19 +4,19 @@ Date: Sun, 31 May 2026 16:44:21 +0700
 Subject: [PATCH] Add Sony a7R VI (ILCE-7RM6) camera support
 
 Adds the camera definition for the Sony a7R VI, enabling decoding of its
-uncompressed and lossless-compressed (LJPEG, compression 7) ARW files.
-Color matrices are taken from Adobe DNG Converter output (ColorMatrix1 =
-Standard Light A, ColorMatrix2 = D65); black/white levels, crop, active
-area and white balance are read from the ARW metadata.
+uncompressed, lossless-compressed (LJPEG, compression 7) and lossy
+"Compressed HQ" (LLVC v3, compression 32766 / arw6) ARW files.
 
-The new lossy "Sony Compressed RAW 2" format (compression 32766 / arw6)
-is not yet implemented, so lossy files from this body remain unsupported
-and fail gracefully with an unknown-mode error.
+Color matrices are taken from the upstream ILCE-7RM5 (a7R V) entry as a
+provisional value (the bodies share a sensor generation); replace with
+measured ILCE-7RM6 values when available. They affect only color
+rendering, not raw mosaic decoding. Black/white levels, crop, active area
+and white balance are read from the ARW metadata.
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
 ---
- rawler/data/cameras/sony/a7rm6.toml | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ rawler/data/cameras/sony/a7rm6.toml | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
  create mode 100644 rawler/data/cameras/sony/a7rm6.toml
 
 diff --git a/rawler/data/cameras/sony/a7rm6.toml b/rawler/data/cameras/sony/a7rm6.toml
@@ -24,7 +24,7 @@ new file mode 100644
 index 0000000..0bd2a2d
 --- /dev/null
 +++ b/rawler/data/cameras/sony/a7rm6.toml
-@@ -0,0 +1,13 @@
+@@ -0,0 +1,14 @@
 +make = "SONY"
 +model = "ILCE-7RM6"
 +clean_make = "Sony"
@@ -32,12 +32,12 @@ index 0000000..0bd2a2d
 +color_pattern = "RGGB"
 +bps = 8
 +
-+# Color matrices for the Sony a7R VI (ILCE-7RM6), extracted from Adobe DNG
-+# Converter output: A = ColorMatrix1 (Standard Light A), D65 = ColorMatrix2.
-+# Black/white levels, crop, active area and white balance are read from the ARW.
++# Provisional color matrices copied from the upstream ILCE-7RM5 (a7R V) entry;
++# replace with measured ILCE-7RM6 values when available. They affect only color
++# rendering, not raw mosaic decoding. Black/white levels, crop, active area and
++# white balance are read from the ARW.
 +[cameras.color_matrix]
-+A   = [1.1263, -0.7003,  0.149,  -0.2636, 0.9664, 0.3487,  0.0148, 0.0267, 0.6591]
-+D65 = [1.1765, -0.5595, -0.1192, -0.3689, 1.1507, 0.2485,  0.0051, 0.0681, 0.5731]
--- 
++A = [0.9185, -0.4857, 0.0505, -0.3651, 1.1061, 0.2982, -0.0161, 0.0698, 0.6769]
++D65 = [0.82, -0.2976, -0.0719, -0.4296, 1.2053, 0.2532, -0.0429, 0.1282, 0.5774]
+--
 2.53.0
-
