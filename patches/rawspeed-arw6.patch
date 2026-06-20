@@ -18,7 +18,7 @@ index 30ef93e..a0792b7 100644
      establishClassInvariants();
      invariant(nbits >= 0);
 diff --git a/src/librawspeed/decoders/ArwDecoder.cpp b/src/librawspeed/decoders/ArwDecoder.cpp
-index a33b484..5eccc3b 100644
+index bf01deb..d90683d 100644
 --- a/src/librawspeed/decoders/ArwDecoder.cpp
 +++ b/src/librawspeed/decoders/ArwDecoder.cpp
 @@ -31,6 +31,7 @@
@@ -41,7 +41,7 @@ index a33b484..5eccc3b 100644
    if (32767 != compression)
      ThrowRDE("Unsupported compression %i", compression);
  
-@@ -437,6 +443,51 @@ void ArwDecoder::DecodeARW2(ByteStream input, uint32_t w, uint32_t h,
+@@ -437,6 +443,55 @@ void ArwDecoder::DecodeARW2(ByteStream input, uint32_t w, uint32_t h,
    ThrowRDE("Unsupported bit depth");
  }
  
@@ -80,34 +80,50 @@ index a33b484..5eccc3b 100644
 +  mRaw->createData();
 +  a.decompress();
 +
-+  // The output is already linearized through the codec curve, so the white
-+  // point is the curve maximum (the ARW SR2 white level is a different scale).
-+  // Remember it so decodeMetaDataInternal can restore it after setMetaData
-+  // overwrites whitePoint from the camera database.
++  // The output is already linearized through the codec curve, so the black/white
++  // points are in the curve's output scale, not the ARW SR2 metadata scale (the
++  // pre-codec 14-bit domain). Using the SR2 black (512) leaves a pedestal the
++  // white-balance gains turn into a magenta cast. Remember both so
++  // decodeMetaDataInternal can restore them after setMetaData / GetWB overwrite
++  // them from the camera database / SONY tags.
 +  if (uint16_t white = Arw6Decompressor::whiteLevel(compBd)) {
 +    mRaw->whitePoint = white;
 +    mArw6WhiteLevel = white;
 +  }
++  if (uint16_t black = Arw6Decompressor::blackLevel(compBd))
++    mArw6BlackLevel = black;
 +}
 +
  void ArwDecoder::ParseA100WB() const {
    if (!mRootIFD->hasEntryRecursive(TiffTag::DNGPRIVATEDATA))
      return;
-@@ -522,6 +573,12 @@ void ArwDecoder::decodeMetaDataInternal(const CameraMetaData* meta) {
+@@ -522,6 +577,24 @@ void ArwDecoder::decodeMetaDataInternal(const CameraMetaData* meta) {
      mRaw->setError(e.what());
      // We caught an exception reading WB, just ignore it
    }
 +
 +  // ARW6 output is linearized through the codec curve; its white level is the
-+  // curve maximum, not the (differently-scaled) SONYWHITELEVEL tag GetWB() just
-+  // read. Apply last so it wins.
++  // curve-scale saturation point, not the (differently-scaled) SONYWHITELEVEL
++  // tag GetWB() just read. Apply last so it wins.
 +  if (mArw6WhiteLevel)
 +    mRaw->whitePoint = mArw6WhiteLevel;
++
++  // Likewise the black pedestal is 1024 in the curve scale, not the SR2
++  // SONYBLACKLEVEL (512) GetWB() read into blackLevelSeparate. Leaving 512 here
++  // produces a magenta cast once the white-balance gains are applied.
++  if (mArw6BlackLevel) {
++    mRaw->blackLevel = mArw6BlackLevel;
++    mRaw->blackLevelSeparate =
++        Array2DRef(mRaw->blackLevelSeparateStorage.data(), 2, 2);
++    auto blackLevelSeparate1D = *mRaw->blackLevelSeparate->getAsArray1DRef();
++    for (int i = 0; i < 4; ++i)
++      blackLevelSeparate1D(i) = mArw6BlackLevel;
++  }
  }
  
  void ArwDecoder::SonyDecrypt(Array1DRef<const uint8_t> ibuf,
 diff --git a/src/librawspeed/decoders/ArwDecoder.h b/src/librawspeed/decoders/ArwDecoder.h
-index b84ed6c..5580d5e 100644
+index b84ed6c..67733b7 100644
 --- a/src/librawspeed/decoders/ArwDecoder.h
 +++ b/src/librawspeed/decoders/ArwDecoder.h
 @@ -53,6 +53,7 @@ private:
@@ -118,13 +134,15 @@ index b84ed6c..5580d5e 100644
    void DecodeLJpeg(const TiffIFD* raw);
    void DecodeUncompressed(const TiffIFD* raw) const;
    static void SonyDecrypt(Array1DRef<const uint8_t> ibuf,
-@@ -60,6 +61,9 @@ private:
+@@ -60,6 +61,11 @@ private:
    void GetWB() const;
    int mShiftDownScale = 0;
    int mShiftDownScaleForExif = 0;
 +  // ARW6 (Sony LLVC v3) output is linearized through the codec curve, so its
-+  // white level is the curve maximum rather than the camera-DB value.
++  // black/white levels are in the curve's output scale rather than the camera-DB
++  // / SR2-tag values.
 +  int mArw6WhiteLevel = 0;
++  int mArw6BlackLevel = 0;
  };
  
  } // namespace rawspeed
@@ -409,10 +427,10 @@ index 0000000..804744b
 +} // namespace rawspeed
 diff --git a/src/librawspeed/decompressors/Arw6Decompressor.cpp b/src/librawspeed/decompressors/Arw6Decompressor.cpp
 new file mode 100644
-index 0000000..f339b2d
+index 0000000..2482f36
 --- /dev/null
 +++ b/src/librawspeed/decompressors/Arw6Decompressor.cpp
-@@ -0,0 +1,921 @@
+@@ -0,0 +1,926 @@
 +/*
 +    RawSpeed - RAW file decoder.
 +
@@ -1225,10 +1243,15 @@ index 0000000..f339b2d
 +    ThrowRDE("ARW6: unsupported compressed bit depth %d", compBd);
 +}
 +
++uint16_t Arw6Decompressor::blackLevel(int compBd) {
++  if (compBd == 12)
++    return 1024;
++  return 0;
++}
++
 +uint16_t Arw6Decompressor::whiteLevel(int compBd) {
 +  if (compBd == 12)
-+    return *std::max_element(Arw6DelinCurveBd12.begin(),
-+                            Arw6DelinCurveBd12.end());
++    return 32800;
 +  return 0;
 +}
 +
@@ -1336,10 +1359,10 @@ index 0000000..f339b2d
 +} // namespace rawspeed
 diff --git a/src/librawspeed/decompressors/Arw6Decompressor.h b/src/librawspeed/decompressors/Arw6Decompressor.h
 new file mode 100644
-index 0000000..9f49f92
+index 0000000..7fc1787
 --- /dev/null
 +++ b/src/librawspeed/decompressors/Arw6Decompressor.h
-@@ -0,0 +1,50 @@
+@@ -0,0 +1,58 @@
 +/*
 +    RawSpeed - RAW file decoder.
 +
@@ -1384,8 +1407,16 @@ index 0000000..9f49f92
 +  Arw6Decompressor(RawImage img, ByteStream input, int compBd);
 +  void decompress() const;
 +
-+  // White level of the linearized output for a given compressed bit depth
-+  // (the maximum of the de-linearization curve), or 0 if unsupported.
++  // Black and white levels of the linearized output for a given compressed bit
++  // depth, in the de-linearization curve's output scale, or 0 if unsupported.
++  //
++  // The ARW SR2 metadata black/white (512 / 15360) are in the pre-codec 14-bit
++  // scale and do not apply to the linearized mosaic. These are the levels the
++  // Adobe DNG Converter emits for the a7R VI "Compressed HQ" mode and are
++  // constant across files. Using the raw SR2 black (512) instead of 1024 leaves
++  // a pedestal that the per-channel white-balance gains amplify unevenly,
++  // producing a magenta cast.
++  static uint16_t blackLevel(int compBd);
 +  static uint16_t whiteLevel(int compBd);
 +};
 +

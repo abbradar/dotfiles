@@ -1,8 +1,8 @@
 diff --git a/rawler/src/decoders/arw.rs b/rawler/src/decoders/arw.rs
-index 9552f006..845a344a 100644
+index 9552f006..59f0d7f9 100644
 --- a/rawler/src/decoders/arw.rs
 +++ b/rawler/src/decoders/arw.rs
-@@ -147,8 +147,15 @@ impl<'a> Decoder for ArwDecoder<'a> {
+@@ -147,8 +147,18 @@ impl<'a> Decoder for ArwDecoder<'a> {
          ArwDecoder::decode_ljpeg(&self.camera, file, raw, dummy)?
        }
        32766 => {
@@ -11,16 +11,19 @@ index 9552f006..845a344a 100644
 +        // Sony LLVC v3 ("Compressed HQ"). The compressed bit depth selects the
 +        // de-linearization curve baked into the codec (12 for a7R V / a1).
 +        let comp_bd = raw.get_entry(0xc61f_u16).map(|e| e.value.force_usize(0)).unwrap_or(12);
-+        // Output is linearized through the codec curve, so the white point is the
-+        // curve maximum (the ARW SR2 white level is in a different scale).
-+        if let Some(w) = crate::decompressors::arw6::white_level(comp_bd) {
++        // Output is linearized through the codec curve, so the black/white points
++        // are in the curve's output scale, not the ARW SR2 metadata scale (which
++        // is the pre-codec 14-bit domain). Using the SR2 black (512) here leaves
++        // a pedestal that the white-balance gains turn into a magenta cast.
++        if let Some((b, w)) = crate::decompressors::arw6::levels(comp_bd) {
++          black = Some([b; 4]);
 +          white = Some(w);
 +        }
 +        ArwDecoder::decode_arw6(src, width, height, comp_bd, dummy)?
        }
        32767 => {
          if (width * height * bps) != count * 8 {
-@@ -438,8 +445,8 @@ impl<'a> ArwDecoder<'a> {
+@@ -438,8 +448,8 @@ impl<'a> ArwDecoder<'a> {
      Ok(out)
    }
  
@@ -913,10 +916,10 @@ index 00000000..90fd5816
 +  luma
 +}
 diff --git a/rawler/src/decompressors/arw6/mod.rs b/rawler/src/decompressors/arw6/mod.rs
-index 14cb530b..e17f6d0d 100644
+index 14cb530b..423a7b87 100644
 --- a/rawler/src/decompressors/arw6/mod.rs
 +++ b/rawler/src/decompressors/arw6/mod.rs
-@@ -1,9 +1,349 @@
+@@ -1,9 +1,357 @@
 -//! Sony ARW6 decompressor (TBD)
 +// SPDX-License-Identifier: LGPL-2.1
 +// Copyright 2025 Daniel Vogelbacher <daniel@chaospixel.com>
@@ -1132,11 +1135,19 @@ index 14cb530b..e17f6d0d 100644
 +  o
 +}
 +
-+/// White level of the linearized output for a given compressed bit depth
-+/// (the maximum of the de-linearization curve), or `None` if unsupported.
-+pub(crate) fn white_level(comp_bd: usize) -> Option<u16> {
++/// Black and white levels of the linearized output for a given compressed bit
++/// depth, in the de-linearization curve's output scale, or `None` if
++/// unsupported.
++///
++/// The ARW SR2 metadata black/white (512 / 15360) are in the pre-codec 14-bit
++/// scale and do not apply to the linearized mosaic. These are the levels the
++/// Adobe DNG Converter emits for the a7R VI "Compressed HQ" mode and are
++/// constant across files. Using the raw SR2 black (512) instead of 1024 leaves
++/// a pedestal that the per-channel white-balance gains amplify unevenly,
++/// producing a magenta cast.
++pub(crate) fn levels(comp_bd: usize) -> Option<(u16, u16)> {
 +  match comp_bd {
-+    12 => curve_bd12::DELIN_CURVE_BD12.iter().copied().max(),
++    12 => Some((1024, 32800)),
 +    _ => None,
 +  }
 +}

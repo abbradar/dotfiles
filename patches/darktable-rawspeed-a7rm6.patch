@@ -16,13 +16,13 @@ index f800627..6ff06c1 100644
 +		</CFA>
 +		<Crop x="0" y="0" width="-232" height="-496"/>
 +		<Sensor black="512" white="16383"/>
-+		<!-- Provisional: upstream ILCE-7RM5 (a7R V) ColorMatrix2/D65 x10000, same
-+		     values as dnglab's a7rm5.toml; replace with measured a7R VI values. -->
++		<!-- a7R VI ColorMatrix2/D65 x10000, from the Adobe DNG Converter
++		     (same values as dnglab's a7rm6.toml D65 entry). -->
 +		<ColorMatrices>
 +			<ColorMatrix planes="3">
-+				<ColorMatrixRow plane="0">8200 -2976 -719</ColorMatrixRow>
-+				<ColorMatrixRow plane="1">-4296 12053 2532</ColorMatrixRow>
-+				<ColorMatrixRow plane="2">-429 1282 5774</ColorMatrixRow>
++				<ColorMatrixRow plane="0">11765 -5595 -1192</ColorMatrixRow>
++				<ColorMatrixRow plane="1">-3689 11507 2485</ColorMatrixRow>
++				<ColorMatrixRow plane="2">51 681 5731</ColorMatrixRow>
 +			</ColorMatrix>
 +		</ColorMatrices>
 +	</Camera>
