@@ -1,29 +1,56 @@
+From 74640aada0d18f6b1bc5e76131520f513cef1160 Mon Sep 17 00:00:00 2001
+From: Nikolay Amiantov <ab@fmap.me>
+Date: Sat, 20 Jun 2026 15:58:37 +0000
+Subject: [PATCH 2/2] Add Sony ARW6 (LLVC v3) lossy decoder
+
+Reverse-engineered 'Compressed HQ' (Sony LLVC v3, raw SubIFD compression
+32766) decoder, ported from a prototype verified bit-exact against the
+Adobe DNG Converter. Line-based inverse 5/3 wavelet pipeline with an
+adaptive entropy coder, flipped vertical polyphase and a luma/chroma
+combine; the per-band 16-byte header gives the entropy offset and
+per-orientation quantizers. Wires compression 32766 into ArwDecoder.
+
+Black/white levels for the linearized output come from the camera
+definition's arw6 mode, not the SR2 tags.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+---
+ rawler/src/decoders/arw.rs                  |  14 +-
+ rawler/src/decompressors/arw6/curve_bd12.rs | 266 +++++++++++++++
+ rawler/src/decompressors/arw6/entropy.rs    | 198 ++++++++++++
+ rawler/src/decompressors/arw6/header.rs     | 215 +++++++++++++
+ rawler/src/decompressors/arw6/idwt.rs       | 178 ++++++++++
+ rawler/src/decompressors/arw6/mod.rs        | 339 +++++++++++++++++++-
+ rawler/src/decompressors/arw6/reader.rs     |  72 +++++
+ 7 files changed, 1274 insertions(+), 8 deletions(-)
+ create mode 100644 rawler/src/decompressors/arw6/curve_bd12.rs
+ create mode 100644 rawler/src/decompressors/arw6/entropy.rs
+ create mode 100644 rawler/src/decompressors/arw6/header.rs
+ create mode 100644 rawler/src/decompressors/arw6/idwt.rs
+ create mode 100644 rawler/src/decompressors/arw6/reader.rs
+
 diff --git a/rawler/src/decoders/arw.rs b/rawler/src/decoders/arw.rs
-index 9552f006..59f0d7f9 100644
+index 9552f006..f17acff0 100644
 --- a/rawler/src/decoders/arw.rs
 +++ b/rawler/src/decoders/arw.rs
-@@ -147,8 +147,18 @@ impl<'a> Decoder for ArwDecoder<'a> {
+@@ -147,8 +147,14 @@ impl<'a> Decoder for ArwDecoder<'a> {
          ArwDecoder::decode_ljpeg(&self.camera, file, raw, dummy)?
        }
        32766 => {
 -        let curve = ArwDecoder::get_curve(raw)?;
 -        ArwDecoder::decode_arw6(src, width, height, &curve, dummy)?
 +        // Sony LLVC v3 ("Compressed HQ"). The compressed bit depth selects the
-+        // de-linearization curve baked into the codec (12 for a7R V / a1).
++        // de-linearization curve baked into the codec (12 for a7R V / a1). The
++        // linearized output's black/white levels (1024 / 32800, in the curve's
++        // output scale rather than the ARW SR2 metadata 14-bit scale) come from
++        // the camera definition's `arw6` mode, not the SR2 tags — using the SR2
++        // black (512) leaves a pedestal the WB gains turn into a magenta cast.
 +        let comp_bd = raw.get_entry(0xc61f_u16).map(|e| e.value.force_usize(0)).unwrap_or(12);
-+        // Output is linearized through the codec curve, so the black/white points
-+        // are in the curve's output scale, not the ARW SR2 metadata scale (which
-+        // is the pre-codec 14-bit domain). Using the SR2 black (512) here leaves
-+        // a pedestal that the white-balance gains turn into a magenta cast.
-+        if let Some((b, w)) = crate::decompressors::arw6::levels(comp_bd) {
-+          black = Some([b; 4]);
-+          white = Some(w);
-+        }
 +        ArwDecoder::decode_arw6(src, width, height, comp_bd, dummy)?
        }
        32767 => {
          if (width * height * bps) != count * 8 {
-@@ -438,8 +448,8 @@ impl<'a> ArwDecoder<'a> {
+@@ -438,8 +444,8 @@ impl<'a> ArwDecoder<'a> {
      Ok(out)
    }
  
@@ -916,10 +943,10 @@ index 00000000..90fd5816
 +  luma
 +}
 diff --git a/rawler/src/decompressors/arw6/mod.rs b/rawler/src/decompressors/arw6/mod.rs
-index 14cb530b..423a7b87 100644
+index 14cb530b..50a305df 100644
 --- a/rawler/src/decompressors/arw6/mod.rs
 +++ b/rawler/src/decompressors/arw6/mod.rs
-@@ -1,9 +1,357 @@
+@@ -1,9 +1,340 @@
 -//! Sony ARW6 decompressor (TBD)
 +// SPDX-License-Identifier: LGPL-2.1
 +// Copyright 2025 Daniel Vogelbacher <daniel@chaospixel.com>
@@ -1135,23 +1162,6 @@ index 14cb530b..423a7b87 100644
 +  o
 +}
 +
-+/// Black and white levels of the linearized output for a given compressed bit
-+/// depth, in the de-linearization curve's output scale, or `None` if
-+/// unsupported.
-+///
-+/// The ARW SR2 metadata black/white (512 / 15360) are in the pre-codec 14-bit
-+/// scale and do not apply to the linearized mosaic. These are the levels the
-+/// Adobe DNG Converter emits for the a7R VI "Compressed HQ" mode and are
-+/// constant across files. Using the raw SR2 black (512) instead of 1024 leaves
-+/// a pedestal that the per-channel white-balance gains amplify unevenly,
-+/// producing a magenta cast.
-+pub(crate) fn levels(comp_bd: usize) -> Option<(u16, u16)> {
-+  match comp_bd {
-+    12 => Some((1024, 32800)),
-+    _ => None,
-+  }
-+}
-+
 +/// Decompress a Sony LLVC v3 (ARW6) strip into the full CFA mosaic.
 +///
 +/// * `buf` — the compressed strip (starting at `StripOffsets`).
@@ -1359,3 +1369,6 @@ index 00000000..283ac111
 +    self.inner.byte_align();
 +  }
 +}
+-- 
+2.54.0
+

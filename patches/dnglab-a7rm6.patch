@@ -1,9 +1,40 @@
+From d5aec4ba2fa47317b1b88b1a9239a12af3adb631 Mon Sep 17 00:00:00 2001
+From: Nikolay Amiantov <ab@fmap.me>
+Date: Sat, 20 Jun 2026 15:58:37 +0000
+Subject: [PATCH 1/2] Add Sony a7R VI (ILCE-7RM6) camera support
+
+Camera definition enabling decoding of the a7R VI's uncompressed,
+lossless (LJPEG) and lossy 'Compressed HQ' (LLVC v3, compression 32766)
+ARW files.
+
+The lossy files decode under the "arw6" camera mode (compression 32766),
+so the entry registers a [[cameras.modes]] arw6 mode in addition to the
+base mode for uncompressed/lossless.
+
+Levels are taken from the camera definition rather than the ARW SR2 tags:
+the SR2 WhiteLevel (15360) is below the true 14-bit saturation (16383)
+the data reaches, clipping highlights; and the arw6 linearized output is
+in the codec curve's scale (black 1024, white 32800) not the SR2 14-bit
+scale -- using the SR2 black (512) there leaves a pedestal the
+white-balance gains turn into a magenta cast. Values match the Adobe DNG
+Converter.
+
+ColorMatrix2 (D65) is the a7R VI value from the Adobe DNG Converter;
+ColorMatrix1 (illuminant A) is still the provisional upstream ILCE-7RM5
+(a7R V) value. Matrices affect only color rendering, not raw decoding.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+---
+ rawler/data/cameras/sony/a7rm6.toml | 32 +++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+ create mode 100644 rawler/data/cameras/sony/a7rm6.toml
+
 diff --git a/rawler/data/cameras/sony/a7rm6.toml b/rawler/data/cameras/sony/a7rm6.toml
 new file mode 100644
-index 00000000..9a7639d3
+index 00000000..249d5809
 --- /dev/null
 +++ b/rawler/data/cameras/sony/a7rm6.toml
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,32 @@
 +make = "SONY"
 +model = "ILCE-7RM6"
 +clean_make = "Sony"
@@ -11,16 +42,31 @@ index 00000000..9a7639d3
 +color_pattern = "RGGB"
 +bps = 8
 +
++# Sony's SR2 WhiteLevel tag reports 15360, but the 14-bit sensor data reaches
++# the full 16383; use that so lossless/uncompressed highlights are not clipped
++# early (matches the Adobe DNG Converter). The arw6 lossy mode overrides this
++# below with its own curve-scale levels.
++whitepoint = 16383
++
 +# D65 (ColorMatrix2) is the a7R VI value from the Adobe DNG Converter. A
 +# (ColorMatrix1, illuminant A) is still the provisional upstream ILCE-7RM5
 +# (a7R V) value — replace with a measured a7R VI matrix when available. These
-+# affect only color rendering, not raw mosaic decoding; black/white levels,
-+# crop, active area and white balance are read from the ARW.
++# affect only color rendering, not raw mosaic decoding. Crop, active area and
++# white balance are read from the ARW.
 +[cameras.color_matrix]
 +A = [0.9185, -0.4857, 0.0505, -0.3651, 1.1061, 0.2982, -0.0161, 0.0698, 0.6769]
 +D65 = [1.1765, -0.5595, -0.1192, -0.3689, 1.1507, 0.2485, 0.0051, 0.0681, 0.5731]
 +
 +# The "Compressed HQ" lossy format (LLVC v3, compression 32766) decodes under
 +# the "arw6" mode; the base entry above covers uncompressed/lossless (mode "").
++# Its output is linearized through the codec curve, so the black/white levels are
++# in the curve's output scale (1024 / 32800, what Adobe emits), not the ARW SR2
++# metadata 14-bit scale — using the SR2 black (512) leaves a pedestal the
++# white-balance gains turn into a magenta cast.
 +[[cameras.modes]]
 +mode = "arw6"
++blackpoint = 1024
++whitepoint = 32800
+-- 
+2.54.0
+

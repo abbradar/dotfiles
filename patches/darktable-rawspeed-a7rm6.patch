@@ -2,7 +2,7 @@ diff --git a/src/external/rawspeed/data/cameras.xml b/src/external/rawspeed/data
 index f800627..6ff06c1 100644
 --- a/src/external/rawspeed/data/cameras.xml
 +++ b/src/external/rawspeed/data/cameras.xml
-@@ -14170,6 +14170,26 @@
+@@ -14170,6 +14170,32 @@
  			</ColorMatrix>
  		</ColorMatrices>
  	</Camera>
@@ -25,6 +25,12 @@ index f800627..6ff06c1 100644
 +				<ColorMatrixRow plane="2">51 681 5731</ColorMatrixRow>
 +			</ColorMatrix>
 +		</ColorMatrices>
++		<!-- Sony's SONYWHITELEVEL tag (15360) is below the true 14-bit
++		     saturation (16383); keep the Sensor white above so highlights
++		     are not clipped early (matches the Adobe DNG Converter). -->
++		<Hints>
++			<Hint name="no_sony_white_override" value=""/>
++		</Hints>
 +	</Camera>
  	<Camera make="SONY" model="ILCE-7S">
  		<ID make="Sony" model="ILCE-7S">Sony ILCE-7S</ID>
