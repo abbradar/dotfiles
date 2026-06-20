@@ -130,6 +130,7 @@ in {
     # yt-dlp
     # stremio
     darktable
+    dnglab
     # Broken
     # (deadbeef-with-plugins.override {
     #   plugins = with deadbeefPlugins; [mpris2];
