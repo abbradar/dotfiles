@@ -1,7 +1,7 @@
-From 74640aada0d18f6b1bc5e76131520f513cef1160 Mon Sep 17 00:00:00 2001
+From 942086b74248dedfc6c847b98ac26735109a12af Mon Sep 17 00:00:00 2001
 From: Nikolay Amiantov <ab@fmap.me>
 Date: Sat, 20 Jun 2026 15:58:37 +0000
-Subject: [PATCH 2/2] Add Sony ARW6 (LLVC v3) lossy decoder
+Subject: [PATCH] Add Sony ARW6 (LLVC v3) lossy decoder
 
 Reverse-engineered 'Compressed HQ' (Sony LLVC v3, raw SubIFD compression
 32766) decoder, ported from a prototype verified bit-exact against the
@@ -17,12 +17,12 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
 ---
  rawler/src/decoders/arw.rs                  |  14 +-
  rawler/src/decompressors/arw6/curve_bd12.rs | 266 +++++++++++++++
- rawler/src/decompressors/arw6/entropy.rs    | 198 ++++++++++++
- rawler/src/decompressors/arw6/header.rs     | 215 +++++++++++++
+ rawler/src/decompressors/arw6/entropy.rs    | 198 +++++++++++
+ rawler/src/decompressors/arw6/header.rs     | 215 ++++++++++++
  rawler/src/decompressors/arw6/idwt.rs       | 178 ++++++++++
- rawler/src/decompressors/arw6/mod.rs        | 339 +++++++++++++++++++-
- rawler/src/decompressors/arw6/reader.rs     |  72 +++++
- 7 files changed, 1274 insertions(+), 8 deletions(-)
+ rawler/src/decompressors/arw6/mod.rs        | 345 +++++++++++++++++++-
+ rawler/src/decompressors/arw6/reader.rs     |  72 ++++
+ 7 files changed, 1280 insertions(+), 8 deletions(-)
  create mode 100644 rawler/src/decompressors/arw6/curve_bd12.rs
  create mode 100644 rawler/src/decompressors/arw6/entropy.rs
  create mode 100644 rawler/src/decompressors/arw6/header.rs
@@ -943,10 +943,10 @@ index 00000000..90fd5816
 +  luma
 +}
 diff --git a/rawler/src/decompressors/arw6/mod.rs b/rawler/src/decompressors/arw6/mod.rs
-index 14cb530b..50a305df 100644
+index 14cb530b..76c0a8d7 100644
 --- a/rawler/src/decompressors/arw6/mod.rs
 +++ b/rawler/src/decompressors/arw6/mod.rs
-@@ -1,9 +1,340 @@
+@@ -1,9 +1,346 @@
 -//! Sony ARW6 decompressor (TBD)
 +// SPDX-License-Identifier: LGPL-2.1
 +// Copyright 2025 Daniel Vogelbacher <daniel@chaospixel.com>
@@ -1187,58 +1187,64 @@ index 14cb530b..50a305df 100644
 +  if count == 0 || count > 16 {
 +    return Err(RawlerError::DecoderFailed(format!("ARW6: unexpected plane count {count}")));
 +  }
++  // Per-plane strip record: 24 bytes at `8 + i*24` = (byteOffset, _, x, y, W, H)
++  // as u32le. (x, y) is the plane's top-left in the Bayer mosaic; (W, H) its size
++  // in mosaic pixels. The tiles are NOT necessarily equal halves: e.g. a 10016-wide
++  // sensor can split 5024 + 4992, so per-plane W/H must be read here, not assumed
++  // as width/2 — getting this wrong desyncs the whole decode into noise.
 +  let mut offs = Vec::with_capacity(count);
++  let mut geom = Vec::with_capacity(count); // (x, y, W, H) per plane
 +  for i in 0..count {
-+    if 8 + i * 24 + 4 > buf.len() {
++    if 8 + i * 24 + 24 > buf.len() {
 +      return Err(RawlerError::DecoderFailed("ARW6: plane offset table truncated".into()));
 +    }
 +    offs.push(u32le(8 + i * 24));
++    geom.push((u32le(8 + i * 24 + 8), u32le(8 + i * 24 + 12), u32le(8 + i * 24 + 16), u32le(8 + i * 24 + 20)));
 +  }
-+  let planes: Vec<&[u8]> = (0..count)
++  let planes: Vec<(&[u8], (usize, usize, usize, usize))> = (0..count)
 +    .map(|i| {
 +      let end = if i + 1 < count { offs[i + 1] } else { buf.len() };
-+      &buf[offs[i].min(buf.len())..end.min(buf.len())]
++      (&buf[offs[i].min(buf.len())..end.min(buf.len())], geom[i])
 +    })
 +    .collect();
 +
-+  let pw = width / 2;
-+  let ph = height / 2;
-+
-+  // Each plane reconstructs into a 2H x 2W quadrant; decode in parallel.
-+  let quads: Result<Vec<PixU16>> = planes
++  // Each plane reconstructs into a W x H quadrant placed at (x, y); decode in parallel.
++  let quads: Result<Vec<(PixU16, usize, usize)>> = planes
 +    .par_iter()
-+    .map(|plane| {
++    .map(|&(plane, (x, y, pw, ph))| {
 +      let (a, c, d, b) = reconstruct_plane(plane, pw, ph)?;
 +      let quad = assemble_quadrant(&a, &c, &d, &b);
++      if quad.w != pw || quad.h != ph {
++        return Err(RawlerError::DecoderFailed(format!(
++          "ARW6: quadrant size mismatch, expected {pw}x{ph}, got {}x{}",
++          quad.w, quad.h
++        )));
++      }
 +      // Linearize: out = curve[clamp(value + dc, 0, maxv)].
 +      let mut out = vec![0u16; quad.w * quad.h];
 +      for (o, &v) in out.iter_mut().zip(quad.data.iter()) {
 +        let idx = (v + dc).clamp(0, maxv) as usize;
 +        *o = curve[idx];
 +      }
-+      Ok(PixU16::new_with(out, quad.w, quad.h))
++      Ok((PixU16::new_with(out, quad.w, quad.h), x, y))
 +    })
 +    .collect();
 +  let quads = quads?;
 +
-+  // Tile the four quadrants: plane0 TL, plane2 TR, plane1 BL, plane3 BR.
-+  let qw = pw; // quadrant width  = 2 * (pw/2) = pw
-+  let qh = ph; // quadrant height = 2 * (ph/2) = ph
-+  if quads.iter().any(|q| q.width != qw || q.height != qh) {
-+    let got: Vec<(usize, usize)> = quads.iter().map(|q| (q.width, q.height)).collect();
-+    return Err(RawlerError::DecoderFailed(format!("ARW6: quadrant size mismatch, expected {qw}x{qh}, got {got:?}")));
-+  }
++  // Tile each plane's quadrant into the mosaic at its (x, y) from the strip header.
 +  let mut mosaic = PixU16::new(width, height);
-+  let order = [(0, 0, 0), (2, 0, qw), (1, qh, 0), (3, qh, qw)]; // (plane, row0, col0)
 +  let dst = mosaic.pixels_mut();
-+  for &(pi, r0, c0) in order.iter() {
-+    if pi >= quads.len() {
-+      continue;
++  for (quad, x, y) in quads.iter() {
++    let (qw, qh, x, y) = (quad.width, quad.height, *x, *y);
++    if x + qw > width || y + qh > height {
++      return Err(RawlerError::DecoderFailed(format!(
++        "ARW6: plane rect ({x},{y},{qw},{qh}) exceeds mosaic {width}x{height}"
++      )));
 +    }
-+    let src = quads[pi].pixels();
++    let src = quad.pixels();
 +    for r in 0..qh {
 +      let s = &src[r * qw..(r + 1) * qw];
-+      let dstart = (r0 + r) * width + c0;
++      let dstart = (y + r) * width + x;
 +      dst[dstart..dstart + qw].copy_from_slice(s);
 +    }
 +  }

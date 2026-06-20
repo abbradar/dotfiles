@@ -1,7 +1,7 @@
-From c0df7de60bb6fbd81041e7d1f7f157b05b194184 Mon Sep 17 00:00:00 2001
+From 81093e0467a58a9e1c926c7e0f2eb2693c727315 Mon Sep 17 00:00:00 2001
 From: Nikolay Amiantov <ab@fmap.me>
 Date: Sat, 20 Jun 2026 16:21:38 +0000
-Subject: [PATCH 2/2] Add Sony ARW6 (LLVC v3) lossy decoder
+Subject: [PATCH] Add Sony ARW6 (LLVC v3) lossy decoder
 
 Reverse-engineered 'Compressed HQ' (Sony LLVC v3, raw SubIFD compression
 32766) decompressor, ported from a prototype verified bit-exact against
@@ -23,11 +23,11 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
  src/librawspeed/bitstreams/BitStreamer.h      |   8 +
  src/librawspeed/decoders/ArwDecoder.cpp       |  80 +-
  src/librawspeed/decoders/ArwDecoder.h         |   6 +
- src/librawspeed/decompressors/Arw6CurveBd12.h | 273 ++++++
- .../decompressors/Arw6Decompressor.cpp        | 926 ++++++++++++++++++
+ src/librawspeed/decompressors/Arw6CurveBd12.h | 273 +++++
+ .../decompressors/Arw6Decompressor.cpp        | 932 ++++++++++++++++++
  .../decompressors/Arw6Decompressor.h          |  58 ++
  src/librawspeed/decompressors/CMakeLists.txt  |   3 +
- 7 files changed, 1353 insertions(+), 1 deletion(-)
+ 7 files changed, 1359 insertions(+), 1 deletion(-)
  create mode 100644 src/librawspeed/decompressors/Arw6CurveBd12.h
  create mode 100644 src/librawspeed/decompressors/Arw6Decompressor.cpp
  create mode 100644 src/librawspeed/decompressors/Arw6Decompressor.h
@@ -475,10 +475,10 @@ index 0000000..804744b
 +} // namespace rawspeed
 diff --git a/src/librawspeed/decompressors/Arw6Decompressor.cpp b/src/librawspeed/decompressors/Arw6Decompressor.cpp
 new file mode 100644
-index 0000000..2482f36
+index 0000000..2b1c56a
 --- /dev/null
 +++ b/src/librawspeed/decompressors/Arw6Decompressor.cpp
-@@ -0,0 +1,926 @@
+@@ -0,0 +1,932 @@
 +/*
 +    RawSpeed - RAW file decoder.
 +
@@ -1323,48 +1323,54 @@ index 0000000..2482f36
 +  if (count == 0 || count > 16)
 +    ThrowRDE("ARW6: unexpected plane count %zu", count);
 +
-+  std::vector<size_t> offs;
-+  offs.reserve(count);
++  // Per-plane strip record: 24 bytes at `8 + i*24` = (byteOffset, _, x, y, W, H)
++  // as u32le. (x, y) is the plane's top-left in the Bayer mosaic; (W, H) its size
++  // in mosaic pixels. The tiles are NOT necessarily equal halves: e.g. a 10016-wide
++  // sensor can split 5024 + 4992, so per-plane W/H must be read here, not assumed
++  // as width/2 -- getting this wrong desyncs the whole decode into noise.
++  struct PlaneInfo {
++    size_t off;
++    size_t x;
++    size_t y;
++    size_t w;
++    size_t h;
++  };
++  std::vector<PlaneInfo> planeInfos;
++  planeInfos.reserve(count);
 +  for (size_t i = 0; i < count; ++i) {
-+    if (8 + i * 24 + 4 > buflen)
++    if (8 + i * 24 + 24 > buflen)
 +      ThrowRDE("ARW6: plane offset table truncated");
-+    offs.push_back(u32le(8 + i * 24));
++    planeInfos.push_back(PlaneInfo{u32le(8 + i * 24), u32le(8 + i * 24 + 8),
++                                   u32le(8 + i * 24 + 12), u32le(8 + i * 24 + 16),
++                                   u32le(8 + i * 24 + 20)});
 +  }
 +
 +  const size_t width = static_cast<size_t>(mRaw->dim.x);
 +  const size_t height = static_cast<size_t>(mRaw->dim.y);
-+  const size_t pw = width / 2;
-+  const size_t ph = height / 2;
-+  const size_t qw = pw; // quadrant width
-+  const size_t qh = ph; // quadrant height
 +
 +  const Array2DRef<uint16_t> out(mRaw->getU16DataAsUncroppedArray2DRef());
 +
-+  // Quadrant tiling: plane0 TL, plane2 TR, plane1 BL, plane3 BR.
-+  struct Tile {
-+    size_t plane;
-+    size_t r0;
-+    size_t c0;
-+  };
-+  const std::array<Tile, 4> tiles = {
-+      Tile{0, 0, 0}, Tile{2, 0, qw}, Tile{1, qh, 0}, Tile{3, qh, qw}};
-+
-+  const size_t nPlanes = std::min<size_t>(count, 4);
++  const size_t nPlanes = count;
 +
 +#ifdef HAVE_OPENMP
 +#pragma omp parallel for schedule(dynamic, 1) default(none)                     \
-+    shared(tiles, offs, buf, buflen, out, curve)                               \
-+    firstprivate(nPlanes, count, pw, ph, qw, qh, dc, maxv, width, height)      \
++    shared(planeInfos, buf, buflen, out, curve)                                \
++    firstprivate(nPlanes, count, dc, maxv, width, height)                      \
 +    num_threads(rawspeed_get_number_of_processor_cores())
 +#endif
 +  for (int ti = 0; ti < static_cast<int>(nPlanes); ++ti) {
 +    try {
-+      const Tile& t = tiles[ti];
-+      size_t pi = t.plane;
-+      if (pi >= count)
-+        continue;
-+      size_t start = std::min(offs[pi], buflen);
-+      size_t end = (pi + 1 < count) ? std::min(offs[pi + 1], buflen) : buflen;
++      const PlaneInfo& pinfo = planeInfos[ti];
++      // Per-plane mosaic tile geometry (tiles may be unequal, e.g. 5024 + 4992).
++      const size_t pw = pinfo.w;
++      const size_t ph = pinfo.h;
++      if (pinfo.x + pw > width || pinfo.y + ph > height)
++        ThrowRDE("ARW6: plane rect (%zu,%zu,%zu,%zu) exceeds mosaic %zux%zu",
++                 pinfo.x, pinfo.y, pw, ph, width, height);
++      size_t start = std::min(pinfo.off, buflen);
++      size_t end = (static_cast<size_t>(ti) + 1 < count)
++                       ? std::min(planeInfos[ti + 1].off, buflen)
++                       : buflen;
 +      if (end < start)
 +        end = start;
 +      const uint8_t* plane = buf + start;
@@ -1377,16 +1383,16 @@ index 0000000..2482f36
 +      reconstructPlane(plane, planeLen, pw, ph, a, c, d, b);
 +      Plane quad = assembleQuadrant(a, c, d, b);
 +
-+      if (quad.w != qw || quad.h != qh)
++      if (quad.w != pw || quad.h != ph)
 +        ThrowRDE("ARW6: quadrant size mismatch, expected %zux%zu, got %zux%zu",
-+                 qw, qh, quad.w, quad.h);
++                 pw, ph, quad.w, quad.h);
 +
-+      // Linearize: out = curve[clamp(value + dc, 0, maxv)].
-+      for (size_t r = 0; r < qh; ++r) {
-+        for (size_t col = 0; col < qw; ++col) {
++      // Linearize: out = curve[clamp(value + dc, 0, maxv)]; place at (x, y).
++      for (size_t r = 0; r < ph; ++r) {
++        for (size_t col = 0; col < pw; ++col) {
 +          int64_t v = quad.at(r, col) + dc;
 +          v = std::clamp<int64_t>(v, 0, maxv);
-+          out(static_cast<int>(t.r0 + r), static_cast<int>(t.c0 + col)) =
++          out(static_cast<int>(pinfo.y + r), static_cast<int>(pinfo.x + col)) =
 +              curve[static_cast<size_t>(v)];
 +        }
 +      }
