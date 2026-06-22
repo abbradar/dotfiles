@@ -67,8 +67,6 @@ with lib; {
     enable = true;
   };
 
-  gtk.gtk4.theme = null;
-
   programs.neovim = {
     enable = true;
     defaultEditor = true;
