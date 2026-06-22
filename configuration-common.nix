@@ -156,7 +156,9 @@ with lib; {
 
         # Utilities
         tmux
-        parallel-full
+        # FIXME: Broken
+        # parallel-full
+        parallel
         jq
         mkpasswd
       ])
