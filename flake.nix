@@ -51,7 +51,12 @@
             ];
           };
         };
-        packages.mullvad = pkgs.mullvad;
+        packages = {
+          inherit
+            (pkgs)
+            mullvad
+            ;
+        };
       };
     };
 }
