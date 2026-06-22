@@ -55,8 +55,8 @@
           inherit
             (pkgs)
             mullvad
-            rawspeed
             darktable
+            dnglab
             libraw
             ;
         };
