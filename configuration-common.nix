@@ -24,7 +24,7 @@ with lib; {
   # Allow unfree packages.
   nixpkgs = {
     config.allowUnfree = true;
-    overlays = [(import ./overlay.nix)];
+    overlays = [(import ./overlay.nix {withLibRaw = false;})];
   };
 
   boot = {

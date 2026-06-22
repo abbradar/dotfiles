@@ -20,7 +20,7 @@
           workplace = ./configuration-workplace.nix;
           no-graphics = ./configuration-no-graphics.nix;
         };
-        overlays.default = import ./overlay.nix;
+        overlays.default = import ./overlay.nix {};
       };
       perSystem = {
         config,
@@ -51,7 +51,15 @@
             ];
           };
         };
-        packages.mullvad = pkgs.mullvad;
+        packages = {
+          inherit
+            (pkgs)
+            mullvad
+            rawspeed
+            darktable
+            libraw
+            ;
+        };
       };
     };
 }

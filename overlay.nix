@@ -1,4 +1,4 @@
-final: prev: {
+{withLibRaw ? true}: final: prev: {
   deadbeef-with-plugins = prev.deadbeef-with-plugins.override {
     plugins = [final.deadbeef-mpris2-plugin];
   };
@@ -69,13 +69,17 @@ final: prev: {
   # lossy arw6 decoder in one patch. libraw builds via autotools, so the new
   # src/decoders/sonyarw6.cpp added to Makefile.am is picked up by autoreconfHook;
   # no extra build wiring is needed beyond the patch.
-  libraw = prev.libraw.overrideAttrs (old: {
-    patches =
-      (old.patches or [])
-      ++ [
-        ./patches/libraw-arw6.patch
-      ];
-  });
+  libraw =
+    if ! withLibRaw
+    then prev.libraw
+    else
+      prev.libraw.overrideAttrs (old: {
+        patches =
+          (old.patches or [])
+          ++ [
+            ./patches/libraw-arw6.patch
+          ];
+      });
 
   /*
    mullvad = prev.mullvad.overrideAttrs (old: {
