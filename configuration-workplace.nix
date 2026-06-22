@@ -161,7 +161,7 @@ in {
 
     # Development
     claude-code
-    logseq
+    # logseq
     ripgrep
     shellcheck
     clickhouse
