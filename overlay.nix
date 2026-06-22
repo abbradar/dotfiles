@@ -64,6 +64,19 @@ final: prev: {
     }
   );
 
+  # libraw (used by darktable's "rawspeed off" path and most other RAW apps):
+  # add the a7R VI camera (color matrix + camera list) and the reverse-engineered
+  # lossy arw6 decoder in one patch. libraw builds via autotools, so the new
+  # src/decoders/sonyarw6.cpp added to Makefile.am is picked up by autoreconfHook;
+  # no extra build wiring is needed beyond the patch.
+  libraw = prev.libraw.overrideAttrs (old: {
+    patches =
+      (old.patches or [])
+      ++ [
+        ./patches/libraw-arw6.patch
+      ];
+  });
+
   /*
    mullvad = prev.mullvad.overrideAttrs (old: {
     patches =
