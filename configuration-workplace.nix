@@ -127,7 +127,7 @@ in {
     qjackctl
     blender
     # Broken
-    # yt-dlp
+    yt-dlp
     # stremio
     darktable
     dnglab
