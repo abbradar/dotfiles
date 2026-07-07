@@ -328,5 +328,6 @@ in {
     #   dockerSocket.enable = true;
     # };
     libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
   };
 }
