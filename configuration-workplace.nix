@@ -106,6 +106,7 @@ in {
 
     # VM
     virt-manager
+    virtiofsd
     kubectl
 
     # Multimedia
