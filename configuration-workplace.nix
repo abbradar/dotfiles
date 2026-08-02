@@ -143,6 +143,7 @@ in {
     gnome-themes-extra
     gnome-screenshot
     gnome-network-displays
+    kitty
 
     # Messengers
     gajim
