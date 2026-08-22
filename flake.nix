@@ -55,6 +55,9 @@
           inherit
             (pkgs)
             mullvad
+            libraw
+            dnglab
+            darktable
             ;
         };
       };
