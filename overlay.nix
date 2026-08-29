@@ -67,6 +67,14 @@ final: prev: {
           extraPrefix = "src/external/rawspeed/";
           hash = "sha256-yvF9OclHs7zAq1bkFXlXpLR5O7Zc7xQ2J2p9BH27q2I=";
         })
+        # rawspeed Sony ILCE-7RM6 support (PR #979).
+        (final.fetchpatch {
+          name = "rawspeed-sony-ilce7rm6-pr979.patch";
+          url = "https://github.com/darktable-org/rawspeed/pull/979.diff";
+          stripLen = 1;
+          extraPrefix = "src/external/rawspeed/";
+          hash = "sha256-ZgSQCUY1rn+KBbDZx91Gw6D4xWIPBLLLXyQl1KZE/9k=";
+        })
       ];
   });
 }
