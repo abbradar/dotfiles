@@ -8,7 +8,7 @@ with lib; let
   myPass = pkgs.pass.withExtensions (exts: with exts; [pass-otp]);
   mullvad-tailscale =
     pkgs.runCommand "mullvad-tailscale" {
-      path = with pkgs; makeBinPath [mullvad iproute2 nftables];
+      path = with pkgs; makeBinPath [mullvad nftables systemd];
       nativeBuildInputs = with pkgs; [makeWrapper];
     } ''
       install -Dm755 ${./mullvad-tailscale.sh} $out/bin/mullvad-tailscale

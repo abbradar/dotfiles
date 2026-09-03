@@ -1,42 +1,87 @@
-From 11b12726f8f2521033500be7815a12c7a9dea60e Mon Sep 17 00:00:00 2001
+From 37f1345b8a64c4ed488a3e5a42ac5eb4279df126 Mon Sep 17 00:00:00 2001
 From: Nikolay Amiantov <ab@fmap.me>
-Date: Mon, 29 Dec 2025 00:04:05 +0700
+Date: Thu, 3 Sep 2026 12:00:00 +0700
 Subject: [PATCH] Set base rule priority
 
 ---
- talpid-routing/src/unix/linux.rs | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ talpid-routing/src/unix/linux.rs | 37 +++++++++++++++++++++++++++-----
+ 1 file changed, 32 insertions(+), 5 deletions(-)
 
 diff --git a/talpid-routing/src/unix/linux.rs b/talpid-routing/src/unix/linux.rs
-index 186fa07188..4291e808bb 100644
+index 615f9b8..1679e86 100644
 --- a/talpid-routing/src/unix/linux.rs
 +++ b/talpid-routing/src/unix/linux.rs
-@@ -145,6 +145,8 @@ pub struct RouteManagerImpl {
+@@ -64,12 +64,12 @@ static SUPPRESS_RULE_V6: LazyLock<RuleMessage> = LazyLock::new(|| {
+     v6_rule
+ });
+ 
+-fn all_rules(fwmark: u32, table: u32) -> [RuleMessage; 4] {
++fn all_rules(fwmark: u32, table: u32) -> [RuleMessage; NUM_RULES] {
+     [
+-        no_fwmark_rule_v4(fwmark, table),
+-        no_fwmark_rule_v6(fwmark, table),
+         SUPPRESS_RULE_V4.clone(),
+         SUPPRESS_RULE_V6.clone(),
++        no_fwmark_rule_v4(fwmark, table),
++        no_fwmark_rule_v6(fwmark, table),
+     ]
+ }
+ 
+@@ -160,6 +160,15 @@ pub struct RouteManagerImpl {
      fwmark: u32,
  }
  
-+static BASE_RULE_PRIORITY: u32 = 5300;
++/// Priority of the first rule installed by [`RouteManagerImpl::create_routing_rules`]; the
++/// remaining ones follow at consecutive priorities. Without an explicit priority the rules end
++/// up at priority 0, above everything else, which makes it impossible to layer other tunnels
++/// on top of or underneath Mullvad.
++const BASE_RULE_PRIORITY: u32 = 5280;
++
++/// Number of rules returned by [`all_rules`].
++const NUM_RULES: usize = 4;
 +
  impl RouteManagerImpl {
      pub async fn new(table_id: u32, fwmark: u32) -> Result<Self> {
          let (mut connection, handle, messages) =
-@@ -182,11 +184,14 @@ impl RouteManagerImpl {
- 
+@@ -195,11 +204,16 @@ impl RouteManagerImpl {
+     async fn create_routing_rules(&mut self, enable_ipv6: bool) -> Result<()> {
          self.clear_routing_rules().await?;
  
 -        for rule in all_rules(self.fwmark, self.table_id)
 +        for (index, rule) in all_rules(self.fwmark, self.table_id)
              .iter()
-             .filter(|rule| rule.header.family as u16 == AF_INET || enable_ipv6)
+             .filter(|rule| rule.header.family == AddressFamily::Inet || enable_ipv6)
 +            .enumerate()
          {
--            let mut req = NetlinkMessage::from(RtnlMessage::NewRule((*rule).clone()));
+-            let mut req = NetlinkMessage::from(RouteNetlinkMessage::NewRule((*rule).clone()));
 +            let mut new_rule = (*rule).clone();
-+            new_rule.nlas.push(RuleNla::Priority(BASE_RULE_PRIORITY + index as u32));
-+            let mut req = NetlinkMessage::from(RtnlMessage::NewRule(new_rule));
++            new_rule
++                .attributes
++                .push(RuleAttribute::Priority(BASE_RULE_PRIORITY + index as u32));
++            let mut req = NetlinkMessage::from(RouteNetlinkMessage::NewRule(new_rule));
              req.header.flags = NLM_F_REQUEST | NLM_F_ACK | NLM_F_CREATE | NLM_F_REPLACE;
  
              let mut response = self.handle.request(req).map_err(Error::Netlink)?;
+@@ -221,6 +235,19 @@ impl RouteManagerImpl {
+             // `RTM_DELRULE` is way too picky about which rules are considered the same.
+             // So iterate over all rules and ignore irrelevant attributes.
+             for found_rule in &rules {
++                // Only consider rules within our own priority range. Rules are otherwise matched
++                // loosely enough that we would happily delete an identical rule set up by someone
++                // else, such as wg-quick's `lookup main suppress_prefixlength 0`.
++                let is_ours = found_rule.attributes.iter().any(|nla| match nla {
++                    RuleAttribute::Priority(priority) => {
++                        (BASE_RULE_PRIORITY..BASE_RULE_PRIORITY + NUM_RULES as u32)
++                            .contains(priority)
++                    }
++                    _ => false,
++                });
++                if !is_ours {
++                    continue;
++                }
+                 // Match header
+                 if found_rule.header.family != rule.header.family {
+                     continue;
 -- 
-2.51.0
+2.55.0
 

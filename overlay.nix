@@ -4,6 +4,13 @@ final: prev: {
   };
   wine = final.wineStaging;
 
+  # Install the routing rules at priority 5280 instead of 0, so that Tailscale and the
+  # first-layer wg-quick tunnel can be layered around Mullvad. Also stops Mullvad from
+  # deleting identically-shaped rules belonging to other tools.
+  mullvad = prev.mullvad.overrideAttrs (old: {
+    patches = (old.patches or []) ++ [./0001-Set-base-rule-priority.patch];
+  });
+
   # Sony ARW6 (lossy compressed RAW) decoding + Sony a7R VI (ILCE-7RM6) support.
 
   libraw = prev.libraw.overrideAttrs (old: {
