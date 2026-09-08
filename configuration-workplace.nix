@@ -161,8 +161,6 @@ in {
     # Clojure
     leiningen
 
-    # Development
-    claude-code
     # logseq
     ripgrep
     shellcheck
