@@ -8,7 +8,7 @@ with lib; let
   myPass = pkgs.pass.withExtensions (exts: with exts; [pass-otp]);
   mullvad-tailscale =
     pkgs.runCommand "mullvad-tailscale" {
-      path = with pkgs; makeBinPath [mullvad nftables systemd];
+      path = with pkgs; makeBinPath [mullvad nftables];
       nativeBuildInputs = with pkgs; [makeWrapper];
     } ''
       install -Dm755 ${./mullvad-tailscale.sh} $out/bin/mullvad-tailscale
@@ -92,6 +92,7 @@ in {
 
     # Runtimes
     steam-run
+    bubblewrap
     (appimage-run.override {
       extraPkgs = pkgs: [pkgs.icu];
     })
@@ -174,6 +175,8 @@ in {
     update-resolv-conf
     remmina
     wireguard-tools
+    # Needed by proxy-shanghai.conf's PostUp hooks.
+    nftables
     tor
     mullvad-tailscale
 
