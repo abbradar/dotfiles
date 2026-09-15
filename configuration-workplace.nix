@@ -175,7 +175,7 @@ in {
     update-resolv-conf
     remmina
     wireguard-tools
-    # Needed by proxy-shanghai.conf's PostUp hooks.
+    # Needed by wg-quick PostUp hooks.
     nftables
     tor
     mullvad-tailscale

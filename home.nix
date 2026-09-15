@@ -61,7 +61,10 @@ with lib; {
     '';
   };
 
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 
   programs.command-not-found = {
     enable = true;
@@ -110,6 +113,7 @@ with lib; {
       "python"
       "haskell"
       "bash"
+      "latex"
     ];
     userSettings = {
       hour_format = "hour24";
