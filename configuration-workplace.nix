@@ -174,9 +174,9 @@ in {
     wget
     update-resolv-conf
     remmina
+    nice-dcv-client # Amazon DCV for Windows
     wireguard-tools
-    # Needed by wg-quick PostUp hooks.
-    nftables
+    nftables # Needed by wg-quick PostUp hooks
     tor
     mullvad-tailscale
 
