@@ -6,16 +6,12 @@
 }:
 with lib; let
   myPass = pkgs.pass.withExtensions (exts: with exts; [pass-otp]);
-  mullvad-tailscale =
-    pkgs.runCommand "mullvad-tailscale" {
-      path = with pkgs; makeBinPath [mullvad nftables];
-      nativeBuildInputs = with pkgs; [makeWrapper];
-    } ''
-      install -Dm755 ${./mullvad-tailscale.sh} $out/bin/mullvad-tailscale
-      patchShebangs $out/bin/mullvad-tailscale
-      wrapProgram $out/bin/mullvad-tailscale \
-        --prefix PATH : "$path"
-    '';
+  mullvad-tailscale = pkgs.writeShellApplication {
+    name = "mullvad-tailscale";
+    runtimeInputs = [config.services.mullvad-vpn.package pkgs.nftables];
+    runtimeEnv.TAILSCALE_INTERFACE = config.services.tailscale.interfaceName;
+    text = builtins.readFile ./mullvad-tailscale.sh;
+  };
 in {
   imports = [
     ./configuration-common.nix
