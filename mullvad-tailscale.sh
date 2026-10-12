@@ -20,9 +20,13 @@ if [ "$1" = "connect" ]; then
   nft -f - <<EOF
 table inet mullvad-tailscale {
   chain fix-tailscale {
-    # Runs before Mullvad's mangle chain (priority -150) and its output filter chain
-    # (priority 0); at priority 0 the ordering against the latter would be registration order.
-    type route hook output priority -151; policy accept;
+    # Runs after Tailscale's iptables mangle/OUTPUT chain (priority -150): its rp_filter
+    # workaround does `CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000` for new
+    # connections, which copies the 0x80000 bypass mark into the conntrack mark, so Mullvad no
+    # longer recognizes it and rejects every new connection tailscaled makes. Runs before
+    # Mullvad's filter chains (priority 0), which check for the mark; at priority 0 the
+    # ordering against those would be registration order.
+    type filter hook output priority -149; policy accept;
     # Allow all traffic inside Tailscale to bypass the firewall.
     oif tailscale0 ct mark set $SPLIT_TUNNEL_MARK;
     # Allow all Tailscale Internet traffic to bypass the firewall.
