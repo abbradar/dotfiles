@@ -170,6 +170,7 @@ in {
     wget
     update-resolv-conf
     remmina
+    moonlight-qt
     nice-dcv-client # Amazon DCV for Windows
     wireguard-tools
     nftables # Needed by wg-quick PostUp hooks
