@@ -322,6 +322,11 @@ in {
       enable = true;
       # Fix working with networkd.
       # enableSysbox = true;
+      # Match tailscale0's MTU, otherwise TCP stalls on routes advertised over Tailscale.
+      daemon.settings = {
+        mtu = 1280;
+        default-network-opts.bridge."com.docker.network.driver.mtu" = "1280";
+      };
     };
     # podman = {
     #   enable = true;
