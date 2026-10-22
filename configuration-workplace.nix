@@ -41,6 +41,8 @@ in {
     pulseaudio = true;
   };
 
+  nixpkgs.overlays = [(import ./overlay-workplace.nix)];
+
   stylix = {
     enable = true;
     polarity = "dark";

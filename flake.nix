@@ -20,7 +20,7 @@
           workplace = ./configuration-workplace.nix;
           no-graphics = ./configuration-no-graphics.nix;
         };
-        overlays.default = import ./overlay.nix;
+        overlays.workplace = import ./overlay-workplace.nix;
       };
       perSystem = {
         config,
@@ -33,7 +33,7 @@
         _module.args.pkgs = import inputs.nixpkgs {
           inherit system;
           overlays = [
-            self.overlays.default
+            self.overlays.workplace
           ];
         };
         formatter = pkgs.alejandra;
