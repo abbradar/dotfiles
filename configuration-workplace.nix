@@ -214,7 +214,17 @@ in {
   services = {
     # We use PipeWire
     pulseaudio.enable = false;
-    pipewire.enable = true;
+    pipewire = {
+      enable = true;
+      extraConfig.pipewire."60-echo-cancel" = {
+        "context.modules" = [
+          {
+            name = "libpipewire-module-echo-cancel";
+            args."monitor.mode" = true;
+          }
+        ];
+      };
+    };
     flatpak.enable = true;
     system-config-printer.enable = true;
     tailscale = {
