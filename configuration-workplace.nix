@@ -334,7 +334,13 @@ in {
     #   enable = true;
     #   dockerSocket.enable = true;
     # };
-    libvirtd.enable = true;
+    libvirtd = {
+      enable = true;
+      qemu.verbatimConfig = ''
+        namespaces = []
+        seccomp_sandbox = 0
+      '';
+    };
     spiceUSBRedirection.enable = true;
   };
 }
